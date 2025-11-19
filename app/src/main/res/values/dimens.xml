@@ -1,4 +1,9 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
     <dimen name="margin_left">17.2dp</dimen>
+    <dimen name="margin_right">17.2dp</dimen>
+    <dimen name="min_width">380dp</dimen>
+
+    <dimen name="max_button_width">200dp</dimen>
 </resources>

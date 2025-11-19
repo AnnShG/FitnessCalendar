@@ -3,14 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="30dp"
         android:text="@string/a_little_about_you"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,40 +25,118 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/survey_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/margin_left"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="100dp" />
+        android:layout_marginTop="100dp"
+        android:text="@string/survey_name"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/survey_age"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/margin_left"
-        android:layout_marginTop="159dp" />
+        android:layout_marginTop="200dp"
+        android:text="@string/survey_age"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/survey_gender"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="@dimen/margin_left" />
+        android:layout_marginStart="@dimen/margin_left"
+        android:layout_marginTop="300dp"
+        />
 
-<!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Button"-->
-<!--        tools:layout_editor_absoluteX="49dp"-->
-<!--        tools:layout_editor_absoluteY="268dp" />-->
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="0dp"
+        android:minWidth="@dimen/min_width"
+        android:layout_height="48dp"
+        android:layout_marginTop="135dp"
+        android:inputType="text"
+        android:autofillHints="name"
+        android:text="@string/enter_your_name"
+        android:hint="@string/enter_your_name"
+        android:textSize="18sp"
+        android:layout_marginStart="@dimen/margin_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="0dp"
+        android:minWidth="@dimen/min_width"
+        android:layout_height="48dp"
+        android:layout_marginTop="235dp"
+        android:inputType="date"
+        android:autofillHints="birthdate"
+        android:hint="@string/enter_your_db"
+        android:text="@string/enter_your_db"
+        android:textSize="18sp"
+        android:layout_marginStart="@dimen/margin_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonMale"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="352dp"
+        android:layout_marginStart="@dimen/margin_left"
+        android:layout_marginEnd="@dimen/margin_right"
+        android:maxWidth="@dimen/max_button_width"
+        android:text="@string/male_gender"
+        app:checkable="true"
+        app:checkedIconVisible="false"
+        app:layout_constraintEnd_toStartOf="@id/buttonFemale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonFemale"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="352dp"
+        android:layout_marginEnd="@dimen/margin_right"
+        android:maxWidth="@dimen/max_button_width"
+        android:text="@string/female_gender"
+        app:checkable="true"
+        app:checkedIconVisible="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonMale"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonNoAnswer"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/no_gender"
+        android:layout_marginTop="16dp"
+        android:maxWidth="@dimen/max_button_width"
+        app:layout_constraintTop_toBottomOf="@id/buttonMale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:checkedIconVisible="false"
+        app:checkable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

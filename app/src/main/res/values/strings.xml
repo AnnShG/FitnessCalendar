@@ -12,20 +12,13 @@
     <string name="survey_name">Your name</string>
     <string name="survey_age">Age</string>
     <string name="survey_gender">Gender</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="enter_your_db">Enter your date of birth</string>
+    <string name="male_gender">Male</string>
+    <string name="female_gender">Female</string>
+    <string name="no_gender">Prefer not to say</string>
 
     <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
         Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
         amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
         molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
