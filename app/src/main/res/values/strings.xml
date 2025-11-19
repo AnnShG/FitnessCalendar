@@ -17,6 +17,7 @@
     <string name="male_gender">Male</string>
     <string name="female_gender">Female</string>
     <string name="no_gender">Prefer not to say</string>
+    <string name="survey_continue">Continue</string>
 
     <string name="lorem_ipsum">
         Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit

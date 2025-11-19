@@ -139,4 +139,19 @@
         app:checkedIconVisible="false"
         app:checkable="true" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:minWidth="@dimen/min_width"
+        android:layout_height="48dp"
+        android:layout_marginTop="650dp"
+        android:textSize="18sp"
+        app:cornerRadius="13dp"
+        app:backgroundTint="@color/survey_button_background_colour"
+        android:textColor="@color/button_text_colour"
+        android:layout_marginStart="@dimen/margin_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/survey_continue" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
