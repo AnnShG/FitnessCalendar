@@ -189,8 +189,9 @@
         android:layout_height="48dp"
         android:textSize="18sp"
         app:cornerRadius="13dp"
+        android:textStyle="bold"
         app:backgroundTint="@color/continue_button_background_colour"
-        android:textColor="@color/button_text_black"
+        android:textColor="@color/button_text_white"
 
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
