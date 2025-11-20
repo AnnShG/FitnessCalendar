@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#1C1C1C</color>
+    <color name="survey_text_black">#000000</color>
+    <color name="button_text_black">#1C1C1C</color>
+
+    <color name="screen_background_almost_white">#FFFAFA</color>
+    <color name="button_text_white">#FFFFFF</color>
+
+    <color name="continue_button_background_colour">#F05A09</color>
+    <color name="survey_gender_button_background_colour">#FFFFFF</color>
+    <color name="button_stroke_colour">#C5B9B9</color>
+    <color name="survey_background_colour">#E5E6EA</color>
+
+<!--    <color name="white">#FFFFFFFF</color>-->
 </resources>
