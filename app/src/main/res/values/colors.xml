@@ -2,6 +2,7 @@
 <resources>
     <color name="text_black">#1C1C1C</color>
     <color name="survey_text_black">#000000</color>
+    <color name="survey_button_black">#000000</color>
 
     <color name="button_text_black">#1C1C1C</color>
     <color name="button_text_white">#FFFFFF</color>

@@ -7,8 +7,15 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--    Survey page #1-->
+    <string name="survey_heading">Growth Takes Consistency</string>
+    <string name="survey_text_first_page">Real results come from steady effort, not perfection. Discipline, rest,
+        and balance make training a natural part of life, not a temporary challenge.</string>
+    <string name="start_survey">Start survey</string>
+
 <!--    Survey page #2-->
     <string name="a_little_about_you">A Little About You</string>
+    <string name="back_button">Back</string>
     <string name="survey_name">Your name</string>
     <string name="survey_age">Age</string>
     <string name="survey_gender">Gender</string>
@@ -19,13 +26,9 @@
     <string name="no_gender">Prefer not to say</string>
     <string name="survey_continue">Continue</string>
 
-    <!--    Survey page #1-->
-    <string name="survey_heading">Growth Takes Consistency</string>
-    <string name="survey_text_first_page">Real results come from steady effort, not perfection. Discipline, rest,
-        and balance make training a natural part of life, not a temporary challenge.</string>
-    <string name="start_survey">Start survey</string>
-
-
+<!--Survey page #3-->
+    <string name="main_goal">What‘s Your Main Goal?</string>
+    <string name="choose_or_write">Choose or write your own</string>
 
     <string name="lorem_ipsum">
         Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit

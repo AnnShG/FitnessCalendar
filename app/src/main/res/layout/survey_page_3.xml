@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/main_goal"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/survey_text_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="@dimen/margin_left"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/back_button"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/survey_button_black" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:text="@string/choose_or_write"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_text_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:maxWidth="@dimen/max_button_width"
+        android:minWidth="@dimen/min_button_width"
+        android:layout_height="48dp"
+        android:textSize="18sp"
+        app:cornerRadius="13dp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/continue_button_background_colour"
+        android:textColor="@color/button_text_white"
+
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="650dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:text="@string/survey_continue" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="351dp"
+        android:layout_height="52dp"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="122dp">
+
+    </com.google.android.material.chip.ChipGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
