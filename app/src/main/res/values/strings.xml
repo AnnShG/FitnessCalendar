@@ -54,6 +54,13 @@
 
     <string name="own_goal">Or, type your own goal...</string>
 
+    <!--Survey page #3-->
+    <string name="survey_end_heading">Each day is a new opportunity</string>
+    <string name="survey_end_button">Continue Your Journey</string>
+    <string name="survey_text_last_page">A month is made of days.
+        Some for rest. Some for effort.
+        All of them - yours to choose.</string>
+
 
 
     <string name="lorem_ipsum">
