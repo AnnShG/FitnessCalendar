@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/backgroundImage"
-        android:contentDescription="@string/pic_description"
+        android:contentDescription="@string/survey_bg_pic_description"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"

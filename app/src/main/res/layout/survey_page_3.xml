@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/survey_background_colour"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -15,16 +15,17 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/survey_text_black"
-        app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="@dimen/margin_left"
         android:background="@android:color/transparent"
         android:contentDescription="@string/back_button"
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.07" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_right"
@@ -82,12 +83,463 @@
         app:layout_constraintHorizontal_bias="0.5"
         android:text="@string/survey_continue" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="122dp">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="110dp"
 
-    </com.google.android.material.chip.ChipGroup>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/lose_weight"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/lose_weight_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle1"
+                app:layout_constraintStart_toStartOf="@id/textTitle1"
+                app:layout_constraintTop_toBottomOf="@id/textTitle1" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="175dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/build_muscle"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/build_muscle_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle2"
+                app:layout_constraintStart_toStartOf="@id/textTitle2"
+                app:layout_constraintTop_toBottomOf="@id/textTitle2" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="240dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/get_stronger"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/get_stronger_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle3"
+                app:layout_constraintStart_toStartOf="@id/textTitle3"
+                app:layout_constraintTop_toBottomOf="@id/textTitle3" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="305dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/stay_fit"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/stay_fit_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle4"
+                app:layout_constraintStart_toStartOf="@id/textTitle4"
+                app:layout_constraintTop_toBottomOf="@id/textTitle4" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="370dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/recover_after_injury"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/recover_after_injury_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle5"
+                app:layout_constraintStart_toStartOf="@id/textTitle5"
+                app:layout_constraintTop_toBottomOf="@id/textTitle5" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/option6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:layout_marginTop="435dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:strokeColor="@color/button_stroke_colour"
+        android:backgroundTint="@color/chip_bg_colour"
+        app:strokeWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <!-- First line (bold) -->
+            <TextView
+                android:id="@+id/textTitle6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/stay_active"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Second line -->
+            <TextView
+                android:id="@+id/textSubtitle6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/stay_active_add"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+
+                app:layout_constraintEnd_toStartOf="@id/circle6"
+                app:layout_constraintStart_toStartOf="@id/textTitle6"
+                app:layout_constraintTop_toBottomOf="@id/textTitle6" />
+
+            <!-- Right selection circle -->
+            <ImageView
+                android:id="@+id/circle6"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/circle_unselected"
+                android:contentDescription="@string/selection_circle_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/type_own"
+
+        android:layout_marginTop="500dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+
+        app:boxStrokeColor="@color/button_stroke_colour"
+        app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@color/chip_bg_colour">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userInput"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:textColor="@color/survey_text_black"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
