@@ -16,7 +16,7 @@
 
     <color name="chip_selected_orange">#F05A09</color>
     <color name="chip_unselected_circle_fill">#FFFFFF</color>
-    <color name="chip_unselected_circle_stroke">#C5B9B9</color>
+    <color name="chip_unselected_circle_stroke">#8A8585  </color>
     <color name="chip_bg_colour">#FFFFFF</color>
     <color name="chip_stroke_colour">#C5B9B9</color>
 
