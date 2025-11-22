@@ -23,8 +23,8 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="25dp"
         android:layout_marginStart="@dimen/margin_left"
         android:background="@android:color/transparent"
@@ -78,39 +78,67 @@
         android:layout_marginTop="320dp"
         />
 
-    <EditText
-        android:id="@+id/editTextText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
-        android:minWidth="@dimen/min_text_field_width"
-        android:maxWidth="@dimen/max_text_field_width"
-        android:layout_height="48dp"
-        android:layout_marginTop="135dp"
-        android:inputType="text"
-        android:autofillHints="name"
-        android:fontFamily="@font/lexend_font"
-        android:text="@string/enter_your_name"
+        android:layout_height="wrap_content"
         android:hint="@string/enter_your_name"
-        android:textSize="@dimen/text_size"
-        android:layout_marginStart="@dimen/margin_left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="0dp"
-        android:minWidth="@dimen/min_text_field_width"
-        android:maxWidth="@dimen/max_text_field_width"
-        android:layout_height="48dp"
-        android:layout_marginTop="235dp"
-        android:inputType="date"
-        android:autofillHints="birthdate"
-        android:hint="@string/enter_your_db"
-        android:text="@string/enter_your_db"
-        android:textSize="@dimen/text_size"
-        android:fontFamily="@font/lexend_font"
-        android:layout_marginStart="@dimen/margin_left"
+        android:layout_marginTop="135dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+
+        app:boxStrokeColor="@color/button_stroke_colour"
+        app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@color/chip_bg_colour">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userInput"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+
+            android:textColor="@color/survey_text_black"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_your_db"
+
+        android:layout_marginTop="235dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:boxCornerRadiusTopStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+
+        app:boxStrokeColor="@color/button_stroke_colour"
+        app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@color/chip_bg_colour">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userInput2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+
+            android:textColor="@color/survey_text_black"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.button.MaterialButton
