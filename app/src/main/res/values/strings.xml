@@ -17,7 +17,7 @@
 <!--    Survey page #2-->
     <string name="a_little_about_you">A Little About You</string>
     <string name="back_button">Back</string>
-    <string name="survey_name">Your name</string>
+    <string name="survey_name">Name</string>
     <string name="survey_age">Age</string>
     <string name="survey_gender">Gender</string>
     <string name="enter_your_name">Enter your name</string>
