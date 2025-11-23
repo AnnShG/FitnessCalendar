@@ -7,9 +7,17 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+    <!--    Survey page #1-->
+    <string name="survey_heading">Growth Takes Consistency</string>
+    <string name="survey_text_first_page">Real results come from steady effort, not perfection. Discipline, rest,
+        and balance make training a natural part of life, not a temporary challenge.</string>
+    <string name="start_survey">Start survey</string>
+    <string name="survey_bg_pic_description">Shoes and stairs</string>
+
 <!--    Survey page #2-->
     <string name="a_little_about_you">A Little About You</string>
-    <string name="survey_name">Your name</string>
+    <string name="back_button">Back</string>
+    <string name="survey_name">Name</string>
     <string name="survey_age">Age</string>
     <string name="survey_gender">Gender</string>
     <string name="enter_your_name">Enter your name</string>
@@ -19,11 +27,39 @@
     <string name="no_gender">Prefer not to say</string>
     <string name="survey_continue">Continue</string>
 
-    <!--    Survey page #1-->
-    <string name="survey_heading">Growth Takes Consistency</string>
-    <string name="survey_text_first_page">Real results come from steady effort, not perfection. Discipline, rest,
-        and balance make training a natural part of life, not a temporary challenge.</string>
-    <string name="start_survey">Start survey</string>
+<!--Survey page #3-->
+    <string name="main_goal">What‘s Your Main Goal?</string>
+    <string name="choose_or_write">Choose or write your own</string>
+
+    <string name="lose_weight">Lose weight</string>
+    <string name="lose_weight_add">Feel lighter in body and mind</string>
+
+    <string name="build_muscle">Build muscle</string>
+    <string name="build_muscle_add">And see what the discipline can create</string>
+
+    <string name="get_stronger">Get stronger</string>
+    <string name="get_stronger_add">Not just physically, but mentally too</string>
+
+    <string name="stay_fit">Stay fit</string>
+    <string name="stay_fit_add">And make movement a lifelong habit</string>
+
+    <string name="recover_after_injury">Recover after injury</string>
+    <string name="recover_after_injury_add">And rebuild confidence step by step</string>
+
+    <string name="stay_active">Stay active</string>
+    <string name="stay_active_add">Because health is the real goal</string>
+
+    <string name="type_own">Or, type your own goal...</string>
+    <string name="selection_circle_description">The circle for selection</string>
+
+    <string name="own_goal">Or, type your own goal...</string>
+
+    <!--Survey page #3-->
+    <string name="survey_end_heading">Each day is a new opportunity</string>
+    <string name="survey_end_button">Continue Your Journey</string>
+    <string name="survey_text_last_page">A month is made of days.
+        Some for rest. Some for effort.
+        All of them - yours to choose.</string>
 
 
 

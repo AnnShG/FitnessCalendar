@@ -11,4 +11,7 @@
     <dimen name="max_text_field_width">380dp</dimen>
 
     <dimen name="text_size">18sp</dimen>
+
+    <dimen name="min_chip_width">380dp</dimen>
+    <dimen name="max_chip_width">380dp</dimen>
 </resources>
