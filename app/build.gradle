@@ -35,6 +35,9 @@ android {
 
 dependencies {
     implementation libs.appcompat
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    // Add Lombok as an annotation processor
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
     implementation libs.material
     implementation libs.constraintlayout
     implementation libs.navigation.fragment

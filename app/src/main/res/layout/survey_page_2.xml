@@ -160,7 +160,7 @@
         android:layout_marginEnd="@dimen/margin_right"
         android:maxWidth="@dimen/max_button_width"
         android:text="@string/male_gender"
-        app:checkable="true"
+        android:checkable="true"
         app:checkedIconVisible="false"
         android:textAllCaps="false"
         app:layout_constraintEnd_toStartOf="@id/buttonFemale"
@@ -185,7 +185,7 @@
         android:layout_marginEnd="@dimen/margin_right"
         android:maxWidth="@dimen/max_button_width"
         android:text="@string/female_gender"
-        app:checkable="true"
+        android:checkable="true"
         app:checkedIconVisible="false"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
@@ -214,7 +214,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:checkedIconVisible="false"
         android:textAllCaps="false"
-        app:checkable="true" />
+        android:checkable="true" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"
