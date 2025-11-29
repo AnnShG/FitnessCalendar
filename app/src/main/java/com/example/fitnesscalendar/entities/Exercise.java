@@ -13,7 +13,7 @@ public class Exercise {
     // picutur, steps, notes, difficulty level, user_created
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    private Long exerciseId;
 
     @ColumnInfo(name = "name")
     public String name;
@@ -21,11 +21,8 @@ public class Exercise {
     @ColumnInfo(name = "description")
     public String description;
 
-//    @ColumnInfo(name = "picture")
-//    public String name;
-
-//    @ColumnInfo(name = "steps")
-//    public String steps;
+    @ColumnInfo(name = "picture_path")
+    public String picturePath;
 
     @ColumnInfo(name = "notes")
     public String notes;

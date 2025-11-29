@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -14,8 +16,8 @@ public class Activity {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-//    @ColumnInfo(name = "date")
-//    public Date date;
+    @ColumnInfo(name = "date")
+    public Date date;
 
     @ColumnInfo(name = "completed")
     public Boolean completed;

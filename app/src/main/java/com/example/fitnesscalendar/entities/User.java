@@ -17,8 +17,8 @@ public class User {
     @ColumnInfo(name = "name")
     public String name;
 
-//    @ColumnInfo(name = "birth_date")
-//    public Date birthDate;
+    @ColumnInfo(name = "birth_date")
+    public Date birthDate;
 
     @ColumnInfo(name = "gender")
     public String gender;
