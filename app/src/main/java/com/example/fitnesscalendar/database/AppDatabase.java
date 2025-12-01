@@ -19,11 +19,12 @@ import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Quote;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.entities.User;
+import com.example.fitnesscalendar.entities.UserWorkoutCrossRef;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.entities.WorkoutExerciseCrossRef;
 
 @Database(entities= {User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class}, version = 1)
+        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 1)
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {
