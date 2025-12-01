@@ -9,11 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.fitnesscalendar.databinding.FragmentFirstBinding;
+import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
+import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
 
-public class FirstFragment extends Fragment {
+public class SurveyPage2 extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private SurveyPage2Binding binding;
 
     @Override
     public View onCreateView(
@@ -21,24 +22,19 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = SurveyPage2Binding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-//        binding.buttonFirst.setOnClickListener(v ->
+//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        binding.button.setOnClickListener(v ->
 //                NavHostFragment.findNavController(FirstFragment.this)
 //                        .navigate(R.id.action_FirstFragment_to_SecondFragment)
 //        );
-    }
+//    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 }
