@@ -42,8 +42,8 @@
         android:label="Survey Page 2"
         tools:layout="@layout/survey_page_2">
 
-        <action
-            android:id="@+id/action_SurveyPage2_to_SurveyPage3"
-            app:destination="@id/SurveyPage3" />
+<!--        <action-->
+<!--            android:id="@+id/action_SurveyPage2_to_SurveyPage3"-->
+<!--            app:destination="@id/SurveyPage3" />-->
     </fragment>
 </navigation>
