@@ -15,7 +15,7 @@
     <string name="survey_bg_pic_description">Shoes and stairs</string>
 
 <!--    Survey page #2-->
-    <string name="a_little_about_you">A Little About You</string>
+    <string name="a_little_about_you">About You</string>
     <string name="back_button">Back</string>
     <string name="survey_name">Name</string>
     <string name="survey_age">Age</string>

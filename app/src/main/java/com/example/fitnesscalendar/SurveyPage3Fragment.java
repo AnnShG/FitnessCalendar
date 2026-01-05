@@ -9,11 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
+import com.example.fitnesscalendar.databinding.SurveyPage3Binding;
 
-public class SurveyPage2Fragment extends Fragment {
+public class SurveyPage3Fragment extends Fragment {
 
-    private SurveyPage2Binding binding;
+    private SurveyPage3Binding binding;
 
     @Override
     public View onCreateView(
@@ -21,7 +21,7 @@ public class SurveyPage2Fragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = SurveyPage2Binding.inflate(inflater, container, false);
+        binding = SurveyPage3Binding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -30,15 +30,14 @@ public class SurveyPage2Fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.continueButton.setOnClickListener(v ->
-                NavHostFragment.findNavController(SurveyPage2Fragment.this)
-                        .navigate(R.id.action_SurveyPage2_to_SurveyPage3)
+                NavHostFragment.findNavController(SurveyPage3Fragment.this)
+                        .navigate(R.id.action_SurveyPage3_to_SurveyPage4)
         );
 
         binding.backButton.setOnClickListener(v ->
-                NavHostFragment.findNavController(SurveyPage2Fragment.this)
+                NavHostFragment.findNavController(SurveyPage3Fragment.this)
                         .navigateUp()
         );
-
     }
 
     @Override
@@ -46,5 +45,4 @@ public class SurveyPage2Fragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
 }
