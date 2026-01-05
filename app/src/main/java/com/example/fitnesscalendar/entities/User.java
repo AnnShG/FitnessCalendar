@@ -26,6 +26,4 @@ public class User {
     @ColumnInfo(name = "goal")
     public String goal;
 
-
-
 }

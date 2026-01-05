@@ -232,7 +232,7 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/continueButton"
         android:layout_width="0dp"
         android:maxWidth="@dimen/max_button_width"
         android:minWidth="@dimen/min_button_width"

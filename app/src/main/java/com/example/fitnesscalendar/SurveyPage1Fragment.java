@@ -17,7 +17,7 @@ public class SurveyPage1Fragment extends Fragment {
 
 
     @Override
-    public View onCreateView(
+    public View onCreateView( // called when Android prepares UI
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
@@ -27,18 +27,18 @@ public class SurveyPage1Fragment extends Fragment {
 
     }
 
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {  // UI exists/shown
+        super.onViewCreated(view, savedInstanceState); // internal setup
 
-        binding.button.setOnClickListener(v ->
+        binding.button.setOnClickListener(v -> // lambda - shorter
                 NavHostFragment.findNavController(SurveyPage1Fragment.this)
                         .navigate(R.id.action_SurveyPage1_to_SurveyPage2)
         );
     }
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        super.onDestroyView(); // UI destroyed, but fragment may still exist
+        binding = null; // prevents memory leaks
     }
 
 }
