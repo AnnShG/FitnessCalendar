@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
 import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
 
-public class SurveyPage2 extends Fragment {
+public class SurveyPage2Fragment extends Fragment {
 
     private SurveyPage2Binding binding;
 

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
 
-public class SurveyPage1 extends Fragment {
+public class SurveyPage1Fragment extends Fragment {
 
     private SurveyPage1Binding binding;
 
@@ -31,10 +31,14 @@ public class SurveyPage1 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.button.setOnClickListener(v ->
-                NavHostFragment.findNavController(SurveyPage1.this)
+                NavHostFragment.findNavController(SurveyPage1Fragment.this)
                         .navigate(R.id.action_SurveyPage1_to_SurveyPage2)
         );
     }
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 
 }

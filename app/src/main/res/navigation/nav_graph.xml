@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/SurveyPage1"
-        android:name="com.example.fitnesscalendar.SurveyPage1"
+        android:name="com.example.fitnesscalendar.SurveyPage1Fragment"
         android:label="Survey Page 1"
         tools:layout="@layout/survey_page_1">
 
@@ -38,12 +38,12 @@
     </fragment>
     <fragment
         android:id="@+id/SurveyPage2"
-        android:name="com.example.fitnesscalendar.SurveyPage2"
+        android:name="com.example.fitnesscalendar.SurveyPage2Fragment"
         android:label="Survey Page 2"
         tools:layout="@layout/survey_page_2">
 
-<!--        <action-->
-<!--            android:id="@+id/action_SecondFragment_to_FirstFragment"-->
-<!--            app:destination="@id/FirstFragment" />-->
+        <action
+            android:id="@+id/action_SurveyPage2_to_SurveyPage3"
+            app:destination="@id/SurveyPage3" />
     </fragment>
 </navigation>
