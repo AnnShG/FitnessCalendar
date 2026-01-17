@@ -38,7 +38,7 @@ public class SurveyPage3Fragment extends Fragment {
             viewModel.onNextClicked();
 
             NavHostFragment.findNavController(SurveyPage3Fragment.this)
-                    .navigate(R.id.action_SurveyPage3_to_SurveyPage4)
+                    .navigate(R.id.action_SurveyPage3_to_SurveyPage4);
         });
 
         binding.backButton.setOnClickListener(v ->
