@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar;
+package com.example.fitnesscalendar.ui.survey;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
 
 public class SurveyPage1Fragment extends Fragment {
 
     private SurveyPage1Binding binding;
+    private SurveyViewModel viewModel;
 
 
     @Override
@@ -30,10 +34,14 @@ public class SurveyPage1Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {  // UI exists/shown
         super.onViewCreated(view, savedInstanceState); // internal setup
 
-        binding.button.setOnClickListener(v -> // lambda - shorter
-                NavHostFragment.findNavController(SurveyPage1Fragment.this)
-                        .navigate(R.id.action_SurveyPage1_to_SurveyPage2)
-        );
+        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
+
+        binding.button.setOnClickListener(v -> {// lambda - shorter
+            viewModel.onNextClicked();
+
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_SurveyPage1_to_SurveyPage2);
+        });
     }
     @Override
     public void onDestroyView() {

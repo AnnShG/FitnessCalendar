@@ -21,8 +21,8 @@ public interface ExerciseDao {
     @Delete
     void delete(Exercise exercise);
 
-//    @Query("SELECT * FROM exercises")
-//    List<Exercise> getAllExercises();
+    @Query("SELECT * FROM exercises")
+    List<Exercise> getAllExercises();
 //
 //    @Query("SELECT * FROM exercises WHERE id = :exerciseId")
 //    Exercise getExerciseById(int exerciseId);

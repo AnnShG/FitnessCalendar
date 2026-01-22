@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/survey_background_colour"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SurveyPage4Fragment">
+    tools:context=".ui.survey.SurveyPage4Fragment">
 
     <!--    colour overlay-->
     <View
@@ -65,7 +65,7 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/continueButton"
         android:layout_width="0dp"
         android:maxWidth="@dimen/max_button_width"
         android:minWidth="@dimen/min_button_width"
