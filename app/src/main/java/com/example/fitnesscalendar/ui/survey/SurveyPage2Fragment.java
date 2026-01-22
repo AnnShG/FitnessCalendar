@@ -32,24 +32,39 @@ public class SurveyPage2Fragment extends Fragment {
 
     }
 
+//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
+//
+//
+//        cardStayActive.setOnClickListener(v -> {
+//            selectedGoal = getString(R.string.stay_active);
+//            updateSelectionUI(circle6);
+//        });
+//
+//        binding.continueButton.setOnClickListener(v -> {
+//            viewModel.setGoal(binding.goalEditText.getText().toString());
+//            viewModel.onNextClicked();
+//
+//            NavHostFragment.findNavController(this)
+//                    .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
+//        });
+//
+//        binding.backButton.setOnClickListener(v ->
+//                NavHostFragment.findNavController(SurveyPage2Fragment.this)
+//                        .navigateUp()
+//        );
+//
+//    }
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
-
-
-        cardStayActive.setOnClickListener(v -> {
-            selectedGoal = getString(R.string.stay_active);
-            updateSelectionUI(circle6);
-        });
-
-        binding.continueButton.setOnClickListener(v -> {
-            viewModel.setGoal(binding.goalEditText.getText().toString());
-            viewModel.onNextClicked();
-
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
-        });
+        binding.continueButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(SurveyPage2Fragment.this)
+                        .navigate(R.id.action_SurveyPage2_to_SurveyPage3)
+        );
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(SurveyPage2Fragment.this)

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
@@ -38,7 +39,7 @@ public class SurveyPage1Fragment extends Fragment {
         binding.button.setOnClickListener(v -> {// lambda - shorter
             viewModel.onNextClicked();
 
-            NavHostFragment.findNavController(this)
+            Navigation.findNavController(view)
                     .navigate(R.id.action_SurveyPage1_to_SurveyPage2);
         });
     }
