@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+<!--    Survey -->
     <color name="text_black">#1C1C1C</color>
     <color name="survey_text_black">#000000</color>
     <color name="survey_button_black">#000000</color>
@@ -7,7 +9,6 @@
     <color name="button_text_black">#1C1C1C</color>
     <color name="button_text_white">#FFFFFF</color>
 
-    <color name="screen_background_almost_white">#FFFAFA</color>
     <color name="survey_background_colour">#CEDCE5</color>
 
     <color name="continue_button_background_colour">#F05A09</color>
@@ -22,10 +23,16 @@
 
     <color name="chip_text_colour">#000000</color>
 
+<!--    Calendar home-page -->
+    <color name="home_page_background_colour">#FFFAFA</color>
+    <color name="mindset_button_fill_colour">#F8F4FF</color>
+    <color name="mindset_button_stroke_colour">#DDD2D2</color>
+    <color name="mindset_button_text_colour">#F05A09</color>
+    <color name="black_colour">#1C1C1C</color>
+
+    <color name="plus_button_colour">#FFFAFA</color>
+    <color name="plus_button_background_colour">#F05A09</color>
 
 
 
-
-
-<!--    <color name="white">#FFFFFFFF</color>-->
 </resources>

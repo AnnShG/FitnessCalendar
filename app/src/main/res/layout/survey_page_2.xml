@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/a_little_about_you"
+        android:text="@string/about_you"
         android:fontFamily="@font/lexend_font"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -31,7 +31,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/back_button"
         android:padding="8dp"
-        android:src="@drawable/ic_arrow_back_24"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/survey_button_black" />
