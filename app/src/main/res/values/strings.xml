@@ -15,7 +15,7 @@
     <string name="survey_bg_pic_description">Shoes and stairs</string>
 
 <!--    Survey page #2-->
-    <string name="a_little_about_you">About You</string>
+    <string name="about_you">About You</string>
     <string name="back_button">Back</string>
     <string name="survey_name">Name</string>
     <string name="survey_age">Age</string>
@@ -61,6 +61,18 @@
         Some for rest. Some for effort.
         All of them - yours to choose.</string>
 
+<!--    Calendar home-page -->
+    <string name="mindset_button_text">Mindset</string>
+    <string name="plus_button_text">+</string>
+    <string name="calendar_title_text">Training Days This Month</string>
+
+    <string name="monday">M</string>
+    <string name="tuesday">Tu</string>
+    <string name="wednesday">W</string>
+    <string name="thursday">Th</string>
+    <string name="friday">F</string>
+    <string name="saturday">Sa</string>
+    <string name="sunday">Su</string>
 
 
     <string name="lorem_ipsum">

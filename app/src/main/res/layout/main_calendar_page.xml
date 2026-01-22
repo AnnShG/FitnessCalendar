@@ -1,6 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendar_day_text"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/home_page_background_colour">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mindsetButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/lexend_font"
+        android:textColor="@color/mindset_button_text_colour"
+        android:text="@string/mindset_button_text"
+
+        app:cornerRadius="8dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/mindset_button_stroke_colour"
+        app:backgroundTint="@color/mindset_button_fill_colour"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="@dimen/margin_left" />
+
+    <TextView
+        android:id="@+id/calendar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/calendar_title_text"
+        android:layout_marginTop="95dp"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/survey_text_black"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/plusButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+
+        android:background="@drawable/circle_plus_button"
+        android:text=""
+        app:icon="@drawable/custom_plus"
+        app:iconSize="40dp"
+        app:iconTint="@color/plus_button_colour"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:rippleColor="@android:color/transparent"
+        app:backgroundTint="@null"
+
+
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/calendar_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/plusButton">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calendar_prev_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/black_colour"
+            app:iconSize="32dp"
+            app:tint="@color/black_colour" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/monthAndYear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Oct 2026"
+            android:fontFamily="@font/lexend_font"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calendar_next_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="16dp"
+            app:icon="@drawable/ic_arrow_next"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="@color/black_colour"
+            app:iconSize="32dp"
+            app:tint="@color/black_colour" />
+    </LinearLayout>
+
+    <!-- days header -->
+    <LinearLayout
+        android:id="@+id/calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@id/calendar_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/monday"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/tuesday"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/wednesday"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/thursday"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/friday"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/saturday"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/black_colour" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/sunday"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/black_colour" />
+    </LinearLayout>
+
+    <!-- days view -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendar_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="7"
+        app:layout_constraintTop_toBottomOf="@id/calendar_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
