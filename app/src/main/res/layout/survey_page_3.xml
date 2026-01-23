@@ -113,7 +113,7 @@
 
             <!-- First line (bold) -->
             <TextView
-                android:id="@+id/textTitle1"
+                android:id="@+id/cardLoseWeight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lose_weight"
@@ -138,8 +138,8 @@
                 android:paddingRight="35dp"
 
                 app:layout_constraintEnd_toStartOf="@id/circle1"
-                app:layout_constraintStart_toStartOf="@id/textTitle1"
-                app:layout_constraintTop_toBottomOf="@id/textTitle1" />
+                app:layout_constraintStart_toStartOf="@id/cardLoseWeight"
+                app:layout_constraintTop_toBottomOf="@id/cardLoseWeight" />
 
             <!-- Right selection circle -->
             <ImageView
@@ -468,7 +468,7 @@
 
             <!-- First line (bold) -->
             <TextView
-                android:id="@+id/stayActive"
+                android:id="@+id/cardStayActive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/stay_active"
@@ -493,8 +493,8 @@
                 android:paddingRight="35dp"
 
                 app:layout_constraintEnd_toStartOf="@id/circle6"
-                app:layout_constraintStart_toStartOf="@id/stayActive"
-                app:layout_constraintTop_toBottomOf="@id/stayActive" />
+                app:layout_constraintStart_toStartOf="@id/cardStayActive"
+                app:layout_constraintTop_toBottomOf="@id/cardStayActive" />
 
             <!-- Right selection circle -->
             <ImageView

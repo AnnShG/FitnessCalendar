@@ -102,7 +102,7 @@
         app:boxBackgroundColor="@color/chip_bg_colour">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput"
+            android:id="@+id/userInputName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
 
@@ -132,13 +132,15 @@
         app:boxBackgroundMode="outline"
         app:boxBackgroundColor="@color/chip_bg_colour">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput2"
+        <EditText
+            android:id="@+id/userInputBirthDate"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:inputType="date"
 
             android:textColor="@color/survey_text_black"
             android:textSize="16sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 

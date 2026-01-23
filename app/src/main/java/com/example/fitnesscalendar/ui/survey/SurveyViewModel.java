@@ -12,12 +12,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class SurveyViewModel extends AndroidViewModel {
 
-    public String name;
-    public Date birthDate;
-    public String gender;
-    public String goal;
+    @Setter
+    @Getter
+    private String name;
+    @Setter
+    @Getter
+    private Date birthDate;
+    @Setter
+    @Getter
+    private String gender;
+    @Setter
+    @Getter
+    private String goal;
 
     private final UserRepository repository;
 
@@ -26,19 +37,9 @@ public class SurveyViewModel extends AndroidViewModel {
         repository = new UserRepository(app);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setbirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setGoal(String goal) {
-        this.goal = goal;
-    }
-
     public void onNextClicked() {
+        if (name == null || name.isEmpty()) return; // Basic validation
+
         User user = new User();
         user.name = name;
         user.birthDate = birthDate;
