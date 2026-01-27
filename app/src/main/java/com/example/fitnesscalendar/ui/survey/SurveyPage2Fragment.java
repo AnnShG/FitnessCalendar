@@ -1,5 +1,6 @@
 package com.example.fitnesscalendar.ui.survey;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,14 @@ import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
 import com.google.android.material.button.MaterialButton;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class SurveyPage2Fragment extends Fragment {
 
     private SurveyPage2Binding binding;
     private SurveyViewModel viewModel;
-    private String selectedGender = ""; // To track gender selection
-
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,30 +38,12 @@ public class SurveyPage2Fragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
 
         // --- GENDER SELECTION LOGIC ---
-        // Inside onViewCreated
-// Inside onViewCreated
         binding.buttonMale.setOnClickListener(v -> handleGenderSelection(binding.buttonMale, "Male"));
         binding.buttonFemale.setOnClickListener(v -> handleGenderSelection(binding.buttonFemale, "Female"));
-        binding.buttonNoAnswer.setOnClickListener(v -> handleGenderSelection(binding.buttonNoAnswer, "Other"));
+        binding.buttonNoAnswer.setOnClickListener(v -> handleGenderSelection(binding.buttonNoAnswer, "Prefer not to say"));
 
-//        binding.genderToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-//            if (isChecked) {
-//                String selectedGender = "";
-//
-//                if (checkedId == R.id.buttonMale) {
-//                    selectedGender = "Male";
-//                } else if (checkedId == R.id.buttonFemale) {
-//                    selectedGender = "Female";
-//                } else if (checkedId == R.id.buttonNoAnswer) {
-//                    selectedGender = "Other";
-//                }
-//
-//                // Save to your ViewModel (Lombok generates setGender)
-//                viewModel.setGender(selectedGender);
-//            }
-//        });
-
-        // Pre-fill fields if the user is coming back from Page 3 (State Restoration)
+        // --- STATE RESTORATION ---
+        // Pre-fill fields if the user is coming back from Page 3
         if (viewModel.getName() != null) {
             binding.userInputName.setText(viewModel.getName());
         }
@@ -75,35 +54,70 @@ public class SurveyPage2Fragment extends Fragment {
             binding.userInputBirthDate.setText(format.format(viewModel.getBirthDate()));
         }
 
-        // Restore Gender UI selection
-        if (viewModel.getGender() != null) {
-            String savedGender = viewModel.getGender();
-            if (savedGender.equals(binding.buttonMale.getText().toString())) selectGender(binding.buttonMale);
-            else if (savedGender.equals(binding.buttonFemale.getText().toString())) selectGender(binding.buttonFemale);
-            else if (savedGender.equals(binding.buttonNoAnswer.getText().toString())) selectGender(binding.buttonNoAnswer);
+        // Restore Orange Highlight if gender was already selected
+        String savedGender = viewModel.getGender();
+        if (savedGender != null) {
+            switch (savedGender) {
+                case "Male":
+                    handleGenderSelection(binding.buttonMale, "Male");
+                    break;
+                case "Female":
+                    handleGenderSelection(binding.buttonFemale, "Female");
+                    break;
+                case "Prefer not to say":
+                    handleGenderSelection(binding.buttonNoAnswer, "Prefer not to say");
+                    break;
+            }
         }
 
+        // 1. Make the field un-editable so the keyboard doesn't appear
+        binding.userInputBirthDate.setFocusable(false);
+        binding.userInputBirthDate.setClickable(true);
 
-        binding.continueButton.setOnClickListener(v -> {
-            // 1. Capture Name from EditText
-            viewModel.setName(binding.userInputName.getText().toString());
+        binding.userInputBirthDate.setOnClickListener(v -> {
+            // Get current date for the picker default
+                    final Calendar c = Calendar.getInstance();
+                    int year = c.get(Calendar.YEAR);
+                    int month = c.get(Calendar.MONTH);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
 
-            // 2. Capture Age (assuming userInputAge exists in your XML)
-            String dateString = binding.userInputBirthDate.getText().toString();
-            if (!dateString.isEmpty()) {
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                try {
-                    Date date = format.parse(dateString);
-                    viewModel.setBirthDate(date); // used setter to avoid private access
-                } catch (ParseException e) {
-                    binding.userInputBirthDate.setError("Use format dd/mm/yyyy");
-                    return; // Stop navigation if date is wrong
-                }
+            // Create the DatePickerDialog with the Spinner theme
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    requireContext(),
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth, // This creates the 3-column scrollable look
+                    (view1, selectedYear, selectedMonth, selectedDay) -> {
+
+                        // Format the date for the UI
+                        String dateString = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        binding.userInputBirthDate.setText(dateString);
+
+                        // Save to ViewModel as a Date object
+                        Calendar selectedCal = Calendar.getInstance();
+                        selectedCal.set(selectedYear, selectedMonth, selectedDay);
+                        viewModel.setBirthDate(selectedCal.getTime());
+                    },
+                    year, month, day
+            );
+            // Make the background transparent so it looks like a clean popup
+            if (datePickerDialog.getWindow() != null) {
+                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
             }
 
-            // 3. Save Gender
-            if (!selectedGender.isEmpty()) {
-                viewModel.setGender(selectedGender);
+            datePickerDialog.show();
+        });
+
+
+        // --- NAVIGATION ---
+        binding.continueButton.setOnClickListener(v -> {
+            // 1. Capture Name from EditText
+            if (binding.userInputName.getText() != null) {
+                viewModel.setName(binding.userInputName.getText().toString());
+            }
+
+            // Validation: Ensure birth date is selected
+            if (viewModel.getBirthDate() == null) {
+                binding.userInputBirthDate.setError("Please select your birth date");
+                return;
             }
 
             NavHostFragment.findNavController(SurveyPage2Fragment.this)
@@ -117,12 +131,12 @@ public class SurveyPage2Fragment extends Fragment {
     }
 
     // Helper Method
-    private void handleGenderSelection(com.google.android.material.button.MaterialButton selectedButton, java.lang.String genderValue) {
+    private void handleGenderSelection(MaterialButton selectedButton, String genderValue) {
         // 1. Save to ViewModel
         viewModel.setGender(genderValue);
 
-        // 2. Define your colors
-        int orangeColor = getResources().getColor(R.color.chip_selected_orange, null); // Make sure 'orange' is in colors.xml
+        // 2. Define colors
+        int orangeStroke = getResources().getColor(R.color.chip_selected_orange, null); // Make sure 'orange' is in colors.xml
         int grayStroke = getResources().getColor(R.color.button_stroke_colour, null);
 
         MaterialButton[] buttons = {binding.buttonMale, binding.buttonFemale, binding.buttonNoAnswer};
@@ -133,34 +147,13 @@ public class SurveyPage2Fragment extends Fragment {
 
             if (btn.getId() == selectedButton.getId()) {
                 // Highlighted: Orange Stroke
-                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(orangeColor));
+                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(orangeStroke));
                 btn.setStrokeWidth(6); // Bold orange stroke
             } else {
                 // Default: Gray Stroke
                 btn.setStrokeColor(android.content.res.ColorStateList.valueOf(grayStroke));
                 btn.setStrokeWidth(2);
             }
-        }
-    }
-    private void selectGender(View selectedButton) {
-        int colorSelected = getResources().getColor(R.color.selected_button_stroke_colour, null);
-        int colorDefault = getResources().getColor(R.color.button_stroke_colour, null);
-
-        MaterialButton[] buttons = {binding.buttonMale, binding.buttonFemale, binding.buttonNoAnswer};
-
-        for (MaterialButton btn : buttons) {
-            if (btn == selectedButton) {
-                btn.setChecked(true);
-                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(colorSelected));
-                btn.setStrokeWidth(5);
-                selectedGender = btn.getText().toString();
-            } else {
-                btn.setChecked(false);
-                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(colorDefault));
-                btn.setStrokeWidth(1);
-            }
-            // CRITICAL: Tell the button to redraw itself with the new properties
-            btn.refreshDrawableState();
         }
     }
 

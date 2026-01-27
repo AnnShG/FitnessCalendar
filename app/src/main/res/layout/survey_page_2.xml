@@ -111,7 +111,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
+        android:id="@+id/textInputLayoutBirthDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/enter_your_db"
@@ -132,11 +132,15 @@
         app:boxBackgroundMode="outline"
         app:boxBackgroundColor="@color/chip_bg_colour">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userInputBirthDate"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:inputType="date"
+            android:layout_height="wrap_content"
+
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
 
             android:textColor="@color/survey_text_black"
             android:textSize="16sp" />

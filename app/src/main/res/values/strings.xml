@@ -21,7 +21,7 @@
     <string name="survey_age">Age</string>
     <string name="survey_gender">Gender</string>
     <string name="enter_your_name">Enter your name</string>
-    <string name="enter_your_db">Enter your date of birth</string>
+    <string name="enter_your_db">Date of Birth</string>
     <string name="male_gender">Male</string>
     <string name="female_gender">Female</string>
     <string name="no_gender">Prefer not to say</string>
