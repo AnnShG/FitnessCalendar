@@ -41,10 +41,28 @@ public class SurveyPage2Fragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
 
         // --- GENDER SELECTION LOGIC ---
-        // Since you don't have a RadioGroup, we handle each MaterialButton click
-        binding.buttonMale.setOnClickListener(v -> selectGender(binding.buttonMale));
-        binding.buttonFemale.setOnClickListener(v -> selectGender(binding.buttonFemale));
-        binding.buttonNoAnswer.setOnClickListener(v -> selectGender(binding.buttonNoAnswer));
+        // Inside onViewCreated
+// Inside onViewCreated
+        binding.buttonMale.setOnClickListener(v -> handleGenderSelection(binding.buttonMale, "Male"));
+        binding.buttonFemale.setOnClickListener(v -> handleGenderSelection(binding.buttonFemale, "Female"));
+        binding.buttonNoAnswer.setOnClickListener(v -> handleGenderSelection(binding.buttonNoAnswer, "Other"));
+
+//        binding.genderToggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+//            if (isChecked) {
+//                String selectedGender = "";
+//
+//                if (checkedId == R.id.buttonMale) {
+//                    selectedGender = "Male";
+//                } else if (checkedId == R.id.buttonFemale) {
+//                    selectedGender = "Female";
+//                } else if (checkedId == R.id.buttonNoAnswer) {
+//                    selectedGender = "Other";
+//                }
+//
+//                // Save to your ViewModel (Lombok generates setGender)
+//                viewModel.setGender(selectedGender);
+//            }
+//        });
 
         // Pre-fill fields if the user is coming back from Page 3 (State Restoration)
         if (viewModel.getName() != null) {
@@ -98,6 +116,32 @@ public class SurveyPage2Fragment extends Fragment {
         );
     }
 
+    // Helper Method
+    private void handleGenderSelection(com.google.android.material.button.MaterialButton selectedButton, java.lang.String genderValue) {
+        // 1. Save to ViewModel
+        viewModel.setGender(genderValue);
+
+        // 2. Define your colors
+        int orangeColor = getResources().getColor(R.color.chip_selected_orange, null); // Make sure 'orange' is in colors.xml
+        int grayStroke = getResources().getColor(R.color.button_stroke_colour, null);
+
+        MaterialButton[] buttons = {binding.buttonMale, binding.buttonFemale, binding.buttonNoAnswer};
+
+        for (MaterialButton btn : buttons) {
+            // Force background to stay white
+            btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
+
+            if (btn.getId() == selectedButton.getId()) {
+                // Highlighted: Orange Stroke
+                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(orangeColor));
+                btn.setStrokeWidth(6); // Bold orange stroke
+            } else {
+                // Default: Gray Stroke
+                btn.setStrokeColor(android.content.res.ColorStateList.valueOf(grayStroke));
+                btn.setStrokeWidth(2);
+            }
+        }
+    }
     private void selectGender(View selectedButton) {
         int colorSelected = getResources().getColor(R.color.selected_button_stroke_colour, null);
         int colorDefault = getResources().getColor(R.color.button_stroke_colour, null);
