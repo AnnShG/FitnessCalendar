@@ -40,10 +40,6 @@ public class SurveyViewModel extends AndroidViewModel {
         }
     }
 
-    public Set<String> getSelectedGoals() {
-        return selectedGoals;
-    }
-
     private final UserRepository repository;
 
     public SurveyViewModel(@NotNull Application app) {
