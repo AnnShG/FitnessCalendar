@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/SurveyPage1"
-        android:name="com.example.fitnesscalendar.ui.survey.SurveyPage1Fragment"
+        android:name="com.example.fitnesscalendar.logic.survey.SurveyPage1Fragment"
         android:label="Survey Page 1"
         tools:layout="@layout/survey_page_1">
 
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/SurveyPage2"
-        android:name="com.example.fitnesscalendar.ui.survey.SurveyPage2Fragment"
+        android:name="com.example.fitnesscalendar.logic.survey.SurveyPage2Fragment"
         android:label="Survey Page 2"
         tools:layout="@layout/survey_page_2">
 
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/SurveyPage3"
-        android:name="com.example.fitnesscalendar.ui.survey.SurveyPage3Fragment"
+        android:name="com.example.fitnesscalendar.logic.survey.SurveyPage3Fragment"
         android:label="Survey Page 3"
         tools:layout="@layout/survey_page_3">
 
@@ -40,8 +40,20 @@
 
     <fragment
         android:id="@+id/SurveyPage4"
-        android:name="com.example.fitnesscalendar.ui.survey.SurveyPage4Fragment"
+        android:name="com.example.fitnesscalendar.logic.survey.SurveyPage4Fragment"
         android:label="Survey Page 4"
         tools:layout="@layout/survey_page_4">
+
+        <action
+            android:id="@+id/action_SurveyPage4_to_CalendarHomePage"
+            app:destination="@id/CalendarHomePage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/CalendarHomePage"
+        android:name="com.example.fitnesscalendar.logic.mainApp.CalendarHomePageFragment"
+        android:label="Calendar Home"
+        tools:layout="@layout/calendar_home_page">
+
     </fragment>
 </navigation>

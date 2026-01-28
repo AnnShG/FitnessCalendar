@@ -1,15 +1,15 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
 
 import com.example.fitnesscalendar.UserRepository;
 import com.example.fitnesscalendar.entities.User;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,6 +61,21 @@ public class SurveyViewModel extends AndroidViewModel {
 //        user.goal = selectedGoals;
 
         repository.insert(user);
-
     }
+
+    public void saveUserProfileToDatabase() {
+        // 1. Create the User object
+        User newUser = new User();
+        newUser.setName(this.getName());
+        newUser.setBirthDate(this.getBirthDate());
+        newUser.setGender(this.getGender());
+
+        // Convert the Set to an ArrayList for the Entity
+        newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
+
+        // 2. Use the REPOSITORY (not 'database') to save
+        // The repository handles the background thread, so just call insert:
+        repository.insert(newUser);
+    }
+
 }

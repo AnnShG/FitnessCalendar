@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ public class SurveyPage2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Access the shared ViewModel (scoped to the Activity so Page 1-4 share data)
+        // Access the shared ViewModel
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
 
         // --- GENDER SELECTION LOGIC ---
@@ -109,9 +109,19 @@ public class SurveyPage2Fragment extends Fragment {
 
         // --- NAVIGATION ---
         binding.continueButton.setOnClickListener(v -> {
-            // 1. Capture Name from EditText
+            boolean isValid = true;
+
+            // 1. Validate Capture Name from EditText
+            String name = "";
             if (binding.userInputName.getText() != null) {
-                viewModel.setName(binding.userInputName.getText().toString());
+                name = binding.userInputName.getText().toString().trim();
+            }
+
+            if (name.isEmpty()) {
+                binding.userInputName.setError("Please enter your name");
+                isValid = false;
+            } else {
+                viewModel.setName(name);
             }
 
             // Validation: Ensure birth date is selected
@@ -120,8 +130,16 @@ public class SurveyPage2Fragment extends Fragment {
                 return;
             }
 
-            NavHostFragment.findNavController(SurveyPage2Fragment.this)
-                    .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
+            // 3. Validate gender
+            if (viewModel.getGender() == null) {
+                android.widget.Toast.makeText(requireContext(), "Please select a gender", android.widget.Toast.LENGTH_SHORT).show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                NavHostFragment.findNavController(SurveyPage2Fragment.this)
+                        .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
+            }
         });
 
         binding.backButton.setOnClickListener(v ->

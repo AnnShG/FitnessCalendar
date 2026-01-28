@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage1Binding;

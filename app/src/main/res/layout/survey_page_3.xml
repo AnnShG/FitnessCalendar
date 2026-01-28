@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/survey_background_colour"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.survey.SurveyPage3Fragment">
+    tools:context=".logic.survey.SurveyPage3Fragment">
 
     <TextView
         android:id="@+id/textView"
@@ -535,7 +535,7 @@
         app:boxBackgroundColor="@color/chip_bg_colour">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput"
+            android:id="@+id/userInputGoal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
 

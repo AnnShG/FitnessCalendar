@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -50,7 +50,22 @@ public class SurveyPage3Fragment extends Fragment {
 
         // --- NAVIGATION ---
         binding.continueButton.setOnClickListener(v -> {
-            if (!viewModel.getSelectedGoals().isEmpty()) {
+            // 1. Get the custom goal from the EditText (if any)
+            String customGoal = "";
+            if (binding.userInputGoal.getText() != null) {
+                customGoal = binding.userInputGoal.getText().toString().trim();
+            }
+
+            // 2. Validation: Check if both selections AND text field are empty
+            if (viewModel.getSelectedGoals().isEmpty() && customGoal.isEmpty())  {
+                android.widget.Toast.makeText(requireContext(),
+                        "Please select at least one goal or write your own",
+                        android.widget.Toast.LENGTH_SHORT).show();
+            } else {
+                if (!customGoal.isEmpty()) {
+                    viewModel.toggleGoal(customGoal);
+                }
+
                 NavHostFragment.findNavController(this).navigate(R.id.action_SurveyPage3_to_SurveyPage4);
             }
         });
@@ -75,19 +90,17 @@ public class SurveyPage3Fragment extends Fragment {
             card.setStrokeColor(ColorStateList.valueOf(orange));
             card.setStrokeWidth(4);
             circle.setImageResource(R.drawable.circle_selected); // Use your checkmark/orange circle
-            circle.setImageTintList(ColorStateList.valueOf(orange));
         } else {
             card.setStrokeColor(ColorStateList.valueOf(gray));
             card.setStrokeWidth(2);
             circle.setImageResource(R.drawable.circle_unselected);
-            circle.setImageTintList(ColorStateList.valueOf(gray));
         }
     }
 
     private void updateCardUI(MaterialCardView card, android.widget.ImageView circle) {
         int orange = getResources().getColor(R.color.chip_selected_orange, null);
         card.setStrokeColor(ColorStateList.valueOf(orange));
-        card.setStrokeWidth(6);
+        card.setStrokeWidth(4);
         circle.setImageResource(R.drawable.circle_selected);
         circle.setImageTintList(ColorStateList.valueOf(orange));
     }
