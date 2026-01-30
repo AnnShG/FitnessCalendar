@@ -14,9 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage4Binding;
 
-import java.util.Date;
-import java.util.Set;
-
 public class SurveyPage4Fragment extends Fragment {
 
     private SurveyPage4Binding binding;
@@ -35,14 +32,24 @@ public class SurveyPage4Fragment extends Fragment {
         // Get the SAME ViewModel used in all previous fragments
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class);
 
+//        binding.continueButton.setOnClickListener(v -> {
+//            // Call the method that handles validation, saving, and navigation
+//            saveSurveyAndFinish();
+//        });
+
+        // Inside SurveyPage4Fragment.java
         binding.continueButton.setOnClickListener(v -> {
-            // Call the method that handles validation, saving, and navigation
-            saveSurveyAndFinish();
+            // 1. Save data
+            viewModel.saveUserProfileToDatabase();
+
+            // 2. Navigate - Double check this ID in your nav_graph.xml!
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
         });
 
     }
 
-    private void saveSurveyAndFinish() {
+//    private void saveSurveyAndFinish() {
         // 1. Gather all data from the ViewModel
 //        String name = viewModel.getName();
 //        Date birthDate = viewModel.getBirthDate();
@@ -51,22 +58,22 @@ public class SurveyPage4Fragment extends Fragment {
 
         // Since Room operations should be asynchronous, we call a method in the ViewModel
         // which handles the background thread work.
-        try {
-            viewModel.saveUserProfileToDatabase();
-
-            // Feedback to user
-            String name = viewModel.getName() != null ? viewModel.getName() : "User";
-            Toast.makeText(requireContext(), "Survey Saved! Welcome " + name, Toast.LENGTH_SHORT).show();
-
-            // 3. Navigate to the main app environment
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
-            } catch (Exception e) {
-            // This will tell you WHY it's crashing if it's a code error
-            Toast.makeText(requireContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
+//        try {
+//            viewModel.saveUserProfileToDatabase();
+//
+//            // Feedback to user
+//            String name = viewModel.getName() != null ? viewModel.getName() : "User";
+//            Toast.makeText(requireContext(), "Survey Saved! Welcome " + name, Toast.LENGTH_SHORT).show();
+//
+//            // 3. Navigate to the main app environment
+//            NavHostFragment.findNavController(this)
+//                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
+//            } catch (Exception e) {
+//            // This will tell you WHY it's crashing if it's a code error
+//            Toast.makeText(requireContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public void onDestroyView() {

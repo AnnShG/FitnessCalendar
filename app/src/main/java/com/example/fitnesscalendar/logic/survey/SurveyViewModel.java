@@ -47,18 +47,6 @@ public class SurveyViewModel extends AndroidViewModel {
         repository = new UserRepository(app);
     }
 
-    public void onNextClicked() {
-        if (name == null || name.isEmpty()) return; // Basic validation
-
-        User user = new User();
-        user.name = name;
-        user.birthDate = birthDate;
-        user.gender = gender;
-//        user.goal = selectedGoals;
-
-        repository.insert(user);
-    }
-
     public void saveUserProfileToDatabase() {
         // 1. Create the User object
         User newUser = new User();
@@ -67,8 +55,10 @@ public class SurveyViewModel extends AndroidViewModel {
         newUser.setGender(this.getGender());
 
         // Convert the Set to an ArrayList for the Entity
-        newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
-
+//        newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
+        if (this.getSelectedGoals() != null) {
+            newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
+        }
         // 2. Use the REPOSITORY (not 'database') to save
         // The repository handles the background thread, so just call insert:
         repository.insert(newUser);

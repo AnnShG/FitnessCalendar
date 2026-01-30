@@ -36,7 +36,6 @@ public class SurveyPage1Fragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
 
         binding.button.setOnClickListener(v -> {// lambda - shorter
-            viewModel.onNextClicked();
 
             Navigation.findNavController(view)
                     .navigate(R.id.action_SurveyPage1_to_SurveyPage2);
