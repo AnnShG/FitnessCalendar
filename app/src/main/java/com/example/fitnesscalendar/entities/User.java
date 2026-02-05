@@ -5,8 +5,10 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
+
 
 @Data
 @Entity(tableName = "users")
@@ -23,7 +25,7 @@ public class User {
     @ColumnInfo(name = "gender")
     public String gender;
 
-    @ColumnInfo(name = "goal")
-    public String goal;
+    @ColumnInfo(name = "goals")
+    private List<String> goals;
 
 }

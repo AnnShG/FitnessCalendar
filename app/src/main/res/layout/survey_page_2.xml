@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/survey_background_colour"
-    tools:context=".ui.survey.SurveyPage2Fragment">
+    tools:context=".logic.survey.SurveyPage2Fragment">
 
     <TextView
         android:id="@+id/textView"
@@ -102,7 +102,7 @@
         app:boxBackgroundColor="@color/chip_bg_colour">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput"
+            android:id="@+id/userInputName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
 
@@ -111,7 +111,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
+        android:id="@+id/textInputLayoutBirthDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/enter_your_db"
@@ -133,89 +133,184 @@
         app:boxBackgroundColor="@color/chip_bg_colour">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userInput2"
+            android:id="@+id/userInputBirthDate"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:cursorVisible="false"
 
             android:textColor="@color/survey_text_black"
             android:textSize="16sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonMale"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+    <!-- Container for Gender Buttons -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/genderContainer"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="372dp"
-        android:textSize="@dimen/text_size"
-        app:cornerRadius="8dp"
-        android:textStyle="normal"
-        android:fontFamily="@font/lexend_font"
-        android:textColor="@color/survey_text_black"
-        app:strokeColor="@color/button_stroke_colour"
-        app:strokeWidth="1dp"
-        android:backgroundTint="@color/survey_gender_button_background_colour"
-
-        android:layout_marginStart="@dimen/margin_left"
-        android:layout_marginEnd="@dimen/margin_right"
-        android:maxWidth="@dimen/max_button_width"
-        android:text="@string/male_gender"
-        android:checkable="true"
-        app:checkedIconVisible="false"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toStartOf="@id/buttonFemale"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintWidth_max="380dp"
+        app:layout_constraintTop_toBottomOf="@id/textView4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonFemale"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="372dp"
-        android:textSize="@dimen/text_size"
-        app:cornerRadius="8dp"
-        android:textStyle="normal"
-        android:textColor="@color/survey_text_black"
-        android:fontFamily="@font/lexend_font"
-        app:strokeColor="@color/button_stroke_colour"
-        app:strokeWidth="1dp"
-        android:backgroundTint="@color/survey_gender_button_background_colour"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonMale"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:text="@string/male_gender"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size"
+            app:cornerRadius="8dp"
+            android:textStyle="normal"
+            android:fontFamily="@font/lexend_font"
+            android:textColor="@color/survey_text_black"
 
-        android:layout_marginEnd="@dimen/margin_right"
-        android:maxWidth="@dimen/max_button_width"
-        android:text="@string/female_gender"
-        android:checkable="true"
-        app:checkedIconVisible="false"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/buttonMale"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"/>
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="@color/button_stroke_colour"
+            app:strokeWidth="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonFemale"
+            android:layout_marginEnd="4dp"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonNoAnswer"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:text="@string/no_gender"
-        android:layout_marginTop="16dp"
-        android:textSize="@dimen/text_size"
-        app:cornerRadius="8dp"
-        android:textStyle="normal"
-        android:textColor="@color/survey_text_black"
-        android:fontFamily="@font/lexend_font"
-        app:strokeColor="@color/button_stroke_colour"
-        app:strokeWidth="1dp"
-        android:backgroundTint="@color/survey_gender_button_background_colour"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonFemale"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:text="@string/female_gender"
+            android:textAllCaps="false"
+            android:fontFamily="@font/lexend_font"
+            android:textSize="@dimen/text_size"
+            app:cornerRadius="8dp"
+            android:textStyle="normal"
+            android:textColor="@color/survey_text_black"
 
-        app:layout_constraintTop_toBottomOf="@id/buttonMale"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:checkedIconVisible="false"
-        android:textAllCaps="false"
-        android:checkable="true" />
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="@color/button_stroke_colour"
+            app:strokeWidth="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonMale"
+            android:layout_marginStart="4dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonNoAnswer"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/no_gender"
+            android:textAllCaps="false"
+            android:fontFamily="@font/lexend_font"
+            android:textSize="@dimen/text_size"
+            app:cornerRadius="8dp"
+            android:textStyle="normal"
+            android:textColor="@color/survey_text_black"
+
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="@color/button_stroke_colour"
+            app:strokeWidth="1dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonMale"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <com.google.android.material.button.MaterialButtonToggleGroup-->
+<!--        android:id="@+id/genderToggleGroup"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="372dp"-->
+<!--        app:singleSelection="true"-->
+<!--        app:selectionRequired="true"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+<!--        -->
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/buttonMale"-->
+<!--            style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginTop="372dp"-->
+<!--            android:textSize="@dimen/text_size"-->
+<!--            app:cornerRadius="8dp"-->
+<!--            android:textStyle="normal"-->
+<!--            android:fontFamily="@font/lexend_font"-->
+<!--            android:textColor="@color/survey_text_black"-->
+<!--            app:strokeColor="@color/button_stroke_colour"-->
+<!--            app:strokeWidth="1dp"-->
+<!--            android:backgroundTint="@color/survey_gender_button_background_colour"-->
+<!--    -->
+<!--            android:layout_marginStart="@dimen/margin_left"-->
+<!--            android:layout_marginEnd="@dimen/margin_right"-->
+<!--            android:maxWidth="@dimen/max_button_width"-->
+<!--            android:text="@string/male_gender"-->
+<!--            android:checkable="true"-->
+<!--            app:checkedIconVisible="false"-->
+<!--            android:textAllCaps="false"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/buttonFemale"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/buttonFemale"-->
+<!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="372dp"-->
+<!--        android:textSize="@dimen/text_size"-->
+<!--        app:cornerRadius="8dp"-->
+<!--        android:textStyle="normal"-->
+<!--        android:textColor="@color/survey_text_black"-->
+<!--        android:fontFamily="@font/lexend_font"-->
+<!--        app:strokeColor="@color/button_stroke_colour"-->
+<!--        app:strokeWidth="1dp"-->
+<!--        android:backgroundTint="@color/survey_gender_button_background_colour"-->
+
+<!--        android:layout_marginEnd="@dimen/margin_right"-->
+<!--        android:maxWidth="@dimen/max_button_width"-->
+<!--        android:text="@string/female_gender"-->
+<!--        android:checkable="true"-->
+<!--        app:checkedIconVisible="false"-->
+<!--        android:textAllCaps="false"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/buttonMale"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintHorizontal_chainStyle="spread"/>-->
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/buttonNoAnswer"-->
+<!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:text="@string/no_gender"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:textSize="@dimen/text_size"-->
+<!--        app:cornerRadius="8dp"-->
+<!--        android:textStyle="normal"-->
+<!--        android:textColor="@color/survey_text_black"-->
+<!--        android:fontFamily="@font/lexend_font"-->
+<!--        app:strokeColor="@color/button_stroke_colour"-->
+<!--        app:strokeWidth="1dp"-->
+<!--        android:backgroundTint="@color/survey_gender_button_background_colour"-->
+
+<!--        app:layout_constraintTop_toBottomOf="@id/buttonMale"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:checkedIconVisible="false"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:checkable="true" />-->
+
+<!--    </com.google.android.material.button.MaterialButtonToggleGroup>-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_left"

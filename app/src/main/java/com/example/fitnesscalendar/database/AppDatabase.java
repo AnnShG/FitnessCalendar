@@ -27,7 +27,7 @@ import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.entities.WorkoutExerciseCrossRef;
 
 @Database(entities= {User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 1)
+        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 2)
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {
@@ -51,7 +51,9 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "fitness_calendar_db"
-                    ).build();
+                    ) // Use this to replace the deprecated method
+                            .fallbackToDestructiveMigration(true)
+                            .build();
                 }
             }
         }

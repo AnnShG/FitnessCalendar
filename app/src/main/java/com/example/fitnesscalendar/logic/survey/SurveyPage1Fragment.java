@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
@@ -37,7 +36,6 @@ public class SurveyPage1Fragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
 
         binding.button.setOnClickListener(v -> {// lambda - shorter
-            viewModel.onNextClicked();
 
             Navigation.findNavController(view)
                     .navigate(R.id.action_SurveyPage1_to_SurveyPage2);

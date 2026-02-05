@@ -1,9 +1,10 @@
-package com.example.fitnesscalendar.ui.survey;
+package com.example.fitnesscalendar.logic.survey;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,11 +20,7 @@ public class SurveyPage4Fragment extends Fragment {
     private SurveyViewModel viewModel;
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = SurveyPage4Binding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -32,16 +29,29 @@ public class SurveyPage4Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
+        // Get the SAME ViewModel used in all previous fragments
+        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class);
 
+//        binding.continueButton.setOnClickListener(v -> {
+//            // Call the method that handles validation, saving, and navigation
+//            saveSurveyAndFinish();
+//        });
+
+        // Inside SurveyPage4Fragment.java
         binding.continueButton.setOnClickListener(v -> {
-            viewModel.onNextClicked();
+            // 1. Save data
+            viewModel.saveUserProfileToDatabase();
 
+            // 1.2. Visual feedback
+            Toast.makeText(requireContext(), "Profile Saved Successfully!", Toast.LENGTH_SHORT).show();
+
+            // 2. Navigate - Double check this ID in your nav_graph.xml!
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_SurveyPage3_to_SurveyPage4);
-    });
+                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
+        });
 
     }
+
 
     @Override
     public void onDestroyView() {

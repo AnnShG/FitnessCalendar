@@ -14,6 +14,7 @@
     <color name="continue_button_background_colour">#F05A09</color>
     <color name="survey_gender_button_background_colour">#FFFFFF</color>
     <color name="button_stroke_colour">#C5B9B9</color>
+    <color name="selected_button_stroke_colour">#C5B9B9</color>
 
     <color name="chip_selected_orange">#F05A09</color>
     <color name="chip_unselected_circle_fill">#FFFFFF</color>
