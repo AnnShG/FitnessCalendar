@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/calendar_day_text"
+    android:id="@+id/calendar_home_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -45,6 +45,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 6. Plus Button (Floating style on top) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/plusButon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        app:srcCompat="@drawable/custom_plus"
+
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/plusButton"
         android:layout_width="48dp"
@@ -59,7 +73,6 @@
         app:iconPadding="0dp"
         app:rippleColor="@android:color/transparent"
         app:backgroundTint="@null"
-
 
         android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -194,7 +207,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendar_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
