@@ -32,11 +32,11 @@ public class SurveyViewModel extends AndroidViewModel {
     @Getter
     private Set<String> selectedGoals = new HashSet<>();
 
-    public void toggleGoal(String goal) {
-        if (selectedGoals.contains(goal)) {
-            selectedGoals.remove(goal); // If it's already there, take it out (unselect)
+    public void toggleGoal(String goals) {
+        if (selectedGoals.contains(goals)) {
+            selectedGoals.remove(goals); // If it's already there, take it out (unselect)
         } else {
-            selectedGoals.add(goal); // If it's not there, add it (select)
+            selectedGoals.add(goals); // If it's not there, add it (select)
         }
     }
 

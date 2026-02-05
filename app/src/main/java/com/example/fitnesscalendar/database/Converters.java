@@ -11,12 +11,14 @@ import java.util.List;
 
 public class Converters {
     @TypeConverter
-    public static Date fromTimeStamp(Long value) { // from Date to Long
+    public static Date fromTimeStamp(Long value) {
+        // Converts from the Long (saved in DB) back to a Java Date object
         return value == null ? null : new Date(value);
     }
 
     @TypeConverter
-    public static Long dateToTimestamp(Date date) { // from Long to Date
+    public static Long dateToTimestamp(Date date) {
+        // Converts from the Java Date object to a Long to save in DB
         return date == null ? null : date.getTime();
     }
 

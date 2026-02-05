@@ -42,6 +42,9 @@ public class SurveyPage4Fragment extends Fragment {
             // 1. Save data
             viewModel.saveUserProfileToDatabase();
 
+            // 1.2. Visual feedback
+            Toast.makeText(requireContext(), "Profile Saved Successfully!", Toast.LENGTH_SHORT).show();
+
             // 2. Navigate - Double check this ID in your nav_graph.xml!
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
@@ -49,31 +52,6 @@ public class SurveyPage4Fragment extends Fragment {
 
     }
 
-//    private void saveSurveyAndFinish() {
-        // 1. Gather all data from the ViewModel
-//        String name = viewModel.getName();
-//        Date birthDate = viewModel.getBirthDate();
-//        String gender = viewModel.getGender();
-//        Set<String> goals = viewModel.getSelectedGoals();
-
-        // Since Room operations should be asynchronous, we call a method in the ViewModel
-        // which handles the background thread work.
-//        try {
-//            viewModel.saveUserProfileToDatabase();
-//
-//            // Feedback to user
-//            String name = viewModel.getName() != null ? viewModel.getName() : "User";
-//            Toast.makeText(requireContext(), "Survey Saved! Welcome " + name, Toast.LENGTH_SHORT).show();
-//
-//            // 3. Navigate to the main app environment
-//            NavHostFragment.findNavController(this)
-//                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
-//            } catch (Exception e) {
-//            // This will tell you WHY it's crashing if it's a code error
-//            Toast.makeText(requireContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public void onDestroyView() {
