@@ -2,21 +2,16 @@ package com.example.fitnesscalendar;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fitnesscalendar.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,33 +25,44 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+//        Find the NavHostFragment properly ChronoLocalDateTime.from the SupportFragmentManager
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment_content_main);
 
-        // Inside your MainActivity.java onCreate method
-        navController = navHostFragment.getNavController();
+        if (navHostFragment != null) {
+            NavController navController = navHostFragment.getNavController();
 
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            int id = destination.getId();
+            // Setup AppBarConfiguration
+//            appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+            // Optional: Hide/Show Action Bar if you are using it
+            // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-            // List the IDs of the fragments where the bottom nav SHOULD be visible
-//            if (id == R.id.CalendarHomePage || id == R.id.Profile || id == R.id.StatsFragment) {
-            if (id == R.id.calendar_home_page) {
-                binding.bottomNavigation.setVisibility(View.VISIBLE);
-            } else {
-                // Hide it for all survey pages and other registration screens
-                binding.bottomNavigation.setVisibility(View.GONE);
-            }
-        });
+            // Visibility Listener
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                int id = destination.getId();
+                // Check against your specific fragment ID
+                if (id == R.id.calendar_home_page) {
+                    binding.bottomNavigation.setVisibility(View.VISIBLE);
+                } else {
+                    binding.bottomNavigation.setVisibility(View.GONE);
+                }
+            });
+
+            // Link Bottom Navigation to NavController
+            NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
+        }
 
     }
 
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment_content_main);
+        if (navHostFragment != null) {
+            return NavigationUI.navigateUp(navHostFragment.getNavController(), appBarConfiguration)
+                    || super.onSupportNavigateUp();
+        }
+        return super.onSupportNavigateUp();
     }
 }

@@ -53,6 +53,8 @@
         android:layout_margin="24dp"
         app:srcCompat="@drawable/custom_plus"
 
+        app:backgroundTint="@color/plus_button_colour"
+
         android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"

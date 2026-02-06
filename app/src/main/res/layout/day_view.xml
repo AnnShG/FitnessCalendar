@@ -13,8 +13,9 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         app:portion_color="@android:color/holo_green_dark"
-        app:portion_width="3dp"
-        app:portions_count="1" />
+        app:portion_width="4dp"
+        app:portion_spacing="4dp"
+        app:portions_count="3" />
 
     <!--  To display Date text -->
     <com.google.android.material.textview.MaterialTextView
