@@ -95,6 +95,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:text=""
+
             app:icon="@drawable/ic_arrow_back"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -139,68 +141,13 @@
         app:layout_constraintTop_toBottomOf="@id/calendar_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/monday"
-            android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/tuesday"
-            android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/wednesday"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/thursday"
-            android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/friday"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/saturday"
-            android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/sunday"
-            android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/monday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/tuesday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/wednesday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/thursday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/friday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/saturday" />
+        <TextView style="@style/CalendarHeaderStyle" android:text="@string/sunday" />
     </LinearLayout>
 
     <!-- days view -->
@@ -208,6 +155,7 @@
         android:id="@+id/calendar_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginStart="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
