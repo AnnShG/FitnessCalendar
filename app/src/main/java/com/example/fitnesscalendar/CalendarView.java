@@ -23,6 +23,9 @@ import lombok.Setter;
  * A custom LinearLayout that represents a calendar view.
  * It handles the display and navigation of a calendar using a RecyclerView.
  */
+
+// class calculates which day the month starts on, how many days are in February, etc.
+// It allows you to reuse the "Calendar Logic" in other parts of the app (like a "History" page) without rewriting the math
 public class CalendarView extends LinearLayout {
     private final Calendar currentDate = Calendar.getInstance();
     private CalendarAdapter adapter;
@@ -58,7 +61,7 @@ public class CalendarView extends LinearLayout {
      */
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.main_calendar_page, this, true);
+        LayoutInflater.from(context).inflate(R.layout.calendar_home_page, this, true);
 
         monthAndYear = findViewById(R.id.monthAndYear);
         RecyclerView recyclerView = findViewById(R.id.calendar_recycler_view);
