@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="+id/action_add_workout"
+        android:title="Add Workout"/>
+
+    <item
+        android:id="+id/action_ad_exercise"
+        android:title="Add Exercise"/>
+</menu>

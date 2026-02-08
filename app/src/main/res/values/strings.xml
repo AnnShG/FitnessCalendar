@@ -64,7 +64,11 @@
 <!--    Calendar home-page -->
     <string name="mindset_button_text">Mindset</string>
     <string name="plus_button_text">+</string>
+    <string name="plus_button_description">Addition Dropdown</string>
     <string name="calendar_title_text">Training Days This Month</string>
+
+    <string name="arrow_back_description">Arrow Back</string>
+    <string name="arrow_next_description">Arrow Next</string>
 
     <string name="monday">M</string>
     <string name="tuesday">Tu</string>
@@ -74,14 +78,10 @@
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
 
+<!--    Navigation Bottom Bar-->
+    <string name="icon_home_title"></string>
+    <string name="icon_graphs_title"></string>
+    <string name="icon_profile_title"></string>
 
-    <string name="lorem_ipsum">
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-    </string>
+
 </resources>
