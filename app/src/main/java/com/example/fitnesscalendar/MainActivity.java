@@ -34,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
             // Visibility Listener
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                int id = destination.getId();
                 // Check against your specific fragment ID (in nav_graph)
-                if (id == R.id.CalendarHomePage) {
-                    binding.bottomNavigation.setVisibility(View.VISIBLE);
-                } else {
-                    binding.bottomNavigation.setVisibility(View.GONE);
+                if (binding != null && binding.bottomNavigation != null) {
+                    if (destination.getId() == R.id.CalendarHomePage) {
+                        binding.bottomNavigation.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.bottomNavigation.setVisibility(View.GONE);
+                    }
                 }
             });
 

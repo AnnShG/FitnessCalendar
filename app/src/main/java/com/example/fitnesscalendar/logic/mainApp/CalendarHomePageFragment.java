@@ -30,17 +30,17 @@ public class CalendarHomePageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 'v' represents the View that was clicked
-        binding.plusButton.setOnClickListener(v -> {
-            // Create the PopupMenu anchored to the plusButton
-            PopupMenu popup = new PopupMenu(requireContext(), v);
-            popup.getMenuInflater().inflate(R.menu.plus_dropdown_menu, popup.getMenu());
-            // Handle menu item clicks
-            popup.setOnMenuItemClickListener(item -> {
-                // Example: if (item.getItemId() == R.id.add_activity) { ... }
-                return true;
-            });
-            popup.show();
-        });
+//        binding.plusButton.setOnClickListener(v -> {
+//            // Create the PopupMenu anchored to the plusButton
+//            PopupMenu popup = new PopupMenu(requireContext(), v);
+//            popup.getMenuInflater().inflate(R.menu.plus_dropdown_menu, popup.getMenu());
+//            // Handle menu item clicks
+//            popup.setOnMenuItemClickListener(item -> {
+//                // Example: if (item.getItemId() == R.id.add_activity) { ... }
+//                return true;
+//            });
+//            popup.show();
+//        });
     }
 
     @Override
