@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.fitnesscalendar.UserRepository;
+import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.entities.User;
 
 import org.jetbrains.annotations.NotNull;
