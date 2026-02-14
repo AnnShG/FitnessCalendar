@@ -11,21 +11,14 @@ import androidx.recyclerview.widget.RecyclerView; // Base library for efficient 
 
 import java.util.List; // Java utility for handling lists of data
 
-/**
- * Adapter for the Calendar RecyclerView.
- * This class handles the creation and binding of views for each day in the calendar grid.
- */
-
-//Data Mapper
-//    Takes your list of dates (1, 2, 3...) and maps them to the day_view.xml
-//    This is where is said "If the user has a workout on the 5th, show the CircularStatusView."
+//Data Mapper or a Translator
+//    Takes the list of dates and maps them to the day_view - into the little boxes on the calendar
+// fills the boxes with the dates (1,2,3,4) into MaterialTextView
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder> {
 
-    // Internal list to hold the strings representing each day (e.g., "1", "2", or "")
     private final List<String> daysOfMonth;
-    private OnItemListener onItemListener; // 1. Add Listener
+    private OnItemListener onItemListener;
 
-    // Define the interface inside the Adapter class
     public interface OnItemListener {
         void onItemClick(int position, String dayText);
     }
@@ -44,37 +37,33 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.daysOfMonth = daysOfMonth; // Assign the provided list to the local variable
     }
 
+    // create a day bow for every number
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Create a new TextView programmatically for each day cell
         TextView dayText = new TextView(parent.getContext());
 
-        // Define layout parameters to ensure the cell fills the grid column width with a fixed height
         dayText.setLayoutParams(new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, // Width fills the 1/7th of the grid
                 120 // Fixed height of 120 pixels for the calendar row
         ));
 
-        // Center the text both horizontally and vertically within the cell
         dayText.setGravity(Gravity.CENTER);
 
-        // Set the font size for the day number
-        dayText.setTextSize(14);
+        dayText.setTextSize(20);
 
-        // Set the text color to black
         dayText.setTextColor(Color.BLACK);
 
         // Wrap the created TextView in a ViewHolder and return it
         return new CalendarViewHolder(dayText);
     }
 
+    // make the box with the number be touchable
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         String day = daysOfMonth.get(position);
         holder.dayOfMonth.setText(day);
 
-        // Set the click listener on the entire item view
         holder.itemView.setOnClickListener(v -> {
             if (onItemListener != null) {
                 onItemListener.onItemClick(position, day);
@@ -84,23 +73,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     @Override
     public int getItemCount() {
-        // Return the total number of items to be displayed in the RecyclerView grid
         return daysOfMonth.size();
     }
 
     /**
      * ViewHolder class to hold the views for each calendar day item.
      */
-//    Holds the references to day_text and circular_status_view for a single day cell so the RecyclerView doesn't have to call findViewById repeatedly.
     public static class CalendarViewHolder extends RecyclerView.ViewHolder {
-        // Reference to the TextView displaying the day number
         public final TextView dayOfMonth;
 
         public CalendarViewHolder(@NonNull View itemView) {
-            super(itemView); // Pass the view to the base RecyclerView.ViewHolder class
+            super(itemView);
 
-            // Since we created the TextView programmatically in onCreateViewHolder,
-            // the itemView itself IS the TextView.
             this.dayOfMonth = (TextView) itemView;
         }
     }
