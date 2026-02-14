@@ -1,6 +1,5 @@
-package com.example.fitnesscalendar; // Package declaration for the project
+package com.example.fitnesscalendar.logic.mainApp;
 
-// Import necessary Android and Java classes
 import android.graphics.Color; // Used to define colors programmatically
 import android.view.Gravity; // Used to align text within the view
 import android.view.View; // Base class for all UI components
@@ -12,14 +11,23 @@ import androidx.recyclerview.widget.RecyclerView; // Base library for efficient 
 
 import java.util.List; // Java utility for handling lists of data
 
-/**
- * Adapter for the Calendar RecyclerView.
- * This class handles the creation and binding of views for each day in the calendar grid.
- */
+//Data Mapper or a Translator
+//    Takes the list of dates and maps them to the day_view - into the little boxes on the calendar
+// fills the boxes with the dates (1,2,3,4) into MaterialTextView
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder> {
 
-    // Internal list to hold the strings representing each day (e.g., "1", "2", or "")
     private final List<String> daysOfMonth;
+    private OnItemListener onItemListener;
+
+    public interface OnItemListener {
+        void onItemClick(int position, String dayText);
+    }
+
+    public CalendarAdapter(List<String> daysOfMonth, OnItemListener onItemListener) {
+        this.daysOfMonth = daysOfMonth;
+        this.onItemListener = onItemListener;
+    }
+
 
     /**
      * Constructor to initialize the adapter with a list of days.
@@ -29,43 +37,42 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.daysOfMonth = daysOfMonth; // Assign the provided list to the local variable
     }
 
+    // create a day bow for every number
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Create a new TextView programmatically for each day cell
         TextView dayText = new TextView(parent.getContext());
 
-        // Define layout parameters to ensure the cell fills the grid column width with a fixed height
         dayText.setLayoutParams(new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, // Width fills the 1/7th of the grid
                 120 // Fixed height of 120 pixels for the calendar row
         ));
 
-        // Center the text both horizontally and vertically within the cell
         dayText.setGravity(Gravity.CENTER);
 
-        // Set the font size for the day number
-        dayText.setTextSize(14);
+        dayText.setTextSize(20);
 
-        // Set the text color to black
         dayText.setTextColor(Color.BLACK);
 
         // Wrap the created TextView in a ViewHolder and return it
         return new CalendarViewHolder(dayText);
     }
 
+    // make the box with the number be touchable
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        // Retrieve the day string from the list at the specific grid position
         String day = daysOfMonth.get(position);
-
-        // Set the text of the TextView to the day value (e.g., "15")
         holder.dayOfMonth.setText(day);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemListener != null) {
+                onItemListener.onItemClick(position, day);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        // Return the total number of items to be displayed in the RecyclerView grid
         return daysOfMonth.size();
     }
 
@@ -73,14 +80,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
      * ViewHolder class to hold the views for each calendar day item.
      */
     public static class CalendarViewHolder extends RecyclerView.ViewHolder {
-        // Reference to the TextView displaying the day number
         public final TextView dayOfMonth;
 
         public CalendarViewHolder(@NonNull View itemView) {
-            super(itemView); // Pass the view to the base RecyclerView.ViewHolder class
+            super(itemView);
 
-            // Since we created the TextView programmatically in onCreateViewHolder,
-            // the itemView itself IS the TextView.
             this.dayOfMonth = (TextView) itemView;
         }
     }

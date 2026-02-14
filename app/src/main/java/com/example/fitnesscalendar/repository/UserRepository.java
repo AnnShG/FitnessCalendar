@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar;
+package com.example.fitnesscalendar.repository;
 
 import android.app.Application;
 
