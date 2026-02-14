@@ -23,6 +23,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     // Internal list to hold the strings representing each day (e.g., "1", "2", or "")
     private final List<String> daysOfMonth;
+    private OnItemListener onItemListener; // 1. Add Listener
+
+    // Define the interface inside the Adapter class
+    public interface OnItemListener {
+        void onItemClick(int position, String dayText);
+    }
+
+    public CalendarAdapter(List<String> daysOfMonth, OnItemListener onItemListener) {
+        this.daysOfMonth = daysOfMonth;
+        this.onItemListener = onItemListener;
+    }
+
 
     /**
      * Constructor to initialize the adapter with a list of days.
@@ -59,11 +71,15 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        // Retrieve the day string from the list at the specific grid position
         String day = daysOfMonth.get(position);
-
-        // Set the text of the TextView to the day value (e.g., "15")
         holder.dayOfMonth.setText(day);
+
+        // Set the click listener on the entire item view
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemListener != null) {
+                onItemListener.onItemClick(position, day);
+            }
+        });
     }
 
     @Override

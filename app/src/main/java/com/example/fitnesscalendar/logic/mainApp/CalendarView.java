@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.R;
+import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ import lombok.Setter;
 
 public class CalendarView extends LinearLayout {
     private final Calendar currentDate = Calendar.getInstance();
+    private CalendarHomePageBinding binding;
     private CalendarAdapter adapter;
     private MaterialTextView monthAndYear;
     private final List<String> daysList = new ArrayList<>();
@@ -64,16 +66,16 @@ public class CalendarView extends LinearLayout {
      */
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.calendar_home_page, this, true);
+        binding = CalendarHomePageBinding.inflate(LayoutInflater.from(context), this, true);
 
-        monthAndYear = findViewById(R.id.monthAndYear);
-        RecyclerView recyclerView = findViewById(R.id.calendar_recycler_view);
-        findViewById(R.id.calendar_prev_button).setOnClickListener(v -> moveMonth(-1));
-        findViewById(R.id.calendar_next_button).setOnClickListener(v -> moveMonth(1));
-
+        // Set up RecyclerView with 7 columns (one for each day of the week)
         adapter = new CalendarAdapter(daysList);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 7));
-        recyclerView.setAdapter(adapter);
+        binding.calendarRecyclerView.setLayoutManager(new GridLayoutManager(context, 7));
+        binding.calendarRecyclerView.setAdapter(adapter);
+
+        // Arrow Listeners
+        binding.calendarPrevButton.setOnClickListener(v -> moveMonth(-1));
+        binding.calendarNextButton.setOnClickListener(v -> moveMonth(1));
 
         updateCalendar();
     }
@@ -86,18 +88,24 @@ public class CalendarView extends LinearLayout {
 
     private void updateCalendar() {
         daysList.clear();
+
         Calendar cal = (Calendar) currentDate.clone();
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        // Monday start logic: (Sunday=1, Monday=2)
+        // Calculate leading empty slots (Monday-start logic)
+        // Calendar.SUNDAY is 1, Calendar.MONDAY is 2
         int firstDay = cal.get(Calendar.DAY_OF_WEEK) - 2;
         if (firstDay < 0) firstDay = 6; // Wrap Sunday to end
 
-        for (int i = 0; i < firstDay; i++) daysList.add(""); // Empty cells
+        // Add empty strings for padding
+        for (int i = 0; i < firstDay; i++) {
+            daysList.add("");
+        }
 
         int max = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= max; i++) daysList.add(String.valueOf(i));
 
+        // Update Title (e.g., "October 2023")
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         monthAndYear.setText(sdf.format(currentDate.getTime()));
         adapter.notifyDataSetChanged();
