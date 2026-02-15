@@ -34,6 +34,12 @@
     <color name="plus_button_colour">#FFFAFA</color>
     <color name="plus_button_background_colour">#F05A09</color>
 
+<!--    Profile screen -->
+    <color name="goal_addition_bg_colour">#F7E8CF</color>
+    <color name="goal_addition_text_colour">#DA9215</color>
+    <color name="dumbbell_colour">#DA9215</color>
+    <color name="assignment_colour">#DA9215</color>
+
 
 
 </resources>

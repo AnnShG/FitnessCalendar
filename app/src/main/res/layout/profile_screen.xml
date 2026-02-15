@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fontFamily="@font/lexend_font"
+    android:background="@color/home_page_background_colour">
+
+    <TextView
+        android:id="@+id/userNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="tryreye"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_left"
+
+        android:text="@string/profile_my_goals"
+        android:layout_marginTop="@dimen/top_margin_goals"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"  />
+
+    <Button
+        android:id="@+id/addGoalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/top_margin_goals"
+
+        android:text="@string/profile_add_goal"
+        android:backgroundTint="@color/goal_addition_bg_colour"
+        android:textColor="@color/goal_addition_text_colour"
+        android:textStyle="bold"
+        android:textSize="18sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"  />
+
+    <TextView
+        android:id="@+id/goal1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="210dp"
+        android:layout_marginStart="@dimen/goal_margin_left"
+
+        android:text="g1"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:layout_marginStart="@dimen/goal_margin_left"
+
+        android:text="g2"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/edit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+
+        app:srcCompat="@drawable/outline_edit_35"
+        android:backgroundTint="@color/material_dynamic_neutral100"
+        android:contentDescription="@string/edit_icon_description"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"  />
+
+    <!-- Exercises Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/allExercisesButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="380dp"
+        android:gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+
+        android:textAllCaps="false"
+        android:text="@string/profile_exercises"
+        android:textColor="@color/black_colour"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:icon="@drawable/ic_fitness_dumbbell"
+        app:iconSize="30dp"
+        app:iconTint="@color/dumbbell_colour"
+        app:iconPadding="20dp"
+        app:iconGravity="textStart"
+
+        android:drawableEnd="@drawable/ic_chevron_right"
+        app:drawableTint="@color/black_colour"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Workouts Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/allWorkoutsButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="460dp"
+        android:gravity="center_vertical|start"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+
+        android:textAllCaps="false"
+        android:text="@string/profile_workouts"
+        android:textColor="@color/black_colour"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:icon="@drawable/ic_assignment"
+        app:iconSize="30dp"
+        app:iconTint="@color/dumbbell_colour"
+        app:iconPadding="20dp"
+        android:drawableEnd="@drawable/ic_chevron_right"
+        app:drawableTint="@color/black_colour"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+
+        app:srcCompat="@drawable/outline_edit_35"
+        android:backgroundTint="@color/material_dynamic_neutral100"
+        android:contentDescription="@string/edit_icon_description"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"   />
+
+
+
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="570dp"
+
+        android:text="@string/profile_settings"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
