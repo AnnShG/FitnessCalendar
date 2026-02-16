@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             // Visibility Listener
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
-                if (id == R.id.navigationHome || id == R.id.navigationProfile) {
+                if (id == R.id.navigationHome || id == R.id.navigationProfile || id == R.id.navigationGraphs) {
                     bottomNav.setVisibility(View.VISIBLE);
                 } else {
                     bottomNav.setVisibility(View.GONE);
