@@ -11,11 +11,11 @@ import lombok.Data;
 public class Quote {
     // id, text, author
 @PrimaryKey(autoGenerate = true)
-    private Long id;
+    public Long id;
 
 @ColumnInfo(name = "quote_text")
-    private String text;
+    public String text;
 
 @ColumnInfo(name = "author")
-    private String author;
+    public String author;
 }

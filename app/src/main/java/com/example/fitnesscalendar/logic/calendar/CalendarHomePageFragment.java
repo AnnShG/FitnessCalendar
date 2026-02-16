@@ -64,6 +64,11 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             updateCalendarUI();
         });
 
+        binding.mindsetButton.setOnClickListener(v -> {
+            MindsetDialog dialog = new MindsetDialog();
+            dialog.show(getParentFragmentManager(), "MindsetDialog");
+        });
+
         updateCalendarUI();
     }
 

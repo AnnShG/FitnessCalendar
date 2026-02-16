@@ -40,6 +40,12 @@
     <color name="dumbbell_colour">#DA9215</color>
     <color name="assignment_colour">#DA9215</color>
 
+<!--    Mindset window-->
+    <color name="quote_author_text_colour">#F05A09</color>
+    <color name="quote_window_bg_colour">#FFFFFF</color>
+    <color name="quote_window_stroke_colour">#C5B9B9</color>
+
+
 
 
 </resources>
