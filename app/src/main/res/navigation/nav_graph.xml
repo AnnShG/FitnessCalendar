@@ -63,5 +63,12 @@
         tools:layout="@layout/profile_screen">
     </fragment>
 
+    <fragment
+        android:id="@+id/navigationGraphs"
+        android:name="com.example.fitnesscalendar.logic.graphs.GraphScreenFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_screen">
+    </fragment>
+
 
 </navigation>
