@@ -46,14 +46,22 @@
 
         <action
             android:id="@+id/action_SurveyPage4_to_CalendarHomePage"
-            app:destination="@id/CalendarHomePage" />
+            app:destination="@id/navigationHome" />
     </fragment>
 
     <fragment
-        android:id="@+id/CalendarHomePage"
-        android:name="com.example.fitnesscalendar.logic.mainApp.CalendarHomePageFragment"
+        android:id="@+id/navigationHome"
+        android:name="com.example.fitnesscalendar.logic.calendar.CalendarHomePageFragment"
         android:label="Calendar Home"
         tools:layout="@layout/calendar_home_page">
-
     </fragment>
+
+    <fragment
+        android:id="@+id/navigationProfile"
+        android:name="com.example.fitnesscalendar.logic.profile.ProfileScreenFragment"
+        android:label="Profile"
+        tools:layout="@layout/profile_screen">
+    </fragment>
+
+
 </navigation>

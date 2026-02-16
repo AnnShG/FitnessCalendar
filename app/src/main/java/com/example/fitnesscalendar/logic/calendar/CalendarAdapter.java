@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.mainApp;
+package com.example.fitnesscalendar.logic.calendar;
 
 import android.graphics.Color; // Used to define colors programmatically
 import android.view.Gravity; // Used to align text within the view

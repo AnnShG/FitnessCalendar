@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/home_page_background_colour">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="32dp">
+
+    <TextView
+        android:id="@+id/userNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="tryreye"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_left"
+
+        android:text="@string/profile_my_goals"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userNameTitle"/>
+
+    <Button
+        android:id="@+id/addGoalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+
+        android:text="@string/profile_add_goal"
+        android:backgroundTint="@color/goal_addition_bg_colour"
+        android:textColor="@color/goal_addition_text_colour"
+        android:textStyle="bold"
+        android:textSize="18sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userNameTitle"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/goalsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintHeight_max="300dp"
+        app:layout_constraintTop_toBottomOf="@id/goals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_goal" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/allExercisesRow"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="16dp"
+
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/goalsRecyclerView">
+
+        <ImageView
+            android:id="@+id/iconExercises"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_fitness_dumbbell"
+            app:tint="@color/dumbbell_colour"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/profile_exercises"
+            android:textColor="@color/black_colour"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+
+            app:layout_constraintStart_toEndOf="@id/iconExercises"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/black_colour"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/allWorkoutsRow"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp"
+
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/allExercisesRow">
+
+        <ImageView
+            android:id="@+id/iconWorkouts"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_assignment"
+            app:tint="@color/dumbbell_colour"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_workouts"
+            android:textColor="@color/black_colour"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toEndOf="@id/iconWorkouts"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/black_colour"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+
+        android:text="@string/profile_settings"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black_colour"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/allWorkoutsRow" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

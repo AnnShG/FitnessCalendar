@@ -18,4 +18,8 @@
     <!--    Calendar home-page-->
     <dimen name="mindset_min_button_width">110dp</dimen>
     <dimen name="mindest_max_button_width">110dp</dimen>
+
+<!--    profile screen-->
+    <dimen name="goal_margin_left">40dp</dimen>
+    <dimen name="goal_margin_right">17.2dp</dimen>
 </resources>
