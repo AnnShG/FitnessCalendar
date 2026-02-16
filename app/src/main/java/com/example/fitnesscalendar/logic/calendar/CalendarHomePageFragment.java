@@ -1,14 +1,12 @@
-package com.example.fitnesscalendar.logic.mainApp;
+package com.example.fitnesscalendar.logic.calendar;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 
 import java.text.SimpleDateFormat;

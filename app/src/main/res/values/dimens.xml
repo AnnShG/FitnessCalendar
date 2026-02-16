@@ -22,7 +22,4 @@
 <!--    profile screen-->
     <dimen name="goal_margin_left">40dp</dimen>
     <dimen name="goal_margin_right">17.2dp</dimen>
-    <dimen name="top_margin_goals">130dp</dimen>
-    <dimen name="top_margin_goal1">210dp</dimen>
-    <dimen name="top_margin_goal2">220dp</dimen>
 </resources>

@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fitnesscalendar.databinding.ActivityMainBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,15 +33,17 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
 
+            BottomNavigationView bottomNav = binding.bottomNavigation;
+            // This line handles all the click logic automatically!
+            NavigationUI.setupWithNavController(bottomNav, navController);
+
             // Visibility Listener
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-                // Check against your specific fragment ID (in nav_graph)
-                if (binding != null && binding.bottomNavigation != null) {
-                    if (destination.getId() == R.id.CalendarHomePage) {
-                        binding.bottomNavigation.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.bottomNavigation.setVisibility(View.GONE);
-                    }
+                int id = destination.getId();
+                if (id == R.id.navigationHome || id == R.id.navigationProfile) {
+                    bottomNav.setVisibility(View.VISIBLE);
+                } else {
+                    bottomNav.setVisibility(View.GONE);
                 }
             });
 
