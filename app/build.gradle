@@ -43,6 +43,7 @@ dependencies {
     implementation libs.material
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'com.github.3llomi:CircularStatusView:V1.0.3'
+    implementation 'github.com.bumptech.glide:glide:4.15.1'
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui

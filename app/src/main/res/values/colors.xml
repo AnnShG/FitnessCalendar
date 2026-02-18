@@ -45,7 +45,20 @@
     <color name="quote_window_bg_colour">#FFFFFF</color>
     <color name="quote_window_stroke_colour">#C5B9B9</color>
 
+<!--    Add exercise screen-->
+    <color name="add_exercise_media_container_bg_colour">#F8F4FF</color>
+    <color name="add_exercise_media_container_stroke_colour">#EAE3E3</color>
+    <color name="add_exercise_step_text_colour">#F05A09</color>
+    <color name="step_number_circle_bg_colour">#F6E5DC</color>
+    <color name="step_number_circle_text_colour">#F05A09</color>
+    <color name="exercise_category_bg_colour">#FFFFFF</color>
+    <color name="exercise_category_stroke_colour">#C5B9B9</color>
 
+    <color name="exercise_save_text_colour">#1C1C1C</color>
+    <color name="exercise_save_button_background_colour">#F05A09</color>
+
+    <color name="exercise_cancel_text_colour">#1C1C1C</color>
+    <color name="exercise_cancel_button_background_colour">#FFFAFA</color>
 
 
 </resources>

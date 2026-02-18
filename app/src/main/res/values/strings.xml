@@ -78,6 +78,9 @@
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
 
+    <!--    Mindset window-->
+    <string name="quote_author_text">Author</string>
+
 <!--    Navigation Bottom Bar-->
     <string name="icon_home_title"></string>
     <string name="icon_graphs_title"></string>
@@ -92,6 +95,24 @@
     <string name="edit_icon_description">Edit your goal</string>
     <string name="my_goals_hint">My goals</string>
 
+<!--    Add exercise screen-->
+    <string name="add_exercise_title">Add Exercise</string>
+    <string name="exercise_title">Title</string>
+    <string name="exercise_description">Description</string>
+    <string name="exercise_steps">Steps</string>
+    <string name="add_exercise_steps">Add another step</string>
+    <string name="add_exercise_steps_hint">Describe the step...</string>
+    <string name="exercise_notes">Notes</string>
+    <string name="exercise_notes_description">Notes</string>
+    <string name="exercise_category">Category</string>
 
+    <string name="category_legs">Legs</string>
+    <string name="category_arms">Arms</string>
+    <string name="category_chest">Chest</string>
+    <string name="category_Shoulders">Shoulders</string>
+    <string name="category_back">Back</string>
+    <string name="category_core">Core</string>
 
+    <string name="save_exercise">Save</string>
+    <string name="cancel_exercise">Cancel</string>
 </resources>
