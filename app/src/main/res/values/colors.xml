@@ -60,5 +60,16 @@
     <color name="exercise_cancel_text_colour">#1C1C1C</color>
     <color name="exercise_cancel_button_background_colour">#FFFAFA</color>
 
+<!--    Add workout screen-->
+    <color name="workout_circle_indicator_green_colour">#AAF363</color>
+    <color name="workout_circle_indicator_blue_colour">#ACE4F5</color>
+    <color name="workout_circle_indicator_purple_colour">#C177D8</color>
+    <color name="workout_circle_indicator_red_colour">#F95151</color>
+    <color name="workout_circle_indicator_dark_blue_colour">#3D40DB</color>
+
+    <color name="workout_circle_indicator_choice_colour">#FFFFFF</color>
+    <color name="workout_circle_indicator_choice_colour_stroke">#897F7F</color>
+
+
 
 </resources>

@@ -89,11 +89,11 @@ public class SurveyPage3Fragment extends Fragment {
         if (isSelected) {
             card.setStrokeColor(ColorStateList.valueOf(orange));
             card.setStrokeWidth(4);
-            circle.setImageResource(R.drawable.circle_selected); // Use your checkmark/orange circle
+            circle.setImageResource(R.drawable.survey_circle_selected); // Use your checkmark/orange circle
         } else {
             card.setStrokeColor(ColorStateList.valueOf(gray));
             card.setStrokeWidth(2);
-            circle.setImageResource(R.drawable.circle_unselected);
+            circle.setImageResource(R.drawable.survey_circle_unselected);
         }
     }
 
@@ -101,7 +101,7 @@ public class SurveyPage3Fragment extends Fragment {
         int orange = getResources().getColor(R.color.chip_selected_orange, null);
         card.setStrokeColor(ColorStateList.valueOf(orange));
         card.setStrokeWidth(4);
-        circle.setImageResource(R.drawable.circle_selected);
+        circle.setImageResource(R.drawable.survey_circle_selected);
         circle.setImageTintList(ColorStateList.valueOf(orange));
     }
 
