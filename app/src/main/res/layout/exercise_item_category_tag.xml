@@ -5,11 +5,17 @@
     style="@style/Widget.MaterialComponents.Chip.Action"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    app:chipStartPadding="12dp"
+    app:chipEndPadding="12dp"
+
     android:clickable="false"
     android:focusable="false"
+
     android:textColor="@color/black_colour"
     android:textSize="14sp"
+    android:textAlignment="center"
     android:contentDescription="@string/exercise_item_chip_category_description"
+
     app:chipBackgroundColor="@color/plus_button_background_colour"
     app:chipCornerRadius="8dp"
     app:chipStrokeWidth="0dp" />
