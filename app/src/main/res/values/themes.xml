@@ -24,6 +24,10 @@
         <item name="cornerSize">8dp</item>
     </style>
 
+    <style name="RoundedCornersGallery">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
 
     <style name="Theme.FitnessCalendar" parent="Base.Theme.FitnessCalendar" />
 </resources>
