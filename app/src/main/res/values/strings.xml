@@ -131,12 +131,22 @@
     <string name="colour_picker_description">Colour Picker</string>
 
 <!--    Workout item screen -->
-    <string name="workout_title">Workout Title</string>
+    <string name="workout_item_title">Workout Title</string>
     <string name="workout_item_description">Description</string>
     <string name="workout_item_description_text">Description Text</string>
     <string name="workout_item_notes">Notes</string>
     <string name="workout_item_notes_text">Notes Text</string>
 
     <string name="exercises">Exercises</string>
+
+<!--    Exercise item screen -->
+    <string name="exercise_item_title">Exercise Title</string>
+    <string name="exercise_item_description">Description</string>
+    <string name="exercise_item_description_text">Description Text</string>
+    <string name="exercise_item_notes">Notes</string>
+    <string name="esercise_item_notes_text">Notes Text</string>
+
+    <string name="exercise_item_chip_category_description">Muscles Categories List</string>
+
 
 </resources>
