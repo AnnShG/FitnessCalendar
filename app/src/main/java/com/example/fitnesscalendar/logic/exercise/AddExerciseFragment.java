@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
-import com.example.fitnesscalendar.databinding.ProfileScreenBinding;
 
 import lombok.NonNull;
 
@@ -44,7 +43,7 @@ public class AddExerciseFragment extends Fragment {
     private void addNewStep() {
         stepCount++;
 
-        View stepView = getLayoutInflater().inflate(R.layout.item_step_row, null);
+        View stepView = getLayoutInflater().inflate(R.layout.new_item_step_row, null);
 
         TextView number = stepView.findViewById(R.id.stepNumber);
         number.setText(String.valueOf(stepCount));
