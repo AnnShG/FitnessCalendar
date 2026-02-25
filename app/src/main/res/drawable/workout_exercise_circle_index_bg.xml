@@ -6,7 +6,5 @@
         android:width="24dp"
         android:height="24dp" />
 
-    <solid android:color="@color/workout_circle_indicator_choice_colour" />
-    <stroke> </stroke>
-
+    <solid android:color="@color/step_number_circle_bg_colour" />
 </shape>

@@ -66,9 +66,12 @@
     <color name="workout_circle_indicator_purple_colour">#C177D8</color>
     <color name="workout_circle_indicator_red_colour">#F95151</color>
     <color name="workout_circle_indicator_dark_blue_colour">#3D40DB</color>
+    <color name="plus_picker_colour">#F05A09</color>
 
     <color name="workout_circle_indicator_choice_colour">#FFFFFF</color>
     <color name="workout_circle_indicator_choice_colour_stroke">#897F7F</color>
+
+    <color name="workout_left_side_control_icons_colour">#F05A09</color>
 
 
 

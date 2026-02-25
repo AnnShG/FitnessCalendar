@@ -128,4 +128,7 @@
     <string name="workout_exercise_title_text">Title</string>
     <string name="workout_add_exercise_button">Add Exercise</string>
 
+    <string name="colour_picker_description">Colour Picker</string>
+
+
 </resources>
