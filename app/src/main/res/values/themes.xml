@@ -29,5 +29,14 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="CustomDropDownMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">@color/menu_bg_colour</item>
+        <item name="android:textColor">@color/menu_text_colour</item>
+    </style>
+
+    <style name="CustomOverflow" parent="Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:src">@null</item>
+    </style>
+
     <style name="Theme.FitnessCalendar" parent="Base.Theme.FitnessCalendar" />
 </resources>

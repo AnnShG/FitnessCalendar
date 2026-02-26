@@ -81,6 +81,12 @@
     <!--    Mindset window-->
     <string name="quote_author_text">Author</string>
 
+<!--    Plus drop-down menu-->
+    <string name="menu_add_exercise">Add Exercise</string>
+    <string name="menu_add_workout">Add Workout</string>
+    <string name="menu_plan_program">Plan Program</string>
+
+
 <!--    Navigation Bottom Bar-->
     <string name="icon_home_title"></string>
     <string name="icon_graphs_title"></string>
@@ -144,7 +150,7 @@
     <string name="exercise_item_description">Description</string>
     <string name="exercise_item_description_text">Description Text</string>
     <string name="exercise_item_notes">Notes</string>
-    <string name="esercise_item_notes_text">Notes Text</string>
+    <string name="exercise_item_notes_text">Notes Text</string>
 
     <string name="exercise_item_chip_category_description">Muscles Categories List</string>
 
