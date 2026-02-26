@@ -57,11 +57,11 @@
 
         <action
             android:id="@+id/action_CalendarHomePage_to_AddExerciseScreen"
-            app:destination="@+id/add_exercise_screen" />
+            app:destination="@+id/AddExerciseScreen" />
 
         <action
             android:id="@+id/action_CalendarHomePage_to_AddWorkoutScreen"
-            app:destination="@+id/add_workout_screen" />
+            app:destination="@+id/AddWorkoutScreen" />
 
 <!--        <action-->
 <!--            android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"-->

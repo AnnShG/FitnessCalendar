@@ -67,7 +67,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             }
 
             popup.setOnMenuItemClickListener(item -> {
-                int id = item.getItemId();
+                int id = item.getItemId(); // item (tag) id that is one menu.xml
                 if (id == R.id.action_add_exercise) {
                     Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
                     return true;
