@@ -4,11 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,17 +44,45 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         super.onViewCreated(view, savedInstanceState);
 
         // 'v' represents the View that was clicked
-//        binding.plusButton.setOnClickListener(v -> {
-//            // Create the PopupMenu anchored to the plusButton
-//            PopupMenu popup = new PopupMenu(requireContext(), v);
-//            popup.getMenuInflater().inflate(R.menu.plus_dropdown_menu, popup.getMenu());
-//            // Handle menu item clicks
-//            popup.setOnMenuItemClickListener(item -> {
-//                // Example: if (item.getItemId() == R.id.add_activity) { ... }
-//                return true;
-//            });
-//            popup.show();
-//        });
+        binding.plusButton.setOnClickListener(v -> {
+            // Create the PopupMenu anchored to the plusButton
+            PopupMenu popup = new PopupMenu(requireContext(), v);
+            popup.getMenuInflater().inflate(R.menu.plus_dropdown_menu, popup.getMenu());
+
+            try {
+                // Access the private field "mPopup" inside the PopupMenu class which holds the actual window logic
+                Field field = popup.getClass().getDeclaredField("mPopup");
+                // Grant permission to access this private field since it is normally hidden from developers
+                field.setAccessible(true);
+                // Retrieve the actual 'MenuPopupHelper' object instance from our popup instance
+                Object menuPopupHelper = field.get(popup);
+                // Load the internal Android class 'MenuPopupHelper' by its full package name string
+                Class<?> cls = Class.forName("com.android.internal.view.menu.MenuPopupHelper");
+                // Locate the hidden method named 'setForceShowIcon' that accepts a single boolean parameter
+                Method method = cls.getDeclaredMethod("setForceShowIcon", boolean.class);
+                // Invoke (run) that method on our menuPopupHelper instance, passing 'true' to force icons to show
+                method.invoke(menuPopupHelper, true);
+            } catch (Exception e) {
+                android.util.Log.w("CalendarHome", "Could not force icons in PopupMenu", e);
+            }
+
+            popup.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.action_add_exercise) {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddExercise);
+                    return true;
+                } else if (id == R.id.action_add_workout) {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddWorkout);
+                    return true;
+                } else if (id == R.id.action_plan_program) {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_PlanProgram);
+                    return true;
+                }
+                return false;
+            });
+
+            popup.show();
+        });
 
         adapter = new CalendarAdapter(daysList, this);
         binding.calendarRecyclerView.setAdapter(adapter);

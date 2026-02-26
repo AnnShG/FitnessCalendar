@@ -6,7 +6,7 @@
         android:title="@string/menu_add_exercise" />
     <item
         android:id="@+id/action_add_workout"
-        android:icon="@drawable/ic_workouts_list"
+        android:icon="@drawable/ic_workouts_list_orange"
         android:title="@string/menu_add_workout" />
     <item
         android:id="@+id/action_plan_program"
