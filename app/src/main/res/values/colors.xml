@@ -34,16 +34,22 @@
     <color name="plus_button_colour">#FFFAFA</color>
     <color name="plus_button_background_colour">#F05A09</color>
 
-<!--    Profile screen -->
-    <color name="goal_addition_bg_colour">#F7E8CF</color>
-    <color name="goal_addition_text_colour">#DA9215</color>
-    <color name="dumbbell_colour">#DA9215</color>
-    <color name="assignment_colour">#DA9215</color>
+<!--    Plus DropDown menu -->
+    <color name="menu_text_colour">#1C1C1C</color>
+    <color name="menu_bg_colour">#FFFFFF</color>
+
+
 
 <!--    Mindset window-->
     <color name="quote_author_text_colour">#F05A09</color>
     <color name="quote_window_bg_colour">#FFFFFF</color>
     <color name="quote_window_stroke_colour">#C5B9B9</color>
+
+    <!--    Profile screen -->
+    <color name="goal_addition_bg_colour">#F7E8CF</color>
+    <color name="goal_addition_text_colour">#DA9215</color>
+    <color name="dumbbell_colour">#DA9215</color>
+    <color name="assignment_colour">#DA9215</color>
 
 <!--    Add exercise screen-->
     <color name="add_exercise_media_container_bg_colour">#F8F4FF</color>
