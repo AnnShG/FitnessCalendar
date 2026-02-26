@@ -69,14 +69,14 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             popup.setOnMenuItemClickListener(item -> {
                 int id = item.getItemId();
                 if (id == R.id.action_add_exercise) {
-                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddExercise);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
                     return true;
                 } else if (id == R.id.action_add_workout) {
-                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddWorkout);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddWorkoutScreen);
                     return true;
-                } else if (id == R.id.action_plan_program) {
-                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_PlanProgram);
-                    return true;
+//                } else if (id == R.id.action_plan_program) {
+//                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_PlanProgramScreen);
+//                    return true;
                 }
                 return false;
             });
