@@ -155,5 +155,9 @@
 
     <string name="exercise_item_chip_category_description">Muscles Categories List</string>
 
+<!--    Exercise list screen -->
+    <string name="exercises_list_title">All Exercises</string>
+    <string name="exercises_filtered_text">Filtered by: </string>
+    <string name="exercises_filter_icon_description">Filter</string>
 
 </resources>
