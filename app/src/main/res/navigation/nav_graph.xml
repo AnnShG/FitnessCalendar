@@ -46,39 +46,42 @@
 
         <action
             android:id="@+id/action_SurveyPage4_to_CalendarHomePage"
-            app:destination="@id/navigationHome" />
+            app:destination="@id/CalendarHomePage" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigationHome"
+        android:id="@+id/CalendarHomePage"
         android:name="com.example.fitnesscalendar.logic.calendar.CalendarHomePageFragment"
         android:label="Calendar Home"
         tools:layout="@layout/calendar_home_page">
 
         <action
-            android:id="@+id/action_CalendarHomePage_to_AddExercise"
-            app:destination="@+id/add_exercise_screen" />
+            android:id="@+id/action_CalendarHomePage_to_AddExerciseScreen"
+            app:destination="@+id/AddExerciseScreen" />
 
         <action
-            android:id="@+id/action_CalendarHomePage_to_AddWorkout"
-            app:destination="@+id/add_workout_screen" />
+            android:id="@+id/action_CalendarHomePage_to_AddWorkoutScreen"
+            app:destination="@+id/AddWorkoutScreen" />
 
-        <action
-            android:id="@+id/action_CalendarHomePage_to_PlanProgram"
-            app:destination="@+id/plan_program_screen" />
+<!--        <action-->
+<!--            android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"-->
+<!--            app:destination="@+id/plan_program_screen" />-->
     </fragment>
 
     <fragment
-        android:id="@+id/addExerciseScreen"
-        android:name="com.example.fitnesscalendar.logic.exercise.AddExerciseFragment" />
+        android:id="@+id/AddExerciseScreen"
+        android:name="com.example.fitnesscalendar.logic.exercise.AddExerciseFragment"
+        tools:layout="@layout/add_exercise_screen"/>
 
     <fragment
-        android:id="@+id/addWorkoutScreen"
-        android:name="com.example.fitnesscalendar.logic.workout.AddWorkoutFragment" />
+        android:id="@+id/AddWorkoutScreen"
+        android:name="com.example.fitnesscalendar.logic.workout.AddWorkoutFragment"
+        tools:layout="@layout/add_workout_screen"/>
 
-    <fragment
-        android:id="@+id/planProgramScreen"
-        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment" />
+<!--    <fragment-->
+<!--        android:id="@+id/PlanProgramScreen"-->
+<!--        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment"-->
+<!--        tools:layout="@layout/plan_program_screen"/>-->
 
     <fragment
         android:id="@+id/navigationProfile"
@@ -91,7 +94,7 @@
         android:id="@+id/navigationGraphs"
         android:name="com.example.fitnesscalendar.logic.graphs.GraphScreenFragment"
         android:label="Profile"
-        tools:layout="@layout/profile_screen">
+        tools:layout="@layout/graphs_screen">
     </fragment>
 
 

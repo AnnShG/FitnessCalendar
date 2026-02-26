@@ -3,8 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
-    android:background="@color/home_page_background_colour">
+    android:background="@color/home_page_background_colour"
+    tools:context=".logic.exercise.AddExerciseFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -45,6 +47,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:background="@color/add_exercise_media_container_bg_colour"
 
+            android:contentDescription="@string/add_exercise_media_description"
             app:strokeColor="@color/black_colour"
             app:strokeWidth="1dp"
             app:shapeAppearanceOverlay="@style/RoundedCorners"

@@ -103,6 +103,7 @@
 
 <!--    Add exercise screen-->
     <string name="add_exercise_title">Add Exercise</string>
+    <string name="add_exercise_media_description">New exercise image</string>
     <string name="exercise_title">Title</string>
     <string name="exercise_description">Description</string>
     <string name="exercise_steps">Steps</string>
