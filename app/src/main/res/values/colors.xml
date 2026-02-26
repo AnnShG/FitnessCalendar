@@ -37,8 +37,7 @@
 <!--    Plus DropDown menu -->
     <color name="menu_text_colour">#1C1C1C</color>
     <color name="menu_bg_colour">#FFFFFF</color>
-
-
+    <color name="icon_workout_list_colour">#F05A09</color>
 
 <!--    Mindset window-->
     <color name="quote_author_text_colour">#F05A09</color>

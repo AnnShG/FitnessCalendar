@@ -54,7 +54,31 @@
         android:name="com.example.fitnesscalendar.logic.calendar.CalendarHomePageFragment"
         android:label="Calendar Home"
         tools:layout="@layout/calendar_home_page">
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_AddExercise"
+            app:destination="@+id/add_exercise_screen" />
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_AddWorkout"
+            app:destination="@+id/add_workout_screen" />
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_PlanProgram"
+            app:destination="@+id/plan_program_screen" />
     </fragment>
+
+    <fragment
+        android:id="@+id/addExerciseScreen"
+        android:name="com.example.fitnesscalendar.logic.exercise.AddExerciseFragment" />
+
+    <fragment
+        android:id="@+id/addWorkoutScreen"
+        android:name="com.example.fitnesscalendar.logic.workout.AddWorkoutFragment" />
+
+    <fragment
+        android:id="@+id/planProgramScreen"
+        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment" />
 
     <fragment
         android:id="@+id/navigationProfile"
