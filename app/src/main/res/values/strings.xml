@@ -159,5 +159,11 @@
     <string name="exercises_list_title">All Exercises</string>
     <string name="exercises_filtered_text">Filtered by: </string>
     <string name="exercises_filter_icon_description">Filter</string>
+    Workouts
+
+<!--    Workout list screen -->
+    <string name="workout_list_title">All Workouts</string>
+    <string name="workout_filtered_text">Filtered by: </string>
+    <string name="workout_filter_icon_description">Filter</string>
 
 </resources>
