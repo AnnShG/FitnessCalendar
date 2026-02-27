@@ -78,6 +78,9 @@
 
     <color name="workout_left_side_control_icons_colour">#F05A09</color>
 
+<!--    Exercises list screen-->
+    <color name="exercises_icon_filter_colour">#F05A09</color>
+
 
 
 </resources>
