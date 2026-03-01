@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_graphs_nav_button"
         android:title="@string/icon_graphs_title" />
     <item
-        android:id="@+id/navigationHome"
+        android:id="@+id/CalendarHomePage"
         android:icon="@drawable/ic_home_nav_button"
         android:title="@string/icon_home_title" />
     <item

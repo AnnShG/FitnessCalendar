@@ -27,7 +27,7 @@ import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.entities.WorkoutExerciseCrossRef;
 
 @Database(entities= {User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 2)
+        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 3)
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {

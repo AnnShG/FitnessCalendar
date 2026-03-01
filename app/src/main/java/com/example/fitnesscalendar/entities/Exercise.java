@@ -15,8 +15,8 @@ public class Exercise {
     @PrimaryKey(autoGenerate = true)
     private Long exerciseId;
 
-    @ColumnInfo(name = "name")
-    public String name;
+    @ColumnInfo(name = "title")
+    public String title;
 
     @ColumnInfo(name = "description")
     public String description;
@@ -29,6 +29,9 @@ public class Exercise {
 
     @ColumnInfo(name = "difficulty_level")
     public String difficultyLevel;
+
+    @ColumnInfo(name = "category")
+    public String category;
 
     @ColumnInfo(name = "user_created")
     public Boolean userCreated;
