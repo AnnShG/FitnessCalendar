@@ -11,7 +11,8 @@ import com.example.fitnesscalendar.entities.Workout;
 import java.util.List;
 
 public class UsersWithWorkouts {
-    @Embedded public User user;
+    @Embedded
+    public User user;
     @Relation(
             parentColumn = "id",
             entityColumn = "workoutId",

@@ -51,7 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "fitness_calendar_db"
-                    ) // Use this to replace the deprecated method
+                    )
                             .fallbackToDestructiveMigration(true)
                             .build();
                 }

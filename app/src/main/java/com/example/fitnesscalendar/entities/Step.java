@@ -14,23 +14,22 @@ import lombok.Data;
         tableName = "steps",
         foreignKeys = @ForeignKey(
                 entity = Exercise.class, // parent entity
-                parentColumns = "exerciseId",
+                parentColumns = "id",
                 childColumns = "exercise_id",
                 onDelete = ForeignKey.CASCADE
         ),
         indices = {@Index("exercise_id")} // for each set of steps its own exercise
 )
 public class Step {
-
     @PrimaryKey(autoGenerate = true)
-    public long id;
+    public long stepId;
 
     @ColumnInfo(name = "exercise_id")
     public long exerciseId; // foreign key to Exercise
 
-    @ColumnInfo(name = "step_number")
-    public int stepNumber;
-
     @ColumnInfo(name = "description")
     public String description;
+
+    @ColumnInfo(name = "stepNumber")
+    public int stepNumber;
 }

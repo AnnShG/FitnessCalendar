@@ -10,10 +10,13 @@ import lombok.Data;
 @Entity(tableName = "exercises")
 public class Exercise {
     //id, name, description,
-    // picutur, steps, notes, difficulty level, user_created
+    // picture, steps, notes, category, difficulty level, user_created
 
     @PrimaryKey(autoGenerate = true)
     private Long exerciseId;
+
+    @ColumnInfo(name = "picture_path")
+    public String picturePath;
 
     @ColumnInfo(name = "title")
     public String title;
@@ -21,17 +24,11 @@ public class Exercise {
     @ColumnInfo(name = "description")
     public String description;
 
-    @ColumnInfo(name = "picture_path")
-    public String picturePath;
-
     @ColumnInfo(name = "notes")
     public String notes;
 
-    @ColumnInfo(name = "difficulty_level")
-    public String difficultyLevel;
-
-    @ColumnInfo(name = "category")
-    public String category;
+//    @ColumnInfo(name = "difficulty_level")
+//    public String difficultyLevel;
 
     @ColumnInfo(name = "user_created")
     public Boolean userCreated;
