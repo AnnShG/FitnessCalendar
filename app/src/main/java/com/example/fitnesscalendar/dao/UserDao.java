@@ -35,6 +35,10 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE user_id = :userId")
     LiveData<UserWithGoals> getUserWithGoals(long userId);
 
+    @Transaction
+    @Query("SELECT * FROM users LIMIT 1") // one user
+    LiveData<UserWithGoals> getLatestUserWithGoals();
+
 //    @Transaction
 //    @Query("SELECT * FROM users WHERE user_id = :id")
 //    public UsersWithWorkouts getUserWithWorkouts(long id);

@@ -2,11 +2,14 @@ package com.example.fitnesscalendar.repository;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.fitnesscalendar.dao.GoalDao;
 import com.example.fitnesscalendar.dao.UserDao;
 import com.example.fitnesscalendar.database.AppDatabase;
 import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.entities.User;
+import com.example.fitnesscalendar.relations.UserWithGoals;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -37,5 +40,9 @@ public class UserRepository {
                 goalDao.insert(goal);
             }
         });
+    }
+
+    public LiveData<UserWithGoals> getLatestUser() {
+        return userDao.getLatestUserWithGoals();
     }
 }
