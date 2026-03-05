@@ -8,7 +8,7 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.relations.WorkoutWithExercises;
+//import com.example.fitnesscalendar.relations.WorkoutWithExercises;
 
 @Dao
 public interface WorkoutDao {
@@ -22,7 +22,7 @@ public interface WorkoutDao {
     @Delete
     void delete(Workout workout);
 
-    @Transaction
-    @Query("SELECT * FROM workouts WHERE workoutId = :workoutId")
-    public WorkoutWithExercises getWorkoutWithExercises(long workoutId);
+//    @Transaction
+//    @Query("SELECT * FROM workouts WHERE workoutId = :workoutId")
+//    public WorkoutWithExercises getWorkoutWithExercises(long workoutId);
 }

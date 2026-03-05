@@ -3,15 +3,10 @@ package com.example.fitnesscalendar.logic.exercise;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
-import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.repository.ExerciseRepository;
 
 import org.jetbrains.annotations.NotNull;
-
-
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +23,7 @@ public class ExerciseViewModel extends AndroidViewModel {
     private String description;
     @Setter
     @Getter
-    private String picturePath;
+    private String mediaUri;
     @Setter
     @Getter
     public String notes;
@@ -50,24 +45,24 @@ public class ExerciseViewModel extends AndroidViewModel {
 //        allExercises = repository.getAllExercises();
     }
 
-    public void insert(Exercise exercise) {
-        repository.insert(exercise);
-    }
+//    public void insert(Exercise exercise) {
+//        repository.insert(exercise);
+//    }
 
 //    public LiveData<List<Exercise>> getAllExercises() {
 //        return allExercises;
 //    }
 
-    public void saveUserProfileToDatabase() {
-        Exercise newExercise = new Exercise();
-        newExercise.setExerciseId(this.getExerciseId());
-        newExercise.setTitle(this.getTitle());
-        newExercise.setDescription(this.getDescription());
-        newExercise.setPicturePath(this.getPicturePath());
-        newExercise.setNotes(this.getNotes());
-        newExercise.setDifficultyLevel(this.getDifficultyLevel());
-        newExercise.setUserCreated(this.getUserCreated());
-
-        repository.insert(newExercise);
-    }
+//    public void saveUserProfileToDatabase() {
+//        Exercise newExercise = new Exercise();
+//        newExercise.setExerciseId(this.getExerciseId());
+//        newExercise.setTitle(this.getTitle());
+//        newExercise.setDescription(this.getDescription());
+//        newExercise.setMediaUri(this.getMediaUri());
+//        newExercise.setNotes(this.getNotes());
+////        newExercise.setDifficultyLevel(this.getDifficultyLevel());
+//        newExercise.setUserCreated(this.getUserCreated());
+//
+//        repository.insert(newExercise);
+//    }
 }

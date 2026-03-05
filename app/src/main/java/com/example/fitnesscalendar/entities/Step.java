@@ -13,9 +13,9 @@ import lombok.Data;
 @Entity(
         tableName = "steps",
         foreignKeys = @ForeignKey(
-                entity = Exercise.class, // parent entity
-                parentColumns = "id",
-                childColumns = "exercise_id",
+                entity = Exercise.class, // parent entity (step is dependent on exercise)
+                parentColumns = "exercise_id", // Exercise PK, should match id in entity
+                childColumns = "exercise_id", // FK in Steps - the link to Exercise entity
                 onDelete = ForeignKey.CASCADE
         ),
         indices = {@Index("exercise_id")} // for each set of steps its own exercise
@@ -30,6 +30,6 @@ public class Step {
     @ColumnInfo(name = "description")
     public String description;
 
-    @ColumnInfo(name = "stepNumber")
+    @ColumnInfo(name = "step_number")
     public int stepNumber;
 }

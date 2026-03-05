@@ -40,7 +40,6 @@ public class ExercisesListFragment extends Fragment {
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
 
         recyclerView.setLayoutManager(layoutManager);
-
     }
 
     @Override

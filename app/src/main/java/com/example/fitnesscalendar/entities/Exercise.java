@@ -13,10 +13,11 @@ public class Exercise {
     // picture, steps, notes, category, difficulty level, user_created
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "exercise_id")
     private Long exerciseId;
 
-    @ColumnInfo(name = "picture_path")
-    public String picturePath;
+    @ColumnInfo(name = "media_uri")
+    public String mediaUri;
 
     @ColumnInfo(name = "title")
     public String title;
