@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.entities.User;
 
@@ -31,6 +32,9 @@ public class SurveyViewModel extends AndroidViewModel {
     @Setter
     @Getter
     private Set<String> selectedGoals = new HashSet<>();
+    @Setter
+    @Getter
+    private String customGoal;
 
     public void toggleGoal(String goals) {
         if (selectedGoals.contains(goals)) {
@@ -54,14 +58,29 @@ public class SurveyViewModel extends AndroidViewModel {
         newUser.setBirthDate(this.getBirthDate());
         newUser.setGender(this.getGender());
 
+
+        // 2. Prepare the List of Goal Entities from the selected Set
+        ArrayList<Goal> goalEntities = new ArrayList<>();
+
         // Convert the Set to an ArrayList for the Entity
-//        newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
         if (this.getSelectedGoals() != null) {
-            newUser.setGoals(new ArrayList<>(this.getSelectedGoals()));
+            for (String goalText : this.getSelectedGoals()) {
+                Goal goalEntry = new Goal();
+                goalEntry.setGoalText(goalText);
+                goalEntry.setCustom(false);
+                goalEntities.add(goalEntry);
+            }
         }
-        // 2. Use the REPOSITORY (not 'database') to save
-        // The repository handles the background thread, so just call insert:
-        repository.insert(newUser);
+
+        if (this.getCustomGoal() != null && !this.getCustomGoal().isEmpty()) {
+            Goal customEntry = new Goal();
+            customEntry.setGoalText(this.getCustomGoal());
+            customEntry.setCustom(true); // Mark as custom for the Profile logic
+            goalEntities.add(customEntry);
+        }
+        // 2. Use the REPOSITORY (not database) to save
+        // The repository handles the background thread
+        repository.insertUserWithGoals(newUser, goalEntities);
     }
 
 }

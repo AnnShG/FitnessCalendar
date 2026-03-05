@@ -14,6 +14,7 @@ import lombok.Data;
 @Entity(tableName = "users")
 public class User {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "user_id")
     private Long id;
 
     @ColumnInfo(name = "name")
@@ -24,8 +25,4 @@ public class User {
 
     @ColumnInfo(name = "gender")
     public String gender;
-
-    @ColumnInfo(name = "goals")
-    private List<String> goals;
-
 }
