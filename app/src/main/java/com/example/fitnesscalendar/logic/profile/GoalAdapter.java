@@ -15,11 +15,23 @@ import java.util.List;
 
 // Adapter is a part of a Recycler system - dynamically creates that frames that may fit the screen
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder> {
+    private OnGoalEditListener listener;
+
     private List<Goal> goals = new ArrayList<>();
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
         notifyDataSetChanged();
+    }
+
+    @FunctionalInterface
+    public interface OnGoalEditListener {
+        void onEditClick(Goal goal);
+    }
+
+    //  constructor to receive the listener
+    public GoalAdapter(OnGoalEditListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,6 +48,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
     public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
         Goal currentGoal = goals.get(position);
         holder.binding.goalText.setText(currentGoal.getGoalText());
+
+        // Visibility logic
+        holder.binding.editGoalButton.setVisibility(currentGoal.isCustom() ? View.VISIBLE : View.GONE);
+
+        // Set the click listener on the pencil icon
+        holder.binding.editGoalButton.setOnClickListener(v -> {
+            listener.onEditClick(currentGoal);
+        });
 
         // Logic to show edit button only for custom goals
         if (currentGoal.isCustom()) {

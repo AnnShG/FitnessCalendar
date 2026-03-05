@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fitnesscalendar.databinding.ProfileScreenBinding;
+import com.example.fitnesscalendar.entities.Goal;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.Nullable;
@@ -35,7 +38,7 @@ public class ProfileScreenFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // 1. Initialize the adapter (you already declared 'goalAdapter' at the top)
-        goalAdapter = new GoalAdapter();
+        goalAdapter = new GoalAdapter(goal -> showEditDialog(goal));
 
         // 2. Setup the RecyclerView
         binding.goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -56,6 +59,28 @@ public class ProfileScreenFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void showEditDialog(Goal goal) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Edit Goal");
+
+        // Add an EditText to the dialog
+        final EditText input = new EditText(requireContext());
+        input.setText(goal.getGoalText());
+        builder.setView(input);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String newText = input.getText().toString().trim();
+            if (!newText.isEmpty()) {
+                goal.setGoalText(newText);
+                // 3. Tell ViewModel to save the change
+                viewModel.updateGoal(goal);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
     @Override

@@ -7,15 +7,19 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(tableName = "users")
 public class User {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "user_id")
-    private Long id;
+    public Long id;
 
     @ColumnInfo(name = "name")
     public String name;

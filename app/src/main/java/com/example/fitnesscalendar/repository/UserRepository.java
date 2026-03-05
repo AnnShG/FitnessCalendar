@@ -12,6 +12,7 @@ import com.example.fitnesscalendar.entities.User;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class UserRepository {
@@ -44,5 +45,19 @@ public class UserRepository {
 
     public LiveData<UserWithGoals> getLatestUser() {
         return userDao.getLatestUserWithGoals();
+    }
+
+    public void updateGoal(Goal goal) {
+        databaseExecutor.execute(() -> {
+            goalDao.update(goal);
+        });
+    }
+
+    public boolean hasUser() {
+        return userDao.getUserCount() > 0;
+    }
+
+    public Executor getDatabaseExecutor() {
+        return databaseExecutor;
     }
 }

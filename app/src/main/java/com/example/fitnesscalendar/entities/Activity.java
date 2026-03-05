@@ -14,7 +14,7 @@ public class Activity {
     //id, date, completed
 
     @PrimaryKey(autoGenerate = true)
-    private Long id;
+    public Long id;
 
     @ColumnInfo(name = "date")
     public Date date;

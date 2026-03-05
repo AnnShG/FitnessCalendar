@@ -12,12 +12,12 @@ import lombok.Data;
 @Entity(tableName = "calendar_days")
 public class CalendarDay {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    public long id;
 
     @ColumnInfo(name = "date")
-    private Date date;
+    public Date date;
 
     @ColumnInfo(name = "completed")
-    private boolean completed;
+    public boolean completed;
 
 }

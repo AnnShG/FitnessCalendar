@@ -29,9 +29,15 @@ import com.example.fitnesscalendar.relations.UserWorkoutCrossRef;
 import com.example.fitnesscalendar.entities.Workout;
 //import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
 
-@Database(entities= {User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-        Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
-        ExerciseCategoryCrossRef.class}, version = 6)
+@Database(
+        entities= {
+                User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
+                Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
+                ExerciseCategoryCrossRef.class
+},
+        version = 8,
+        exportSchema = false
+)
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {
@@ -56,7 +62,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             AppDatabase.class,
                             "fitness_calendar_db"
                     )
-                            .fallbackToDestructiveMigration(true)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

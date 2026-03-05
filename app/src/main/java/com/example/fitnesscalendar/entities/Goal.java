@@ -23,13 +23,13 @@ import lombok.Data;
 public class Goal {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "goal_id")
-    private long goalId;
+    public long goalId;
 
     @ColumnInfo(name = "user_id")
-    private long userId;
+    public long userId;
 
     @ColumnInfo(name = "goal_text")
-    private String goalText;
+    public String goalText;
 
     @ColumnInfo(name = "is_custom")
     public boolean isCustom;

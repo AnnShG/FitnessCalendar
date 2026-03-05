@@ -13,7 +13,7 @@ public class Category {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "category_id")
-    private Long id;
+    public Long id;
 
     @ColumnInfo(name = "name")
     public String name;

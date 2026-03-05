@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 
@@ -20,5 +22,10 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public LiveData<UserWithGoals> getProfileData() {
         return repository.getLatestUser();
+    }
+
+    // Inside ProfileViewModel.java
+    public void updateGoal(Goal goal) {
+        repository.updateGoal(goal);
     }
 }
