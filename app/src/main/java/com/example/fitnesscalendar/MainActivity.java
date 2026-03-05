@@ -35,15 +35,11 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = navHostFragment.getNavController();
             UserRepository repo = new UserRepository(getApplication());
 
-            // 1. SETUP BOTTOM NAV IMMEDIATELY
             BottomNavigationView bottomNav = binding.bottomNavigation;
             NavigationUI.setupWithNavController(bottomNav, navController);
 
-            // 2. NAVIGATE TO HOME IF USER EXISTS (Background Thread)
-            // We use the executor from the repository to avoid crashing the Main Thread
             repo.getDatabaseExecutor().execute(() -> {
                 if (repo.hasUser()) {
-                    // Once we have the answer from DB, we switch back to the UI thread to navigate
                     runOnUiThread(() -> {
                         NavGraph navGraph = navController.getNavInflater().inflate(R.navigation.nav_graph);
                         navGraph.setStartDestination(R.id.CalendarHomePage);
@@ -52,10 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // 3. VISIBILITY LISTENER
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
-                // Show nav bar on Home, Profile, and Graphs
                 if (id == R.id.CalendarHomePage || id == R.id.navigationProfile || id == R.id.navigationGraphs) {
                     bottomNav.setVisibility(View.VISIBLE);
                 } else {
