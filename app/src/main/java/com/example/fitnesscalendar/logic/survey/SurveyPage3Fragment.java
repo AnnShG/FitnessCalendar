@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -50,24 +51,31 @@ public class SurveyPage3Fragment extends Fragment {
 
         // --- NAVIGATION ---
         binding.continueButton.setOnClickListener(v -> {
-            // 1. Get the custom goal from the EditText (if any)
-            String customGoal = "";
-            if (binding.userInputGoal.getText() != null) {
-                customGoal = binding.userInputGoal.getText().toString().trim();
-            }
+            // 1. Get the text from the EditText
+            String userTypedGoal = binding.userInputGoal.getText().toString().trim();
 
-            // 2. Validation: Check if both selections AND text field are empty
-            if (viewModel.getSelectedGoals().isEmpty() && customGoal.isEmpty())  {
-                android.widget.Toast.makeText(requireContext(),
-                        "Please select at least one goal or write your own",
-                        android.widget.Toast.LENGTH_SHORT).show();
+            // 2. Save it to the ViewModel
+            viewModel.setCustomGoal(userTypedGoal);
+
+            // 3. Validation: Check if they picked a card OR typed something
+            if (viewModel.getSelectedGoals().isEmpty() && userTypedGoal.isEmpty()) {
+                Toast.makeText(requireContext(), "Please select a goal or write your own", Toast.LENGTH_SHORT).show();
             } else {
-                if (!customGoal.isEmpty()) {
-                    viewModel.toggleGoal(customGoal);
-                }
-
-                NavHostFragment.findNavController(this).navigate(R.id.action_SurveyPage3_to_SurveyPage4);
+                // Navigate to Page 4
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_SurveyPage3_to_SurveyPage4);
             }
+
+//            if (binding.userInputGoal.getText() != null) {
+//                customGoal = binding.userInputGoal.getText().toString().trim();
+//            }
+//              else {
+//                if (!customGoal.isEmpty()) {
+//                    viewModel.toggleGoal(customGoal);
+//                }
+//
+//                NavHostFragment.findNavController(this).navigate(R.id.action_SurveyPage3_to_SurveyPage4);
+//            }
         });
 
         binding.backButton.setOnClickListener(v ->
@@ -104,8 +112,6 @@ public class SurveyPage3Fragment extends Fragment {
         circle.setImageResource(R.drawable.survey_circle_selected);
         circle.setImageTintList(ColorStateList.valueOf(orange));
     }
-
-
 
     private void restoreSelectionUI(String goal) {
         switch (goal) {

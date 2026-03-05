@@ -1,10 +1,36 @@
 package com.example.fitnesscalendar.entities;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import lombok.Data;
+
+// 1:M
+@Data
+@Entity(
+        tableName = "goals",
+        foreignKeys = @ForeignKey(
+                entity = User.class,
+                parentColumns = "user_id", // points to user's PK
+                childColumns = "user_id", // points to goal's FK
+                onDelete = ForeignKey.CASCADE
+        ),
+        indices = {@Index("user_id")}
+)
 public class Goal {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    @ColumnInfo(name = "goal_id")
+    public long goalId;
 
-    private String title;
+    @ColumnInfo(name = "user_id")
+    public long userId;
+
+    @ColumnInfo(name = "goal_text")
+    public String goalText;
+
+    @ColumnInfo(name = "is_custom")
+    public boolean isCustom;
 }

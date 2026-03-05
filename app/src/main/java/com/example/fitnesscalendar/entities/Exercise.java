@@ -14,7 +14,7 @@ public class Exercise {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exercise_id")
-    private Long exerciseId;
+    public Long exerciseId;
 
     @ColumnInfo(name = "media_uri")
     public String mediaUri;
