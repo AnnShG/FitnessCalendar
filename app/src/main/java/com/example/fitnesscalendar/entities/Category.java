@@ -12,6 +12,7 @@ public class Category {
     //id, name
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "category_id")
     private Long id;
 
     @ColumnInfo(name = "name")

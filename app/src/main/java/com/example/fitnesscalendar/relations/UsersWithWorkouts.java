@@ -5,13 +5,13 @@ import androidx.room.Junction;
 import androidx.room.Relation;
 
 import com.example.fitnesscalendar.entities.User;
-import com.example.fitnesscalendar.entities.UserWorkoutCrossRef;
 import com.example.fitnesscalendar.entities.Workout;
 
 import java.util.List;
 
 public class UsersWithWorkouts {
-    @Embedded public User user;
+    @Embedded
+    public User user;
     @Relation(
             parentColumn = "id",
             entityColumn = "workoutId",

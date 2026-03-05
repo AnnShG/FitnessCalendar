@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.entities;
+package com.example.fitnesscalendar.relations;
 
 import androidx.room.Entity;
 

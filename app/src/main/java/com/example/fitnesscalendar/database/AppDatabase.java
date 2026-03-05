@@ -22,26 +22,27 @@ import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Quote;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.entities.User;
-import com.example.fitnesscalendar.entities.UserWorkoutCrossRef;
+import com.example.fitnesscalendar.relations.ExerciseCategoryCrossRef;
+import com.example.fitnesscalendar.relations.UserWorkoutCrossRef;
 import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.entities.WorkoutExerciseCrossRef;
+//import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
 
 @Database(entities= {User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-        Category.class, Activity.class, Step.class, WorkoutExerciseCrossRef.class, UserWorkoutCrossRef.class}, version = 2)
+        Category.class, Activity.class, Step.class, UserWorkoutCrossRef.class,
+        ExerciseCategoryCrossRef.class}, version = 4)
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {
-
     private static volatile AppDatabase INSTANCE;
 
     public abstract UserDao userDao();
     public abstract CalendarDayDao calendarDayDao();
     public abstract QuoteDao quoteDao();
     public abstract ExerciseDao exerciseDao();
-    public abstract WorkoutDao workoutDao();
     public abstract CategoryDao categoryDao();
-    public abstract ActivityDao activityDao();
     public abstract StepDao stepDao();
+    public abstract WorkoutDao workoutDao();
+    public abstract ActivityDao activityDao();
 
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
@@ -51,7 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "fitness_calendar_db"
-                    ) // Use this to replace the deprecated method
+                    )
                             .fallbackToDestructiveMigration(true)
                             .build();
                 }

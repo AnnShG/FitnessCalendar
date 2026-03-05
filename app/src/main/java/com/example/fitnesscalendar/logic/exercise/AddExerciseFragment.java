@@ -7,15 +7,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
+import com.example.fitnesscalendar.logic.survey.SurveyViewModel;
 
 import lombok.NonNull;
 
 public class AddExerciseFragment extends Fragment {
 
     private AddExerciseScreenBinding binding;
+    private ExerciseViewModel viewModel;
+
     private int stepCount = 0;
 
 
@@ -24,7 +28,6 @@ public class AddExerciseFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = AddExerciseScreenBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -32,6 +35,8 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class); // creates a new ViewModel if not created
 
         addNewStep();
 
