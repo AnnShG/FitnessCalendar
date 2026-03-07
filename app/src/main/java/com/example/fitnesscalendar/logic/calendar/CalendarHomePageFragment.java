@@ -119,8 +119,20 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     private void updateCalendarUI() {
         daysList.clear();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        binding.monthAndYear.setText(sdf.format(currentDate.getTime()));
+        Calendar today = Calendar.getInstance();
+
+        SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        String monthYearText = monthYearFormat.format(currentDate.getTime());
+
+        boolean isCurrentMonth = (currentDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                currentDate.get(Calendar.YEAR) == today.get(Calendar.YEAR));
+
+        if (isCurrentMonth) {
+            int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
+            binding.monthAndYear.setText(dayOfMonth + " " + monthYearText);
+        } else {
+            binding.monthAndYear.setText(monthYearText);
+        }
 
         Calendar cal = (Calendar) currentDate.clone();
         cal.set(Calendar.DAY_OF_MONTH, 1);

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Exercise;
@@ -50,6 +51,12 @@ public class AddWorkoutFragment extends Fragment {
         binding.saveWorkoutButton.setOnClickListener(v -> {
             onSaveButtonClicked();
         });
+
+        binding.cancelWorkoutButton.setOnClickListener(v -> {
+                    NavHostFragment.findNavController(this)
+                            .navigateUp();
+                }
+        );
     }
 
 
@@ -82,10 +89,7 @@ public class AddWorkoutFragment extends Fragment {
 
         }
 
-
     }
-
-
 
     @Override
     public void onDestroyView() {
