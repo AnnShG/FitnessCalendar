@@ -1,11 +1,18 @@
-//package com.example.fitnesscalendar.relations;
-//
-//import androidx.room.Entity;
-//import androidx.room.Index;
-//
-//@Entity(primaryKeys = {"workoutId", "exerciseId"},
-//        indices = {@Index("exerciseId")} )// improves query performance)
-//public class WorkoutExerciseCrossRef {
-//    public long workoutId; // FK
-//    public long exercise_id; // FK
-//}
+package com.example.fitnesscalendar.relations;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Index;
+
+@Entity(
+        tableName = "workout_exercise_cross_ref",
+        primaryKeys = {"workout_id", "exercise_id"},
+        indices = {@Index("exercise_id")} )// improves query performance
+
+public class WorkoutExerciseCrossRef {
+    @ColumnInfo(name = "workout_id")
+    public long workoutId; // FK
+
+    @ColumnInfo(name = "exercise_id")
+    public long exerciseId; // FK
+}

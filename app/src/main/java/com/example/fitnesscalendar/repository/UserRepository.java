@@ -13,6 +13,7 @@ import com.example.fitnesscalendar.relations.UserWithGoals;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class UserRepository {
@@ -21,7 +22,7 @@ public class UserRepository {
 
     // runs DB on background thread, because Android doesn't allow it to run on main thread
     // a single executor for the whole app
-    private static final java.util.concurrent.ExecutorService databaseExecutor =
+    private static final ExecutorService databaseExecutor =
             Executors.newFixedThreadPool(2);
 
     public UserRepository(Application app) {
@@ -44,7 +45,7 @@ public class UserRepository {
     }
 
     public LiveData<UserWithGoals> getLatestUser() {
-        return userDao.getLatestUserWithGoals();
+        return userDao.getLatestUser();
     }
 
     public void updateGoal(Goal goal) {

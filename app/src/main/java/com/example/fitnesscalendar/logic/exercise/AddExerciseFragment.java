@@ -33,8 +33,6 @@ public class AddExerciseFragment extends Fragment {
 
     private AddExerciseScreenBinding binding;
     private ExerciseViewModel exerciseViewModel;
-    private ProfileViewModel profileViewModel;
-
 
     private int stepCount = 0;
 
@@ -52,13 +50,10 @@ public class AddExerciseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class); // creates a new ViewModel if not created
-
         // 1. Get the current User ID from the database
-        profileViewModel = new ViewModelProvider(requireActivity()).get(ProfileViewModel.class);
-        // Assuming your repository/viewModel has a way to get the current user
-        // If you don't have this yet, you can fetch it from the DB:
-        profileViewModel.getProfileData().observe(getViewLifecycleOwner(), userWithGoals -> {
+        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
+
+        exerciseViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null) {
                 this.currentUserId = userWithGoals.user.getId();
             }
@@ -96,12 +91,12 @@ public class AddExerciseFragment extends Fragment {
         }
 
         String description = binding.exerciseDescriptionInput.getText().toString();
-        String notes = binding.exerciseNotesInput.getText().toString();
+        String note = binding.exerciseNotesInput.getText().toString();
 
         Exercise exercise = new Exercise();
         exercise.setTitle(title);
         exercise.setDescription(description);
-        exercise.setNotes(notes);
+        exercise.setNote(note);
 //        exercise.setUserCreated(true);
 
         if (currentUserId != null) {

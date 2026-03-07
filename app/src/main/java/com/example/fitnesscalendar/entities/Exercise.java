@@ -38,7 +38,7 @@ public class Exercise {
     public String description;
 
     @ColumnInfo(name = "notes")
-    public String notes;
+    public String note;
 
 //    @ColumnInfo(name = "difficulty_level")
 //    public String difficultyLevel;

@@ -3,10 +3,13 @@ package com.example.fitnesscalendar.logic.exercise;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
+import com.example.fitnesscalendar.relations.UserWithGoals;
 import com.example.fitnesscalendar.repository.ExerciseRepository;
+import com.example.fitnesscalendar.repository.UserRepository;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,15 +41,21 @@ public class ExerciseViewModel extends AndroidViewModel {
     @Getter
     public Boolean userCreated;
 
-    private final ExerciseRepository repository;
+    private final ExerciseRepository exerciseRepository;
+    private final UserRepository userRepository;
 
     public ExerciseViewModel(@NotNull Application app) {
         super(app);
-        repository = new ExerciseRepository(app);
+        exerciseRepository = new ExerciseRepository(app);
+        this.userRepository = new UserRepository(app);
+    }
+
+    public LiveData<UserWithGoals> getLoggedInUser() {
+        return userRepository.getLatestUser();
     }
 
     public void saveExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {
-        repository.insertFullExercise(exercise, steps, categoryIds);
+        exerciseRepository.insertFullExercise(exercise, steps, categoryIds);
     }
 
 }

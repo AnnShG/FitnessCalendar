@@ -37,7 +37,7 @@ public interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM users LIMIT 1") // one user
-    LiveData<UserWithGoals> getLatestUserWithGoals();
+    LiveData<UserWithGoals> getLatestUser();
 
     @Query("SELECT COUNT(*) FROM users")
     int getUserCount();
