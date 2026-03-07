@@ -30,6 +30,17 @@
         android:layout_marginTop="25dp"
         android:layout_marginStart="@dimen/margin_left" />
 
+    <LinearLayout
+        android:id="@+id/training_stats_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <TextView
         android:id="@+id/calendar_title"
         android:layout_width="wrap_content"
@@ -47,7 +58,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 6. Plus Button (Floating style on top) -->
+    <TextView
+        android:id="@+id/training_days_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/calendar_training_count_default"
+        android:fontFamily="@font/lexend_font"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/survey_text_black"
+        android:layout_marginTop="4dp" />
+</LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plusButton"
         android:layout_width="wrap_content"

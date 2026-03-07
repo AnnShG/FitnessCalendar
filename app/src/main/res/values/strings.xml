@@ -66,6 +66,7 @@
     <string name="plus_button_text">+</string>
     <string name="plus_button_description">Addition Dropdown</string>
     <string name="calendar_title_text">Training Days This Month</string>
+    <string name="calendar_training_count_default">0</string>
 
     <string name="arrow_back_description">Arrow Back</string>
     <string name="arrow_next_description">Arrow Next</string>
