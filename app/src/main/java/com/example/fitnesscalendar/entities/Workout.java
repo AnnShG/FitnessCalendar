@@ -12,7 +12,11 @@ public class Workout {
     //ig, name, description, notes, user_created
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "workout_id")
     public Long workoutId;
+
+    @ColumnInfo(name = "owner_id")
+    public Long ownerId;
 
     @ColumnInfo(name = "name")
     public String name;
