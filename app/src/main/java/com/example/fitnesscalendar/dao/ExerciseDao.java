@@ -38,6 +38,25 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercises")
     LiveData<List<ExerciseSummary>> getExerciseSummaries();
 
+    // Get ALL exercises
+    @Transaction
+    @Query("SELECT * FROM exercises WHERE owner_id IS NULL or owner_id = :userId")
+    LiveData<List<FullExerciseRecord>> getAvailableExercises(long userId);
+
+    // Get ONLY the exercises created by the user:
+    @Transaction
+    @Query("SELECT * FROM exercises WHERE owner_id = :userId")
+    LiveData<List<FullExerciseRecord>> getMyCustomExercises(long userId);
+
+    @Transaction
+    @Query("SELECT * FROM exercises WHERE owner_id IS NULL")
+    LiveData<List<FullExerciseRecord>> getPreDefinedExercises();
+
+    @Transaction
+    @Query("SELECT * FROM exercises WHERE exercise_id = :exerciseId")
+    LiveData<FullExerciseRecord> getExerciseById(long exerciseId);
+
+
 //    @Transaction
 //    @Query("SELECT * FROM exercises")
 //    public LiveData<List<ExercisesWithCategory>> getExercisesWithCategories();

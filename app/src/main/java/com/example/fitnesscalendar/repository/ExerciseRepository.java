@@ -47,8 +47,7 @@ public class ExerciseRepository {
         return allExerciseSummaries;
     }
 
-
-    // this method inserts steps and categories inside the exercise (WRITING into DB)
+    // this method inserts steps and categories inside the exercise (WRITING into DB) in the bg to not freeze the UI
     public void insertFullExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {
         // use the fixed thread pool defined at the top
         databaseExecutor.execute(() -> {

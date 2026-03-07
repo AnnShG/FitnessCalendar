@@ -65,17 +65,6 @@ public class SurveyPage3Fragment extends Fragment {
                 NavHostFragment.findNavController(this)
                         .navigate(R.id.action_SurveyPage3_to_SurveyPage4);
             }
-
-//            if (binding.userInputGoal.getText() != null) {
-//                customGoal = binding.userInputGoal.getText().toString().trim();
-//            }
-//              else {
-//                if (!customGoal.isEmpty()) {
-//                    viewModel.toggleGoal(customGoal);
-//                }
-//
-//                NavHostFragment.findNavController(this).navigate(R.id.action_SurveyPage3_to_SurveyPage4);
-//            }
         });
 
         binding.backButton.setOnClickListener(v ->

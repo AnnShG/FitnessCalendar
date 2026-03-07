@@ -49,10 +49,10 @@
     <string name="stay_active">Stay active</string>
     <string name="stay_active_add">Because health is the real goal</string>
 
-    <string name="type_own">Or, type your own goal...</string>
+    <string name="type_own">Or, type your own goal&#8230;</string>
     <string name="selection_circle_description">The circle for selection</string>
 
-    <string name="own_goal">Or, type your own goal...</string>
+    <string name="own_goal">Or, type your own goal&#8230;</string>
 
     <!--Survey page #3-->
     <string name="survey_end_heading">Each day is a new opportunity</string>
@@ -88,9 +88,9 @@
 
 
 <!--    Navigation Bottom Bar-->
-    <string name="icon_home_title"></string>
-    <string name="icon_graphs_title"></string>
-    <string name="icon_profile_title"></string>
+    <string name="icon_home_title"/>
+    <string name="icon_graphs_title"/>
+    <string name="icon_profile_title"/>
 
 <!--    Profile screen -->
     <string name="profile_my_goals">My Goals</string>
@@ -104,14 +104,15 @@
 <!--    Add exercise screen-->
     <string name="add_exercise_title">Add Exercise</string>
     <string name="add_exercise_media_description">New exercise image</string>
-    <string name="exercise_title">Title</string>
+    <string name="exercise_title">Title *</string>
+    <string name="exercise_title_description">Title</string>
     <string name="exercise_description">Description</string>
     <string name="exercise_steps">Steps</string>
     <string name="add_exercise_steps">Add another step</string>
-    <string name="add_exercise_steps_hint">Describe the step...</string>
+    <string name="add_exercise_steps_hint">Describe the step&#8230;</string>
     <string name="exercise_notes">Notes</string>
     <string name="exercise_notes_description">Notes</string>
-    <string name="exercise_category">Category</string>
+    <string name="exercise_category">Category *</string>
 
     <string name="category_legs">Legs</string>
     <string name="category_arms">Arms</string>
