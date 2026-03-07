@@ -126,7 +126,8 @@
 
 <!--    Add workout screen-->
     <string name="add_workout_title">Add Workout</string>
-    <string name="workkout_title">Title</string>
+    <string name="workout_title_label">Title *</string>
+    <string name="workout_title_tint">Title</string>
     <string name="workout_description">Description</string>
     <string name="workout_notes">Notes</string>
     <string name="workout_notes_description">Notes</string>

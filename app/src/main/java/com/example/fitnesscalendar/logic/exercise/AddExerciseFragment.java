@@ -52,8 +52,7 @@ public class AddExerciseFragment extends Fragment {
 
         // 1. Get the current User ID from the database
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
-        // Assuming your repository/viewModel has a way to get the current user
-        // If you don't have this yet, you can fetch it from the DB:
+
         exerciseViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null) {
                 this.currentUserId = userWithGoals.user.getId();
