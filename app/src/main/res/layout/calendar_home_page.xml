@@ -4,10 +4,23 @@
     android:id="@+id/calendar_home_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/home_page_background_colour"
     tools:context=".logic.calendar.CalendarHomePageFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.01" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.01" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mindsetButton"
@@ -26,7 +39,7 @@
         app:backgroundTint="@color/mindset_button_fill_colour"
 
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
         android:layout_marginTop="25dp"
         android:layout_marginStart="@dimen/margin_left" />
 
@@ -39,7 +52,7 @@
         android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/guideline_stats">
 
     <TextView
         android:id="@+id/calendar_title"
@@ -82,28 +95,32 @@
         app:srcCompat="@drawable/custom_plus"
         app:backgroundTint="@color/plus_button_background_colour"
         app:tint="@color/plus_button_colour"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="120dp"
         android:contentDescription="@string/plus_button_description"
-        style="@style/Widget.MaterialComponents.FloatingActionButton" />
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+
+        android:layout_marginTop="120dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toEndOf="@id/training_stats_container"
+        app:layout_constraintTop_toTopOf="@id/training_stats_container"
+        app:layout_constraintBottom_toBottomOf="@id/training_stats_container" />
 
     <LinearLayout
         android:id="@+id/calendar_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/plusButton">
+        android:layout_marginTop="24dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/training_stats_container">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_prev_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_weight="1"
 
@@ -116,8 +133,7 @@
             app:tint="@color/black_colour" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/monthAndYear"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
@@ -128,8 +144,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_next_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="60dp"
+            android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="16dp"
@@ -151,9 +167,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
 
-        app:layout_constraintTop_toBottomOf="@id/calendar_navigation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/calendar_navigation">
+
         <TextView style="@style/CalendarHeaderStyle" android:text="@string/monday" />
         <TextView style="@style/CalendarHeaderStyle" android:text="@string/tuesday" />
         <TextView style="@style/CalendarHeaderStyle" android:text="@string/wednesday" />
@@ -172,9 +187,7 @@
         android:layout_marginStart="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
-        app:layout_constraintTop_toBottomOf="@id/calendar_header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendar_header" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
