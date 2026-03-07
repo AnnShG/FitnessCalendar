@@ -18,7 +18,6 @@ import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
-import com.example.fitnesscalendar.logic.profile.ProfileViewModel;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -69,6 +68,12 @@ public class AddExerciseFragment extends Fragment {
         binding.saveExerciseButton.setOnClickListener(v -> {
             onSaveButtonClicked();
         });
+
+        binding.cancelExerciseButton.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this)
+                    .navigateUp();
+            }
+        );
     }
 
     private void addNewStep() {
