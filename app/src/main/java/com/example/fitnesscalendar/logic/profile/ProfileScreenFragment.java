@@ -37,23 +37,18 @@ public class ProfileScreenFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 1. Initialize the adapter (you already declared 'goalAdapter' at the top)
         goalAdapter = new GoalAdapter(goal -> showEditDialog(goal));
 
-        // 2. Setup the RecyclerView
+        // setup the RecyclerView
         binding.goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.goalsRecyclerView.setAdapter(goalAdapter);
 
-        // 3. Initialize the correct ViewModel (ProfileViewModel instead of SurveyViewModel)
         viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
 
-        // 4. Observe the data from the DB, and pushes new to the list
         viewModel.getProfileData().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null && userWithGoals.user != null) {
-                // Set the User Name from the embedded user object
                 binding.userNameTitle.setText(userWithGoals.user.getName());
 
-                // Pass the list of goals to the adapter
                 if (userWithGoals.goals != null) {
                     goalAdapter.setGoals(userWithGoals.goals);
                 }
