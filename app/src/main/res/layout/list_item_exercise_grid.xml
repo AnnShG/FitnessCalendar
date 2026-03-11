@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="8dp"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             tools:layout_height="200dp" />
 
         <TextView
-            android:id="@+id/exerciseName"
+            android:id="@+id/exerciseTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#E0E0E0"

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
-    android:background="@color/home_page_background_colour">
+    android:background="@color/home_page_background_colour"
+    tools:context=".logic.exercise.ExerciseDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:paddingBottom="32dp">
 
         <ImageView
-            android:id="@+id/edit_workout_button"
+            android:id="@+id/editExerciseButton"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="@dimen/margin_right"
@@ -34,13 +35,13 @@
             android:gravity="center_vertical"
             android:padding="20dp"
 
-            app:layout_constraintTop_toTopOf="@id/edit_workout_button"
-            app:layout_constraintBottom_toBottomOf="@id/edit_workout_button"
-            app:layout_constraintStart_toEndOf="@id/edit_workout_button"
+            app:layout_constraintTop_toTopOf="@id/editExerciseButton"
+            app:layout_constraintBottom_toBottomOf="@id/editExerciseButton"
+            app:layout_constraintStart_toEndOf="@id/editExerciseButton"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:id="@+id/addWorkoutTitle"
+                android:id="@+id/addExerciseTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -56,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/delete_workout_button"
+                android:id="@+id/delete_exercise_button"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="70dp"
@@ -64,7 +65,7 @@
                 app:srcCompat="@drawable/ic_delete_bin"
                 app:tint="@color/workout_left_side_control_icons_colour"
 
-                app:layout_constraintStart_toEndOf="@id/addWorkoutTitle"
+                app:layout_constraintStart_toEndOf="@id/addExerciseTitle"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
@@ -93,7 +94,7 @@
             app:layout_constraintTop_toBottomOf="@id/mainExerciseImage" />
 
         <TextView
-            android:id="@+id/workoutDescription"
+            android:id="@+id/exerciseDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_left"
@@ -109,7 +110,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/workoutDescriptionText"
+            android:id="@+id/exerciseDescriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_left"
@@ -121,7 +122,7 @@
             android:textStyle="normal"
             android:textColor="@color/black_colour"
 
-            app:layout_constraintTop_toBottomOf="@id/workoutDescription"
+            app:layout_constraintTop_toBottomOf="@id/exerciseDescription"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -136,7 +137,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/workoutDescriptionText" />
+            app:layout_constraintTop_toBottomOf="@id/exerciseDescriptionText" />
 
         <LinearLayout
             android:id="@+id/stepsContainer"
@@ -166,7 +167,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            android:id="@+id/workoutNotesText"
+            android:id="@+id/exerciseNotesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_left"

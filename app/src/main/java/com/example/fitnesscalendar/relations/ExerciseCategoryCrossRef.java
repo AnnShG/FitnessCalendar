@@ -20,3 +20,4 @@ public class ExerciseCategoryCrossRef {
     @ColumnInfo(name = "category_id")
     public long categoryId;
 }
+

@@ -18,9 +18,6 @@ import lombok.Data;
         indices = {@Index("owner_id")}
 )
 public class Exercise {
-    //id, name, description,
-    // picture, steps, notes, category, difficulty level, user_created
-
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exercise_id")
     public Long exerciseId;
