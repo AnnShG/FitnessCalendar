@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fitnesscalendar.databinding.ActivityMainBinding;
+import com.example.fitnesscalendar.repository.ExerciseRepository;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+//    ExerciseRepository
+    UserRepository userRepo = new UserRepository(getApplication());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+//        userRepo.getDatabaseExecutor().execute(() -> {
+//            // Check if categories are already in the DB
+//            if (exerciseRepository.getCategoryCount() == 0) {
+//                // Use your existing Repository/DAO to populate the "Master List"
+//                exerciseRepository.prePopulateCategories();
+//            }
+//        });
     }
 
     @Override
