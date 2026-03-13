@@ -34,7 +34,7 @@ import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
                 Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class
 },
-        version = 11,
+        version = 12,
         exportSchema = false
 )
 @TypeConverters({Converters.class})

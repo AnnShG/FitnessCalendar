@@ -42,6 +42,7 @@ public class ExerciseDetailFragment extends Fragment {
             // Observe the Full Record (Exercise + Steps + Categories)
             viewModel.getFullExerciseById(exerciseId).observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
+                    System.out.println("DEBUG: Category Count = " + record.categories.size());
                     bindExerciseData(record);
                 }
             });
@@ -60,11 +61,18 @@ public class ExerciseDetailFragment extends Fragment {
         }
 
         binding.categoryChipGroup.removeAllViews();
-        if (record.categories != null) {
+        if (record.categories != null && !record.categories.isEmpty()) {
             for (Category category : record.categories) {
                 Chip chip = new Chip(requireContext());
                 chip.setText(category.getName());
+
                 chip.setCheckable(false);
+                chip.setClickable(false);
+                chip.setChipStrokeWidth(2f);
+                chip.setChipStrokeColorResource(R.color.button_stroke_colour);
+                chip.setChipBackgroundColorResource(android.R.color.transparent);
+                chip.setTextColor(getResources().getColor(R.color.black_colour, null));
+
                 binding.categoryChipGroup.addView(chip);
             }
         }
@@ -80,14 +88,15 @@ public class ExerciseDetailFragment extends Fragment {
         binding.stepsContainer.removeAllViews();
         if (record.steps != null) {
             for (int i = 0; i < record.steps.size(); i++) {
-                TextView stepTv = new TextView(requireContext());
-                String stepText = (i + 1) + ". " + record.steps.get(i).getDescription();
-                stepTv.setText(stepText);
+                View stepRow = getLayoutInflater().inflate(R.layout.existing_item_step_row, binding.stepsContainer, false);
 
-                stepTv.setPadding(0, 12, 0, 12);
-                stepTv.setTextSize(16);
+                TextView tvNumber = stepRow.findViewById(R.id.stepNumber);
+                TextView tvText = stepRow.findViewById(R.id.stepText);
 
-                binding.stepsContainer.addView(stepTv);
+                tvNumber.setText(String.valueOf(i + 1));
+                tvText.setText(record.steps.get(i).getDescription());
+
+                binding.stepsContainer.addView(stepRow);
             }
         }
     }

@@ -12,7 +12,6 @@ import androidx.room.Index;
         primaryKeys = {"exercise_id", "category_id"},
         indices = {@Index("category_id")}
 )
-
 public class ExerciseCategoryCrossRef {
     @ColumnInfo(name = "exercise_id")
     public long exerciseId;
