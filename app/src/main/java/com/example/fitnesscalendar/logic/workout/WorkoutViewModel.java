@@ -30,7 +30,7 @@ public class WorkoutViewModel extends AndroidViewModel {
         return userRepository.getLatestUser();
     }
 
-    public void SaveWorkout(Workout workout, List<Long> exercises) {
+    public void saveWorkout(Workout workout, List<Long> exercises) {
         workoutRepository.insertFullWorkout(workout, exercises);
     }
 

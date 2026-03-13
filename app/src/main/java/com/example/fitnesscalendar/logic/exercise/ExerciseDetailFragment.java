@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExerciseDetailScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
@@ -35,7 +36,7 @@ public class ExerciseDetailFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
 
         // Get the ID passed from the List Screen
-        long exerciseId = getArguments() != null ? getArguments().getLong("exercise_id") : -1;
+        long exerciseId = getArguments() != null ? getArguments().getLong("exerciseId") : -1;
 
         if (exerciseId != -1) {
             // Observe the Full Record (Exercise + Steps + Categories)
@@ -68,14 +69,24 @@ public class ExerciseDetailFragment extends Fragment {
             }
         }
 
+//        binding.editExerciseButton.setOnClickListener(v -> {
+//            // Logic to navigate to AddExerciseFragment with the ID for editing
+//        });
+//
+//        binding.deleteExerciseButton.setOnClickListener(v -> {
+//            // Logic to call viewModel.delete(record.exercise) and navigateUp()
+//        });
+
         binding.stepsContainer.removeAllViews();
         if (record.steps != null) {
             for (int i = 0; i < record.steps.size(); i++) {
                 TextView stepTv = new TextView(requireContext());
                 String stepText = (i + 1) + ". " + record.steps.get(i).getDescription();
                 stepTv.setText(stepText);
-                stepTv.setPadding(0, 10, 0, 10);
+
+                stepTv.setPadding(0, 12, 0, 12);
                 stepTv.setTextSize(16);
+
                 binding.stepsContainer.addView(stepTv);
             }
         }

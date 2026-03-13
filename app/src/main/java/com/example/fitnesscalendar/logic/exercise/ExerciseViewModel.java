@@ -63,4 +63,8 @@ public class ExerciseViewModel extends AndroidViewModel {
         return exerciseRepository.getFullExerciseById(id);
     }
 
+    public LiveData<List<FullExerciseRecord>> getAllFullExerciseRecords() {
+        return exerciseRepository.getAllFullExerciseRecords();
+    }
+
 }

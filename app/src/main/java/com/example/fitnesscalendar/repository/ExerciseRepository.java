@@ -88,4 +88,5 @@ public class ExerciseRepository {
     public LiveData<FullExerciseRecord> getFullExerciseById(long id) {
         return exerciseDao.getFullExerciseById(id);
     }
+
 }
