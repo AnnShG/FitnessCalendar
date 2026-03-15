@@ -32,7 +32,7 @@
             android:layout_marginHorizontal="12dp"
             android:fontFamily="@font/lexend_font"
             android:gravity="center"
-            android:text="Exercise Name"
+            android:text="@string/exercise_title"
             android:textColor="@color/black_colour"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -51,6 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete_bin"
+            android:contentDescription="@string/exercise_item_media_description"
             app:tint="@color/workout_left_side_control_icons_colour" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -74,7 +75,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Category"
+            android:text="@string/exercise_item_category_label"
             android:textColor="@color/black_colour"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -99,7 +100,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Description"
+            android:text="@string/exercise_item_description_label"
             android:textColor="@color/black_colour"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -113,7 +114,7 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Description text goes here..."
+            android:text="@string/exercise_item_description_text"
             android:textColor="@color/black_colour"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +128,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Steps"
+            android:text="@string/exercise_item_steps_label"
             android:textColor="@color/black_colour"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -144,13 +145,13 @@
             app:layout_constraintTop_toBottomOf="@id/stepsTitle" />
 
         <TextView
-            android:id="@+id/workoutNotesLabel"
+            android:id="@+id/exerciseNotesLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Notes"
+            android:text="@string/exercise_item_notes_label"
             android:textColor="@color/black_colour"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -164,11 +165,11 @@
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Extra notes here..."
+            android:text="@string/exercise_item_notes_text"
             android:textColor="@color/black_colour"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/workoutNotesLabel" />
+            app:layout_constraintTop_toBottomOf="@id/exerciseNotesLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -149,13 +149,17 @@
 
     <string name="exercises">Exercises</string>
 
-<!--    Exercise item screen -->
+<!--    Exercise detail screen -->
     <string name="exercise_item_title">Exercise Title</string>
-    <string name="exercise_item_description">Description</string>
+    <string name="exercise_item_media_description">Exercise Media</string>
+    <string name="exercise_item_description_label">Description</string>
     <string name="exercise_item_description_text">Description Text</string>
-    <string name="exercise_item_notes">Notes</string>
+    <string name="exercise_item_steps_label">Steps</string>
+    <string name="exercise_item_steps_text">Steps Text</string>
+    <string name="exercise_item_notes_label">Notes</string>
     <string name="exercise_item_notes_text">Notes Text</string>
 
+    <string name="exercise_item_category_label">Category</string>
     <string name="exercise_item_chip_category_description">Muscles Categories List</string>
 
 <!--    Exercise list screen -->

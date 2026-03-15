@@ -64,9 +64,7 @@ public class AddExerciseFragment extends Fragment {
 
         binding.exerciseMediaView.setOnClickListener(v -> openGallery());
 
-        binding.addStepButton.setOnClickListener(v -> {
-            addNewStep();
-        });
+        binding.addStepButton.setOnClickListener(v -> addNewStep());
 
         // listener - observes the list of categories from the VM, and display them
         exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
@@ -77,9 +75,7 @@ public class AddExerciseFragment extends Fragment {
             }
         });
 
-        binding.saveExerciseButton.setOnClickListener(v -> {
-            onSaveButtonClicked();
-        });
+        binding.saveExerciseButton.setOnClickListener(v -> onSaveButtonClicked());
 
         binding.cancelExerciseButton.setOnClickListener(v -> {
             NavHostFragment.findNavController(this)
@@ -91,7 +87,7 @@ public class AddExerciseFragment extends Fragment {
     private void addNewStep() {
         stepCount++;
 
-        View stepView = getLayoutInflater().inflate(R.layout.new_item_step_row, null);
+        View stepView = getLayoutInflater().inflate(R.layout.new_item_step_row, binding.stepsContainer, false);
 
         TextView number = stepView.findViewById(R.id.stepNumber);
         number.setText(String.valueOf(stepCount));
@@ -151,7 +147,7 @@ public class AddExerciseFragment extends Fragment {
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
                     // Persist permissions so the image shows up even after restart
-                    getContext().getContentResolver().takePersistableUriPermission(uri,
+                    requireContext().getContentResolver().takePersistableUriPermission(uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     selectedMediaUri = uri.toString();
                     binding.exerciseMediaView.setImageURI(uri);
