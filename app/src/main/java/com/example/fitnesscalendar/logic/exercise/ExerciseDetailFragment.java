@@ -10,11 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExerciseDetailScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
+import com.example.fitnesscalendar.logic.survey.SurveyPage3Fragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 
@@ -47,6 +49,11 @@ public class ExerciseDetailFragment extends Fragment {
                 }
             });
         }
+
+        binding.backButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(ExerciseDetailFragment.this)
+                        .navigateUp()
+        );
     }
 
     private void bindExerciseData(FullExerciseRecord record) {

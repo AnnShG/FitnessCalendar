@@ -63,6 +63,11 @@ public class ExercisesListFragment extends Fragment {
                 binding.filteredExercises.setText(countText);
             }
         });
+
+        binding.backButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(ExercisesListFragment.this)
+                        .navigateUp()
+        );
     }
 
     @Override

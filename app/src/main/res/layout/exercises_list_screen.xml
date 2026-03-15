@@ -13,22 +13,36 @@
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="@dimen/margin_left"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black_colour" />
+
         <TextView
             android:id="@+id/allExercisesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:text="@string/exercises_list_title"
-            android:layout_marginTop="45dp"
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/black_colour"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/backButton"/>
 
         <LinearLayout
             android:id="@+id/headerContainer"
