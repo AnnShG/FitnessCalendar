@@ -18,15 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
+import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lombok.NonNull;
@@ -63,12 +62,19 @@ public class AddExerciseFragment extends Fragment {
             }
         });
 
-        setupDynamicCategories();
-
         binding.exerciseMediaView.setOnClickListener(v -> openGallery());
 
         binding.addStepButton.setOnClickListener(v -> {
             addNewStep();
+        });
+
+        // listener - observes the list of categories from the VM, and display them
+        exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
+            if (categories != null) {
+                renderCategories(categories);
+            }  else {
+                android.util.Log.d("CHIP_DEBUG", "Categories list is NULL");
+            }
         });
 
         binding.saveExerciseButton.setOnClickListener(v -> {
@@ -93,20 +99,19 @@ public class AddExerciseFragment extends Fragment {
         binding.stepsContainer.addView(stepView);
     }
 
-    private void setupDynamicCategories() {
-        List<String> categories = Arrays.asList(
-                "Legs", "Arms", "Chest", "Back", "Shoulders", "Core", "Cardio", "Full Body"
-        );
+    private void renderCategories(List<Category> categories) {
+        binding.categoryChipGroup.removeAllViews(); // no duplicates
 
-        binding.categoryChipGroup.removeAllViews();
-
-        for (String categoryName : categories) {
+        for (Category category : categories) {
             // create the Chip programmatically
             Chip chip = new Chip(requireContext());
-            chip.setText(categoryName);
+            chip.setText(category.getName());
+
+            // store the ID from the database in the View's tag
+            chip.setTag(category.getId());
+
             chip.setCheckable(true);
             chip.setClickable(true);
-
             chip.setChipStrokeWidth(2f);
             chip.setChipStrokeColorResource(R.color.button_stroke_colour);
             chip.setChipBackgroundColorResource(android.R.color.transparent);
@@ -131,23 +136,12 @@ public class AddExerciseFragment extends Fragment {
     private List<Long> getSelectedCategoryIds() {
         List<Long> selectedIds = new ArrayList<>();
 
-        // Logic: Map the text of the chip to the Database IDs
-        // 1=Legs,2=Arms, 3=Chest, etc.
         for (int i = 0; i < binding.categoryChipGroup.getChildCount(); i++) {
             Chip chip = (Chip) binding.categoryChipGroup.getChildAt(i);
             if (chip.isChecked()) {
-                String name = chip.getText().toString();
-                // Simple mapping logic
-                switch (name) {
-                    case "Legs":      selectedIds.add(1L); break;
-                    case "Arms":      selectedIds.add(2L); break;
-                    case "Chest":     selectedIds.add(3L); break;
-                    case "Back":      selectedIds.add(4L); break;
-                    case "Shoulders": selectedIds.add(5L); break;
-                    case "Core":      selectedIds.add(6L); break;
-                    case "Cardio":    selectedIds.add(7L); break;
-                    case "Full Body": selectedIds.add(8L); break;
-                }
+                // retrieve the ID directly from the tag
+                Long dbId = (Long) chip.getTag();
+                selectedIds.add(dbId);
             }
         }
         return selectedIds;
@@ -170,6 +164,7 @@ public class AddExerciseFragment extends Fragment {
                 .build());
     }
 
+    // turns DV objects (categories) into clickable UI elements
     private void onSaveButtonClicked() {
         // gather info from screen
         String title = binding.exerciseNameInput.getText().toString();
@@ -212,7 +207,6 @@ public class AddExerciseFragment extends Fragment {
 //            binding.exerciseCategoryLabel.setTextColor(Color.RED);
             return;
         }
-
         exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
 
         Toast.makeText(getContext(), "Exercise Saved!", Toast.LENGTH_SHORT).show();

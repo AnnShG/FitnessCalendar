@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
@@ -53,6 +54,10 @@ public class ExerciseViewModel extends AndroidViewModel {
 
     public LiveData<UserWithGoals> getLoggedInUser() {
         return userRepository.getLatestUser();
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
+        return exerciseRepository.getAllCategories();
     }
 
     public void saveExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {

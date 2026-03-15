@@ -68,6 +68,31 @@
             tools:srcCompat="@drawable/sample_exercise" />
 
         <TextView
+            android:id="@+id/categoryLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/lexend_font"
+            android:text="Category"
+            android:textColor="@color/black_colour"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainExerciseImage" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/categoryChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            app:chipSpacingHorizontal="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/categoryLabel" />
+
+        <TextView
             android:id="@+id/exerciseDescriptionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +104,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainExerciseImage" />
+            app:layout_constraintTop_toBottomOf="@id/categoryChipGroup" />
 
         <TextView
             android:id="@+id/exerciseDescriptionText"
@@ -145,31 +170,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/workoutNotesLabel" />
-
-        <TextView
-            android:id="@+id/categoryLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/lexend_font"
-            android:text="Category"
-            android:textColor="@color/black_colour"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/exerciseNotesText" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/categoryChipGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            app:chipSpacingHorizontal="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryLabel" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
