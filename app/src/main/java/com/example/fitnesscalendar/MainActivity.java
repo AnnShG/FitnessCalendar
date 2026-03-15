@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private ExerciseRepository exerciseRepository;
 //    ExerciseRepository
     UserRepository userRepo = new UserRepository(getApplication());
 
@@ -69,13 +70,13 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-//        userRepo.getDatabaseExecutor().execute(() -> {
-//            // Check if categories are already in the DB
-//            if (exerciseRepository.getCategoryCount() == 0) {
-//                // Use your existing Repository/DAO to populate the "Master List"
-//                exerciseRepository.prePopulateCategories();
-//            }
-//        });
+        userRepo.getDatabaseExecutor().execute(() -> {
+            // Check if categories are already in the DB
+            if (exerciseRepository.getCategoryCount() == 0) {
+                // Use your existing Repository/DAO to populate the "Master List"
+                exerciseRepository.prePopulateCategories();
+            }
+        });
     }
 
     @Override
