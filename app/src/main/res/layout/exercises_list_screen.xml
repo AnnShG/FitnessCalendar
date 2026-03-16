@@ -71,6 +71,7 @@
                 android:layout_marginStart="20dp"
 
                 app:srcCompat="@drawable/ic_filter"
+                android:foreground="?attr/selectableItemBackground"
                 android:contentDescription="@string/exercises_filter_icon_description"
                 app:tint="@color/workout_left_side_control_icons_colour" />
         </LinearLayout>

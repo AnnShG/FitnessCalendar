@@ -257,6 +257,7 @@
             android:fontFamily="@font/lexend_font"
             app:cornerRadius="13dp"
             app:backgroundTint="@color/exercise_save_button_background_colour"
+            android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/exercise_save_text_colour"
 
             app:layout_constraintTop_toBottomOf="@id/categoryChipGroup"
@@ -273,6 +274,7 @@
             android:fontFamily="@font/lexend_font"
             app:cornerRadius="13dp"
             app:backgroundTint="@color/exercise_cancel_button_background_colour"
+            android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/exercise_cancel_text_colour"
 
             app:layout_constraintTop_toBottomOf="@id/saveExerciseButton"

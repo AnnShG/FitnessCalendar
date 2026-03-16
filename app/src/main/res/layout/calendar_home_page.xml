@@ -37,6 +37,7 @@
         app:strokeWidth="1dp"
         app:strokeColor="@color/mindset_button_stroke_colour"
         app:backgroundTint="@color/mindset_button_fill_colour"
+        android:foreground="?attr/selectableItemBackground"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
@@ -97,6 +98,7 @@
         app:tint="@color/plus_button_colour"
         android:contentDescription="@string/plus_button_description"
         style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:foreground="?attr/selectableItemBackground"
 
         android:layout_marginTop="120dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +132,8 @@
             app:iconPadding="0dp"
             app:iconTint="@color/black_colour"
             app:iconSize="32dp"
-            app:tint="@color/black_colour" />
+            app:tint="@color/black_colour"
+            android:foreground="?attr/selectableItemBackground" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/monthAndYear"
@@ -157,7 +160,8 @@
             app:iconPadding="0dp"
             app:iconTint="@color/black_colour"
             app:iconSize="32dp"
-            app:tint="@color/black_colour" />
+            app:tint="@color/black_colour"
+            android:foreground="?attr/selectableItemBackground" />
     </LinearLayout>
 
     <!-- days header -->
