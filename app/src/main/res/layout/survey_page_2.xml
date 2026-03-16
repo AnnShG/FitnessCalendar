@@ -249,6 +249,7 @@
         android:textStyle="bold"
         android:fontFamily="@font/lexend_font"
         app:backgroundTint="@color/continue_button_background_colour"
+        android:foreground="?attr/selectableItemBackground"
         android:textColor="@color/button_text_white"
 
         app:layout_constraintStart_toStartOf="@id/guideline_left"
