@@ -20,17 +20,20 @@ import lombok.NonNull;
 public class ExercisesListFragment extends Fragment {
 
     public ExercisesListScreenBinding binding;
-    private ExerciseViewModel exerciseViewModel;
+    protected ExerciseAdapter adapter;
+    protected ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
+    protected View root;
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-
-        binding = ExercisesListScreenBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (root == null) {
+            // Only inflate the default parent binding if the child hasn't set 'root' yet
+            com.example.fitnesscalendar.databinding.ExercisesListScreenBinding parentBinding =
+                    ExercisesListScreenBinding.inflate(inflater, container, false);
+            root = parentBinding.getRoot();
+        }
+        return root;
     }
 
     @Override
@@ -41,11 +44,9 @@ public class ExercisesListFragment extends Fragment {
 
         // Setup the Adapter
         ExerciseAdapter adapter = new ExerciseAdapter(id -> { // lambda defines what happens when the users taps the item
-            // Inside ExerciseDetailFragment.java
             Bundle bundle = new Bundle();
             bundle.putLong("exerciseId", id);
 
-            // Check your nav_graph.xml for the correct ID.
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ExercisesList_to_ExerciseDetail, bundle); // take bundle (envelope) with ex id
         });

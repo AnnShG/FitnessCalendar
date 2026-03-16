@@ -8,8 +8,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
@@ -46,6 +48,11 @@ public class AddWorkoutFragment extends Fragment {
             if (userWithGoals != null) {
                 this.currentUserId = userWithGoals.user.getId();
             }
+        });
+
+        binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen);
         });
 
         binding.saveWorkoutButton.setOnClickListener(v -> {

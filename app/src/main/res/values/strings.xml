@@ -166,11 +166,17 @@
     <string name="exercises_list_title">All Exercises</string>
     <string name="exercises_filtered_text">Filtered by: </string>
     <string name="exercises_filter_icon_description">Filter</string>
-    Workouts
 
 <!--    Workout list screen -->
     <string name="workout_list_title">All Workouts</string>
     <string name="workout_filtered_text">Filtered by: </string>
     <string name="workout_filter_icon_description">Filter</string>
 
+    <!--    Exercise select screen -->
+    <string name="exercises_select_title">Select Exercises</string>
+    <string name="exercises_select_filtered_text">Filtered by: </string>
+    <string name="exercises_select_filter_icon_description">Filter</string>
+
+    <string name="select_exercise">Select</string>
+    <string name="cancel_exercise_selecting">Cancel</string>
 </resources>
