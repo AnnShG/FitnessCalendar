@@ -8,11 +8,6 @@
     android:background="@color/home_page_background_colour"
     tools:context=".logic.exercise.AddExerciseFragment">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingBottom="32dp">-->
-
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="48dp"
@@ -105,4 +100,3 @@
             tools:listitem="@layout/list_item_exercise_grid" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--</androidx.core.widget.NestedScrollView>-->
