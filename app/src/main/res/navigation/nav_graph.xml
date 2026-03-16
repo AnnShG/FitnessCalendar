@@ -84,18 +84,40 @@
 <!--        tools:layout="@layout/plan_program_screen"/>-->
 
     <fragment
-        android:id="@+id/navigationProfile"
+        android:id="@+id/NavigationProfile"
         android:name="com.example.fitnesscalendar.logic.profile.ProfileScreenFragment"
         android:label="Profile"
         tools:layout="@layout/profile_screen">
+
+        <action
+            android:id="@+id/action_NavigationProfile_to_ExercisesList"
+            app:destination="@id/ExercisesList" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigationGraphs"
+        android:id="@+id/ExercisesList"
+        android:name="com.example.fitnesscalendar.logic.exercise.ExercisesListFragment"
+        android:label="Exercises"
+        tools:layout="@layout/exercises_list_screen">
+
+        <action
+            android:id="@+id/action_ExercisesList_to_ExerciseDetail"
+            app:destination="@id/ExerciseDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ExerciseDetail"
+        android:name="com.example.fitnesscalendar.logic.exercise.ExerciseDetailFragment"
+        android:label="Exercise Details">
+        <argument
+            android:name="exerciseId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/NavigationGraphs"
         android:name="com.example.fitnesscalendar.logic.graphs.GraphScreenFragment"
         android:label="Profile"
         tools:layout="@layout/graphs_screen">
     </fragment>
-
-
 </navigation>

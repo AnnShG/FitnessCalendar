@@ -23,7 +23,11 @@ public class FullExerciseRecord {
     @Relation(
             parentColumn = "exercise_id",
             entityColumn = "category_id",
-            associateBy = @Junction(ExerciseCategoryCrossRef.class)
+            associateBy = @Junction(
+                    value = ExerciseCategoryCrossRef.class,
+                    parentColumn = "exercise_id",
+                    entityColumn = "category_id"
+            )
     )
     public List<Category> categories;
 }

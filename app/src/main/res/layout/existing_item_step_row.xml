@@ -2,26 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingVertical="8dp"
     android:gravity="top">
 
-    <!-- Number Circle -->
     <TextView
-        android:id="@+id/tvStepIndex"
+        android:id="@+id/stepNumber"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="20dp"
-        android:background="@drawable/workout_exercise_circle_index_bg"
+        android:background="@drawable/step_number_circle_bg"
         android:gravity="center"
         android:text="1"
+        tools:text="1"
         android:textColor="@color/workout_left_side_control_icons_colour"
         android:textSize="12sp"
         android:textStyle="bold" />
 
-    <!-- Step Description (Wraps Text) -->
     <TextView
-        android:id="@+id/tvStepContent"
+        android:id="@+id/stepText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

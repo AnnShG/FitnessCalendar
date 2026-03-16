@@ -19,13 +19,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -48,9 +47,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            // force "Reset" when clicking the profile icon again
+            bottomNav.setOnItemReselectedListener(item -> {
+                if (item.getItemId() == R.id.NavigationProfile) {
+                    navController.popBackStack(R.id.NavigationProfile, false);
+                }
+            });
+
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
-                if (id == R.id.CalendarHomePage || id == R.id.navigationProfile || id == R.id.navigationGraphs) {
+                if (id == R.id.CalendarHomePage || id == R.id.NavigationProfile || id == R.id.NavigationGraphs ||
+                        id == R.id.ExercisesList|| id == R.id.ExerciseDetail) {
                     bottomNav.setVisibility(View.VISIBLE);
                 } else {
                     bottomNav.setVisibility(View.GONE);
@@ -58,41 +65,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.nav_host_fragment_content_main);
-//
-//        if (navHostFragment != null) {
-//            NavController navController = navHostFragment.getNavController();
-//
-//            BottomNavigationView bottomNav = binding.bottomNavigation;
-//            // This line handles all the click logic automatically!
-//            NavigationUI.setupWithNavController(bottomNav, navController);
-//
-//            // Visibility Listener
-//            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-//                int id = destination.getId();
-//                if (id == R.id.CalendarHomePage || id == R.id.navigationProfile || id == R.id.navigationGraphs) {
-//                    bottomNav.setVisibility(View.VISIBLE);
-//                } else {
-//                    bottomNav.setVisibility(View.GONE);
-//                }
-//            });
-//
-//            // Link Bottom Navigation to NavController
-//            NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
-//        }
-//
-//    }
-
 
     @Override
     public boolean onSupportNavigateUp() {

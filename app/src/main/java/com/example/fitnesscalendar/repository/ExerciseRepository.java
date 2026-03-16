@@ -4,9 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.fitnesscalendar.dao.CategoryDao;
 import com.example.fitnesscalendar.dao.ExerciseDao;
 import com.example.fitnesscalendar.dao.StepDao;
 import com.example.fitnesscalendar.database.AppDatabase;
+import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.relations.ExerciseCategoryCrossRef;
@@ -21,6 +23,7 @@ import lombok.Getter;
 public class ExerciseRepository {
 
     private final ExerciseDao exerciseDao;
+    private final CategoryDao categoryDao;
     private final StepDao stepDao;
 
     // full record path for the single exercise detail screen
@@ -35,10 +38,11 @@ public class ExerciseRepository {
     public ExerciseRepository(Application app) {
         AppDatabase db = AppDatabase.getDatabase(app); // Give me the database instance
 
-        // retrieving DAOs for exercises and steps, now the repo can talk to DB
+        // retrieving DAOs for exercises, steps and categories, now the repo can talk to DB
         exerciseDao = db.exerciseDao();
         stepDao = db.stepDao();
-        // Initialize the read path
+        categoryDao = db.categoryDao();
+
         allFullExerciseRecords = exerciseDao.getFullExerciseRecords();
         allExerciseSummaries = exerciseDao.getExerciseSummaries();
     }
@@ -84,4 +88,22 @@ public class ExerciseRepository {
             }
         });
     }
+
+    public LiveData<FullExerciseRecord> getFullExerciseById(long id) {
+        return exerciseDao.getFullExerciseById(id);
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
+        return categoryDao.getAllCategories();
+    }
+
+//    public void prePopulateCategories() {
+//        String[] names = {"Legs", "Arms", "Chest", "Back", "Shoulders", "Core", "Cardio", "Full Body"};
+//        for (int i = 0; i < names.size(); i++) {
+//            // ID must match the IDs you use in your Fragment's switch statement (1, 2, 3...)
+//            Category cat = new org.tensorflow.lite.support.label.Category((long)i + 1, names[i]);
+//            categoryDao.insert(cat);
+//        }
+//    }
+
 }

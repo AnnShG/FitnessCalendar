@@ -8,8 +8,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ProfileScreenBinding;
 import com.example.fitnesscalendar.entities.Goal;
 
@@ -54,6 +56,12 @@ public class ProfileScreenFragment extends Fragment {
                 }
             }
         });
+
+        binding.allExercisesRow.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_NavigationProfile_to_ExercisesList);
+        });
+
     }
 
     private void showEditDialog(Goal goal) {
