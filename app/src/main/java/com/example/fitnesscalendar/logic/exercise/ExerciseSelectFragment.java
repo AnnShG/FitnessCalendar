@@ -31,6 +31,7 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (adapter != null) {
+            adapter = new ExerciseAdapter();
             adapter.setSelectionMode(true); // Tell adapter to show checkboxes
             adapter.setOnSelectionChangedListener(count -> {
                 if (count > 0) {

@@ -27,60 +27,57 @@ import lombok.Setter;
 // managing a list of items - helps RecyclerView to draw the items of the list
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private List<FullExerciseRecord> exercises = new ArrayList<>(); // data source
-    private final OnExerciseClickListener listener;
+    // state - selection logic
+    private boolean isSelectionMode = false;
+    private final Set<Long> selectedIds = new HashSet<>();
+//    private final OnExerciseClickListener listener;
 
     // listeners - how the Fragment talks to adapter
     private OnInfoClickListener infoListener;
     private OnSelectionChangedListener selectionListener;
 
-    // state - selection logic
-    private boolean isSelectionMode = false;
-    private final Set<Long> selectedIds = new HashSet<>();
-
-    public void setSelectionMode(boolean mode) {
-        this.isSelectionMode = mode;
-        notifyDataSetChanged();
-    }
     public interface OnInfoClickListener {
-        void onInfoClick(long exerciseId);
+        void onInfoClick(long exerciseId); // this method must be implemented in the fragment
     }
-    public void setOnInfoClickListener(OnInfoClickListener listener) {
-        this.infoListener = listener;
-    }
-
     public interface OnSelectionChangedListener {
         void onSelectionChanged(int count);
     }
-    public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
-        this.selectionListener = listener;
-    }
-
-    public ExerciseAdapter(OnExerciseClickListener listener) {
-        this.listener = listener;
-    }
-
     public interface OnExerciseClickListener {
         void onExerciseClick(long exerciseId);
     }
 
-
+    // set method allows the fragment to pass logic into the adapter
+    // listener on eye
+    public void setOnInfoClickListener(OnInfoClickListener listener) {
+        this.infoListener = listener;
+    }
+    public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
+        this.selectionListener = listener;
+    }
     public void setExercises(List<FullExerciseRecord> exercises) {
         this.exercises = exercises;
         notifyDataSetChanged();
     }
+    public void setSelectionMode(boolean mode) {
+        this.isSelectionMode = mode;
+        notifyDataSetChanged();
+    }
+//    public ExerciseAdapter(OnExerciseClickListener listener) {
+//        this.listener = listener;
+//    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // links XML layout (list_item_exercise_grid) to the Java code
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_exercise_grid, parent, false);
-        return new ViewHolder(view);
+        ListItemExerciseGridBinding binding = ListItemExerciseGridBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     // runs for every row that appears on the screen
     @Override
-    public void onBindViewHolder(@NonNull ExerciseAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FullExerciseRecord record = exercises.get(position);
         long id = record.exercise.getExerciseId();
 
@@ -95,9 +92,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         if (record.exercise.getMediaUri() != null) {
             Glide.with(holder.itemView.getContext())
                     .load(Uri.parse(record.exercise.getMediaUri()))
-                    .into(holder.image); // converts uri to a real image
+                    .into(holder.binding.exerciseImage); // converts uri to a real image
         }  else {
-            holder.image.setImageResource(R.drawable.ic_add_photo);
+            holder.binding.exerciseImage.setImageResource(R.drawable.ic_add_photo);
         }
 
         // Eye icon - click logic
@@ -117,13 +114,17 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
                 if (selectionListener != null) {
                     selectionListener.onSelectionChanged(selectedIds.size());
                 }
+            } else {
+                // Logic for the original list (Browse mode)
+                // If not selecting, a click on the row also opens details
+                if (infoListener != null) infoListener.onInfoClick(id);
             }
         });
 
-        holder.title.setText(record.exercise.getTitle());
-
-        holder.itemView.setOnClickListener(v ->
-                listener.onExerciseClick(record.exercise.exerciseId));
+//        holder.title.setText(record.exercise.getTitle());
+//
+//        holder.itemView.setOnClickListener(v ->
+//                listener.onExerciseClick(record.exercise.exerciseId));
     }
 
     @Override
@@ -134,18 +135,18 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     // holds the references to the views for one row
     // ViewHolder - container for a single row in the list
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        ImageView image;
-        CheckBox checkBox;
+//        TextView title;
+//        ImageView image;
+//        CheckBox checkBox;
         final ListItemExerciseGridBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            // Link the Java variables to the IDs in list_item_exercise_grid.xml
-            title = itemView.findViewById(R.id.exerciseTitle);
-            image = itemView.findViewById(R.id.exerciseImage);
-            checkBox = itemView.findViewById(R.id.exerciseCheckbox);
-        }
+//        public ViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            // Link the Java variables to the IDs in list_item_exercise_grid.xml
+//            title = itemView.findViewById(R.id.exerciseTitle);
+//            image = itemView.findViewById(R.id.exerciseImage);
+//            checkBox = itemView.findViewById(R.id.exerciseCheckbox);
+//        }
 
         public ViewHolder(ListItemExerciseGridBinding binding) {
             super(binding.getRoot());

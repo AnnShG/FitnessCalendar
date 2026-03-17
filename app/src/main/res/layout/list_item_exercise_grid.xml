@@ -11,16 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        android:background="#F5F5F5"-->
-<!--        <ImageView-->
-<!--            android:id="@+id/exerciseImage"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            tools:src="@drawable/sample_exercise"-->
-<!--            tools:layout_height="200dp" />-->
-
         <ImageView
             android:id="@+id/exerciseImage"
             android:layout_width="0dp"
@@ -70,7 +60,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/exerciseImage" />
 
-<!--        <TextView-->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/exerciseCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+
+            app:buttonTint="@color/plus_button_background_colour"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:elevation="12dp"
+
+            android:visibility="gone"
+            tools:visibility="visible"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <TextView-->
 <!--            android:id="@+id/exerciseTitle"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

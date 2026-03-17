@@ -42,8 +42,8 @@ public class ExercisesListFragment extends Fragment {
 
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
 
-        // Setup the Adapter
-        ExerciseAdapter adapter = new ExerciseAdapter(id -> { // lambda defines what happens when the users taps the item
+        // navigation to details logic
+        adapter.setOnInfoClickListener(id -> { // lambda defines what happens when the users taps the item
             Bundle bundle = new Bundle();
             bundle.putLong("exerciseId", id);
 
