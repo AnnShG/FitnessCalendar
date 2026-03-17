@@ -24,14 +24,17 @@ public class ExercisesListFragment extends Fragment {
     protected ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
     protected View root;
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Only inflate the default parent binding if the child hasn't set 'root' yet
         if (root == null) {
-            // Only inflate the default parent binding if the child hasn't set 'root' yet
-            com.example.fitnesscalendar.databinding.ExercisesListScreenBinding parentBinding =
-                    ExercisesListScreenBinding.inflate(inflater, container, false);
-            root = parentBinding.getRoot();
+            // inflated binding is assigned to the class field 'binding'
+            binding = ExercisesListScreenBinding.inflate(inflater, container, false);
+            root = binding.getRoot();
+        } else {
+            // If root was already set (e.g., by a child fragment),
+            // we need to re-bind it so 'binding' isn't null
+            binding = ExercisesListScreenBinding.bind(root);
         }
         return root;
     }
@@ -39,6 +42,10 @@ public class ExercisesListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (adapter == null) {
+            adapter = new ExerciseAdapter();
+        }
 
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
 
