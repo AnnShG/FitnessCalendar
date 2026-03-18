@@ -58,11 +58,18 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                     .navigate(R.id.action_ExerciseSelectScreen_to_ExerciseDetail, bundle);
         });
 
-//        binding.selectExerciseButton.setOnClickListener(v -> {
-//            List<Long> selectedIds = adapter.getSelectedExerciseIds();
-//            // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
-//            NavHostFragment.findNavController(this).navigateUp();
-//        });
+        binding.selectExerciseButton.setOnClickListener(v -> {
+            List<Long> selectedIds = adapter.getSelectedExerciseIds();
+            // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
+            long[] idArray = selectedIds.stream().mapToLong(l -> l).toArray();
+
+            Bundle result = new Bundle();
+            result.putLongArray("selected_ids", idArray);
+
+            // send result back to AddWorkoutFragment
+            getParentFragmentManager().setFragmentResult("exercise_selection", result);
+            NavHostFragment.findNavController(this).navigateUp();
+        });
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)

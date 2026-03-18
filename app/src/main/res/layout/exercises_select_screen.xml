@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filteredExercises"
-        tools:listitem="@layout/list_item_exercise_grid" />
+        tools:listitem="@layout/exercise_list_item_grid" />
 
     <LinearLayout
         android:id="@+id/buttonContainer"

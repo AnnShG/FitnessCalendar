@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
-import com.example.fitnesscalendar.databinding.ListItemExerciseGridBinding;
+import com.example.fitnesscalendar.databinding.ExerciseListItemGridBinding;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,6 +21,8 @@ import java.util.Set;
 // managing a list of items - helps RecyclerView to draw the items of the list
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private List<FullExerciseRecord> exercises = new ArrayList<>(); // data source
+    private final Set<Long> selectedExerciseIds = new HashSet<>();
+
     // state - selection logic
     private boolean isSelectionMode = false;
     private final Set<Long> selectedIds = new HashSet<>();
@@ -57,11 +59,15 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public List<Long> getSelectedExerciseIds() {
+        return new ArrayList<>(selectedExerciseIds);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // links XML layout (list_item_exercise_grid) to the Java code
-        ListItemExerciseGridBinding binding = ListItemExerciseGridBinding.inflate(
+        ExerciseListItemGridBinding binding = ExerciseListItemGridBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
     }
@@ -127,9 +133,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     // ViewHolder - container for a single row in the list
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        final ListItemExerciseGridBinding binding;
+        final ExerciseListItemGridBinding binding;
 
-        public ViewHolder(ListItemExerciseGridBinding binding) {
+        public ViewHolder(ExerciseListItemGridBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
