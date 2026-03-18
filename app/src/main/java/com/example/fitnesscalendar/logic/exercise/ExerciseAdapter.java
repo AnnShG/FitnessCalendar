@@ -4,16 +4,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
-import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.example.fitnesscalendar.databinding.ListItemExerciseGridBinding;
 
@@ -21,8 +17,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import lombok.Setter;
 
 // managing a list of items - helps RecyclerView to draw the items of the list
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
@@ -62,9 +56,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         this.isSelectionMode = mode;
         notifyDataSetChanged();
     }
-//    public ExerciseAdapter(OnExerciseClickListener listener) {
-//        this.listener = listener;
-//    }
 
     @NonNull
     @Override
@@ -84,8 +75,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         // Bind Text
         holder.binding.exerciseTitle.setText(record.exercise.getTitle());
 
-        // Bind Selection UI (Checkbox)
-        holder.binding.exerciseCheckbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
+        // We only show the Eye and Checkbox if we are in "Selection Mode"
+        int selectionVisibility = isSelectionMode ? View.VISIBLE : View.GONE;
+
+        // Bind Selection UI (Checkbox) and eye
+        holder.binding.exerciseCheckbox.setVisibility(selectionVisibility);
+        holder.binding.btnViewDetails.setVisibility(selectionVisibility);
+
         holder.binding.exerciseCheckbox.setChecked(selectedIds.contains(id));
 
         // Use Glide to load the URI from the DB (bind image)
@@ -120,11 +116,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
                 if (infoListener != null) infoListener.onInfoClick(id);
             }
         });
-
-//        holder.title.setText(record.exercise.getTitle());
-//
-//        holder.itemView.setOnClickListener(v ->
-//                listener.onExerciseClick(record.exercise.exerciseId));
     }
 
     @Override
@@ -135,18 +126,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     // holds the references to the views for one row
     // ViewHolder - container for a single row in the list
     public static class ViewHolder extends RecyclerView.ViewHolder {
-//        TextView title;
-//        ImageView image;
-//        CheckBox checkBox;
-        final ListItemExerciseGridBinding binding;
 
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            // Link the Java variables to the IDs in list_item_exercise_grid.xml
-//            title = itemView.findViewById(R.id.exerciseTitle);
-//            image = itemView.findViewById(R.id.exerciseImage);
-//            checkBox = itemView.findViewById(R.id.exerciseCheckbox);
-//        }
+        final ListItemExerciseGridBinding binding;
 
         public ViewHolder(ListItemExerciseGridBinding binding) {
             super(binding.getRoot());

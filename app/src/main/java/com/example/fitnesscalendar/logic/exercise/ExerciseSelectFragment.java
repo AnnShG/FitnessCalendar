@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
+import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
 import com.example.fitnesscalendar.databinding.ExercisesSelectScreenBinding;
+
+import java.util.List;
 
 public class ExerciseSelectFragment extends ExercisesListFragment {
 
@@ -19,6 +21,9 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ExercisesSelectScreenBinding.inflate(inflater, container, false);
+
+        super.binding = ExercisesListScreenBinding.bind(binding.getRoot()); // parent's binding var
+
         super.root = binding.getRoot(); // Pass the root to the parent
         return super.root;
     }
@@ -31,8 +36,9 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (adapter != null) {
-            adapter = new ExerciseAdapter();
+//            adapter = new ExerciseAdapter();
             adapter.setSelectionMode(true); // Tell adapter to show checkboxes
+
             adapter.setOnSelectionChangedListener(count -> {
                 if (count > 0) {
                     binding.buttonContainer.setVisibility(View.VISIBLE);
@@ -48,10 +54,15 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
         adapter.setOnInfoClickListener(exerciseId -> {
             Bundle bundle = new Bundle();
             bundle.putLong("exerciseId", exerciseId);
-            // Ensure this action exists in your nav_graph.xml
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ExerciseSelectScreen_to_ExerciseDetail, bundle);
         });
+
+//        binding.selectExerciseButton.setOnClickListener(v -> {
+//            List<Long> selectedIds = adapter.getSelectedExerciseIds();
+//            // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
+//            NavHostFragment.findNavController(this).navigateUp();
+//        });
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)

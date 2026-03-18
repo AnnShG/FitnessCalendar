@@ -19,7 +19,7 @@ import lombok.NonNull;
 
 public class ExercisesListFragment extends Fragment {
 
-    public ExercisesListScreenBinding binding;
+    protected ExercisesListScreenBinding binding;
     protected ExerciseAdapter adapter;
     protected ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
