@@ -11,28 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        android:background="#F5F5F5"-->
-<!--        <ImageView-->
-<!--            android:id="@+id/exerciseImage"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:adjustViewBounds="true"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            tools:src="@drawable/sample_exercise"-->
-<!--            tools:layout_height="200dp" />-->
-
         <ImageView
             android:id="@+id/exerciseImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/sample_exercise" />
 
-        <!-- 2. Subtle Gradient Overlay (Optional: makes text readable if image is light) -->
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -42,6 +31,18 @@
             app:layout_constraintStart_toStartOf="@id/exerciseImage"
             app:layout_constraintTop_toTopOf="@id/exerciseImage" />
 
+        <ImageButton
+            android:id="@+id/btnViewDetails"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/circle_white_for_eye"
+            app:srcCompat="@drawable/ic_eye"
+            android:visibility="visible"
+            app:tint="@color/exercises_detail_black_colour"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <TextView
             android:id="@+id/exerciseTitle"
             android:layout_width="0dp"
@@ -50,7 +51,7 @@
             android:text="Exercise Name"
             android:textAlignment="center"
             android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/exercises_detail_black_colour"
             android:textSize="15sp"
             android:textStyle="bold"
             android:maxLines="1"
@@ -60,7 +61,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/exerciseImage" />
 
-<!--        <TextView-->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/exerciseCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+
+            app:buttonTint="@color/plus_button_background_colour"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:elevation="12dp"
+
+            android:visibility="gone"
+            tools:visibility="visible"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <TextView-->
 <!--            android:id="@+id/exerciseTitle"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->

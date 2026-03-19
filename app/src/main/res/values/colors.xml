@@ -71,6 +71,8 @@
     <color name="workout_circle_indicator_purple_colour">#C177D8</color>
     <color name="workout_circle_indicator_red_colour">#F95151</color>
     <color name="workout_circle_indicator_dark_blue_colour">#3D40DB</color>
+    <color name="workout_circle_indicator_dark_yellow_colour">#F2D607</color>
+    <color name="workout_circle_indicator_dark_grey_colour">#888588</color>
     <color name="plus_picker_colour">#F05A09</color>
 
     <color name="workout_circle_indicator_choice_colour">#FFFFFF</color>
@@ -82,8 +84,15 @@
     <color name="exercises_icon_filter_colour">#F05A09</color>
     <color name="exercises_icon_search_colour">#F05A09</color>
 
+    <!--    Exercises detail screen-->
+    <color name="exercises_detail_black_colour">#1C1C1C</color>
+    <color name="circle_for_eye_white_colour">#FFFFFF</color>
+
     <!-- Workouts list screen-->
     <color name="workout_icon_search_colour">#F05A09</color>
+
+    <!-- Exercises select screen-->
+    <color name="select_save_buttons_bg">#CEDCE5</color>
 
 
 

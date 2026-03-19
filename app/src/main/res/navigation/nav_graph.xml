@@ -76,7 +76,23 @@
     <fragment
         android:id="@+id/AddWorkoutScreen"
         android:name="com.example.fitnesscalendar.logic.workout.AddWorkoutFragment"
-        tools:layout="@layout/add_workout_screen"/>
+        tools:layout="@layout/add_workout_screen">
+
+        <action
+            android:id="@+id/action_AddWorkoutScreen_to_ExerciseSelectScreen"
+            app:destination="@+id/ExerciseSelectScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ExerciseSelectScreen"
+        android:name="com.example.fitnesscalendar.logic.exercise.ExerciseSelectFragment"
+        tools:layout="@layout/exercises_select_screen">
+
+        <action
+            android:id="@+id/action_ExerciseSelectScreen_to_ExerciseDetail"
+            app:destination="@+id/ExerciseDetail" />
+
+    </fragment>
 
 <!--    <fragment-->
 <!--        android:id="@+id/PlanProgramScreen"-->

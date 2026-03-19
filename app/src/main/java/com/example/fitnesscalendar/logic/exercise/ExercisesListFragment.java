@@ -19,33 +19,41 @@ import lombok.NonNull;
 
 public class ExercisesListFragment extends Fragment {
 
-    public ExercisesListScreenBinding binding;
-    private ExerciseViewModel exerciseViewModel;
+    protected ExercisesListScreenBinding binding;
+    protected ExerciseAdapter adapter;
+    protected ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
-
+    protected View root;
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-
-        binding = ExercisesListScreenBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Only inflate the default parent binding if the child hasn't set 'root' yet
+        if (root == null) {
+            // inflated binding is assigned to the class field 'binding'
+            binding = ExercisesListScreenBinding.inflate(inflater, container, false);
+            root = binding.getRoot();
+        } else {
+            // If root was already set (e.g., by a child fragment),
+            // we need to re-bind it so 'binding' isn't null
+            binding = ExercisesListScreenBinding.bind(root);
+        }
+        return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (adapter == null) {
+            adapter = new ExerciseAdapter();
+        }
+
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
 
-        // Setup the Adapter
-        ExerciseAdapter adapter = new ExerciseAdapter(id -> { // lambda defines what happens when the users taps the item
-            // Inside ExerciseDetailFragment.java
+        // navigation to details logic
+        adapter.setOnInfoClickListener(id -> { // lambda defines what happens when the users taps the item
             Bundle bundle = new Bundle();
             bundle.putLong("exerciseId", id);
 
-            // Check your nav_graph.xml for the correct ID.
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ExercisesList_to_ExerciseDetail, bundle); // take bundle (envelope) with ex id
         });
