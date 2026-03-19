@@ -59,11 +59,11 @@
 
         <FrameLayout
             android:id="@+id/imageContainer"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginStart="12dp"
             android:background="@drawable/image_placeholder_background"
-            android:padding="2dp"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/leftSideControlDelete"
             app:layout_constraintTop_toTopOf="parent">
@@ -72,7 +72,7 @@
                 android:id="@+id/exerciseImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 app:shapeAppearanceOverlay="@style/RoundedCorners"
                 app:srcCompat="@drawable/sample_exercise" />
         </FrameLayout>

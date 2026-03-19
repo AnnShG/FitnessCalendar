@@ -12,14 +12,17 @@ import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
 import com.example.fitnesscalendar.databinding.ExercisesSelectScreenBinding;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import lombok.NonNull;
 
 public class ExerciseSelectFragment extends ExercisesListFragment {
 
     private ExercisesSelectScreenBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ExercisesSelectScreenBinding.inflate(inflater, container, false);
 
         super.binding = ExercisesListScreenBinding.bind(binding.getRoot()); // parent's binding var
@@ -29,17 +32,17 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // shared viewModel
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
         // super - parent - sets up the recyclerView and Adapter
         super.onViewCreated(view, savedInstanceState);
 
         if (adapter != null) {
-//            adapter = new ExerciseAdapter();
-            adapter.setSelectionMode(true); // Tell adapter to show checkboxes
+//            this.isSelectionMode = mode;
+            adapter.setSelectionMode(true); // Tell adapter to show checkboxes and eye
 
-            adapter.setOnSelectionChangedListener(count -> {
+            adapter.setOnSelectionChangedListener(count -> { //adapter sends count
                 if (count > 0) {
                     binding.buttonContainer.setVisibility(View.VISIBLE);
                     String btnText = "Add " + count + (count == 1 ? " Exercise" : " Exercises");
@@ -48,6 +51,14 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                     binding.buttonContainer.setVisibility(View.GONE);
                 }
             });
+        }
+
+        long[] existing = getArguments().getLongArray("existing_ids");
+        if (existing != null) {
+            List<Long> existingList = new ArrayList<>();
+
+            for (long id : existing) existingList.add(id);
+            adapter.setSelectedIds(existingList);
         }
 
         // This triggers the navigation to details

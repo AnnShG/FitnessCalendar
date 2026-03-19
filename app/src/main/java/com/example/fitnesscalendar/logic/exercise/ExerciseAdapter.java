@@ -18,28 +18,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// managing a list of items - helps RecyclerView to draw the items of the list
+// managing a list of items - helps RecyclerView to draw the items of the list - takes data raw from DB and translates it
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
     private List<FullExerciseRecord> exercises = new ArrayList<>(); // data source
-    private final Set<Long> selectedExerciseIds = new HashSet<>();
+    private final Set<Long> selectedIds = new HashSet<>(); // contains selected unique! ids on selection list
 
-    // state - selection logic
-    private boolean isSelectionMode = false;
-    private final Set<Long> selectedIds = new HashSet<>();
-//    private final OnExerciseClickListener listener;
+    private boolean isSelectionMode = false; // switch between simple list and selection list
 
     // listeners - how the Fragment talks to adapter
     private OnInfoClickListener infoListener;
     private OnSelectionChangedListener selectionListener;
 
-    public interface OnInfoClickListener {
+    public interface OnInfoClickListener { // listener on eye
         void onInfoClick(long exerciseId); // this method must be implemented in the fragment
     }
-    public interface OnSelectionChangedListener {
+    public interface OnSelectionChangedListener { // listener on changes hiw many exes were selected
         void onSelectionChanged(int count);
-    }
-    public interface OnExerciseClickListener {
-        void onExerciseClick(long exerciseId);
     }
 
     // set method allows the fragment to pass logic into the adapter
@@ -55,18 +49,18 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         notifyDataSetChanged();
     }
     public void setSelectionMode(boolean mode) {
-        this.isSelectionMode = mode;
+        this.isSelectionMode = mode; // shared field
         notifyDataSetChanged();
     }
 
     public List<Long> getSelectedExerciseIds() {
-        return new ArrayList<>(selectedExerciseIds);
+        return new ArrayList<>(selectedIds);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // links XML layout (list_item_exercise_grid) to the Java code
+        // turns XML layout (list_item_exercise_grid) into Java object - ViewHolder
         ExerciseListItemGridBinding binding = ExerciseListItemGridBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding);
@@ -81,7 +75,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         // Bind Text
         holder.binding.exerciseTitle.setText(record.exercise.getTitle());
 
-        // We only show the Eye and Checkbox if we are in "Selection Mode"
+        // the Eye and Checkbox are displayed only in "Selection Mode"
         int selectionVisibility = isSelectionMode ? View.VISIBLE : View.GONE;
 
         // Bind Selection UI (Checkbox) and eye
@@ -127,6 +121,19 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     @Override
     public int getItemCount() {
         return exercises.size();
+    }
+
+    public void setSelectedIds(List<Long> existingIds) {
+        if (existingIds != null) {
+            this.selectedIds.clear();
+            this.selectedIds.addAll(existingIds);
+            notifyDataSetChanged();
+
+            // Trigger the listener to update the "Add X Exercises" button text
+            if (selectionListener != null) {
+                selectionListener.onSelectionChanged(selectedIds.size());
+            }
+        }
     }
 
     // holds the references to the views for one row

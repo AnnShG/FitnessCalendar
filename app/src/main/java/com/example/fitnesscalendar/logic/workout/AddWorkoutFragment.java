@@ -19,6 +19,7 @@ import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class AddWorkoutFragment extends Fragment {
     private ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
     private final List<Long> selectedExerciseIdList = new ArrayList<>();
+    private int selectedWorkoutColor = 0xFFFF5722;
 
 
     @Override
@@ -64,9 +66,16 @@ public class AddWorkoutFragment extends Fragment {
             }
         });
 
+        setupColorSelection();
+
             binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
+                Bundle bundle = new Bundle();
+                // Convert List<Long> to long[] to send in bundle
+                long[] existing = selectedExerciseIdList.stream().mapToLong(l -> l).toArray();
+                bundle.putLongArray("existing_ids", existing);
+
             Navigation.findNavController(view)
-                    .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen);
+                    .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen, bundle);
         });
 
         binding.saveWorkoutButton.setOnClickListener(v -> {
@@ -81,12 +90,12 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     private void loadSelectedExercisesIntoUI(long[] selectedIds) {
-        binding.exercisesContainer.removeAllViews();
-        selectedExerciseIdList.clear(); // Clear local list
 
         for (int i = 0; i < selectedIds.length; i++) {
             long id = selectedIds[i];
-            selectedExerciseIdList.add(id); // Store for saving later
+            if (!selectedExerciseIdList.contains(id)) { // Store for saving later
+                selectedExerciseIdList.add(id);
+            }
 
             int position = i + 1;
             exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
@@ -109,12 +118,18 @@ public class AddWorkoutFragment extends Fragment {
         titleTv.setText(record.exercise.getTitle());
 
         if (record.exercise.getMediaUri() != null) {
-            Glide.with(this).load(record.exercise.getMediaUri()).into(img);
+            Glide.with(this)
+                    .load(record.exercise.getMediaUri())
+                    .fitCenter()
+                    .into(img);
         }
 
         deleteBtn.setOnClickListener(v -> {
             binding.exercisesContainer.removeView(rowView);
-            selectedExerciseIdList.remove(record.exercise.getExerciseId());
+
+            Long idToRemove = record.exercise.getExerciseId(); // remove by value
+            selectedExerciseIdList.remove(idToRemove);
+
             recalculateIndices(); //  update 1, 2, 3... labels
         });
 
@@ -126,6 +141,38 @@ public class AddWorkoutFragment extends Fragment {
             View child = binding.exercisesContainer.getChildAt(i);
             TextView indexTv = child.findViewById(R.id.leftSideControlIndex);
             if (indexTv != null) indexTv.setText(String.valueOf(i + 1));
+        }
+    }
+
+    private void setupColorSelection() {
+        binding.colorGreen.setOnClickListener(v -> selectColor(0xFF4CAF50, v));
+        binding.colorBlue.setOnClickListener(v -> selectColor(0xFF2196F3, v));
+        binding.colorPurple.setOnClickListener(v -> selectColor(0xFF9C27B0, v));
+        binding.colorRed.setOnClickListener(v -> selectColor(0xFFF44336, v));
+        binding.colorDarkBlue.setOnClickListener(v -> selectColor(0xFF3F51B5, v));
+        binding.colorGrey.setOnClickListener(v -> selectColor(0xFF888588, v));
+        binding.colorYellow.setOnClickListener(v -> selectColor(0xFFF2D607, v));
+    }
+
+    private void selectColor(int color, View view) {
+        this.selectedWorkoutColor = color;
+
+        View[] colors = {binding.colorGreen, binding.colorBlue, binding.colorPurple,
+                binding.colorRed, binding.colorDarkBlue, binding.colorGrey, binding.colorYellow};
+
+        for (View v : colors) {
+            v.setAlpha(0.5f);
+            if (v instanceof ShapeableImageView) {
+                ((ShapeableImageView) v).setStrokeWidth(0f);
+            }
+        }
+
+        view.setAlpha(1.0f);
+        if (view instanceof ShapeableImageView) {
+            ((ShapeableImageView) view).setStrokeWidth(6f);
+            ((ShapeableImageView) view).setStrokeColor(
+                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.black_colour, null))
+            );
         }
     }
 
@@ -141,11 +188,11 @@ public class AddWorkoutFragment extends Fragment {
 
         Workout workout = new Workout();
         workout.setTitle(title);
+        workout.setColour(selectedWorkoutColor);
         workout.setDescription(Description);
         workout.setNote(note);
 
-        //  Workouts must have a colour for the calendar
-        workout.setColour(0xFFFF5722); // for now the default colour - orange
+        workout.setColour(selectedWorkoutColor);
 
         if (selectedExerciseIdList.isEmpty()) {
             Toast.makeText(getContext(), "Please add at least one exercise to this workout", Toast.LENGTH_SHORT).show();
@@ -165,10 +212,6 @@ public class AddWorkoutFragment extends Fragment {
         Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
 
-//        List<Exercise> exercises = new ArrayList<>();
-//        for (int i = 0; i < binding.exercisesContainer.getChildCount(); i++) {
-//            View exerciseRow = binding.exercisesContainer.getChildAt(i);
-//        }
     }
 
     @Override
