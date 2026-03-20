@@ -16,9 +16,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
+import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
+import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class AddWorkoutFragment extends Fragment {
     private Long currentUserId;
     private final List<Long> selectedExerciseIdList = new ArrayList<>();
     private int selectedWorkoutColor = 0xFFFF5722;
+    private long existingWorkoutId = -1;
 
 
     @Override
@@ -68,6 +71,21 @@ public class AddWorkoutFragment extends Fragment {
 
         setupColorSelection();
 
+        // edit mode screen opened?
+//        if (getArguments() != null) {
+//            existingWorkoutId = getArguments().getLong("workoutId", -1);
+//        }
+//
+//        if (existingWorkoutId != -1) {
+//            binding.addWorkoutTitle.setText("Edit Workout");
+//
+//            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
+//                if (record != null) {
+//                    prefillForm(record);
+//                }
+//            });
+//        }
+
             binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
                 Bundle bundle = new Bundle();
                 // Convert List<Long> to long[] to send in bundle
@@ -76,7 +94,7 @@ public class AddWorkoutFragment extends Fragment {
 
             Navigation.findNavController(view)
                     .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen, bundle);
-        });
+             });
 
         binding.saveWorkoutButton.setOnClickListener(v -> {
             onSaveButtonClicked();
@@ -212,7 +230,26 @@ public class AddWorkoutFragment extends Fragment {
 
         Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
+    }
 
+
+    private void prefillForm(FullWorkoutRecord record) {
+        binding.workoutTitleInput.setText(record.workout.getTitle());
+        binding.workoutDescriptionInput.setText(record.workout.getDescription());
+        binding.workoutNotesInput.setText(record.workout.getNote());
+
+        if (record.workout.getColour() != null) {
+            int savedColor = record.workout.getColour();
+            // e.g., selectColorById(savedColor);
+        }
+
+        if (record.exercises != null && !record.exercises.isEmpty()) {
+            binding.exercisesContainer.removeAllViews();
+            for (Exercise exercise : record.exercises) {
+                // Use your existing method to add an exercise row to the UI
+                // addExerciseRow(exercise);
+            }
+        }
     }
 
     @Override

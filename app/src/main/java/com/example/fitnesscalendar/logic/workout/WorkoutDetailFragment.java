@@ -59,6 +59,16 @@ public class WorkoutDetailFragment extends Fragment {
         }
 
         binding.backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+
+        binding.editWorkoutButton.setOnClickListener(v -> {
+            Bundle editBundle = new Bundle();
+            // Pass the workoutId we are currently viewing
+            editBundle.putLong("workoutId", workoutId);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_WorkoutsDetail_to_AddWorkoutScreen, editBundle);
+        });
+
     }
 
     private void bindWorkoutData(FullWorkoutRecord record) {
