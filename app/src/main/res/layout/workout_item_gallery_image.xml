@@ -16,11 +16,12 @@
 
     <TextView
         android:id="@+id/exerciseTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lexend_font"
         android:text="Deadlift"
+        android:gravity="center"
         android:textColor="@color/black_colour"
         android:textSize="16sp"
         android:textStyle="bold" />
