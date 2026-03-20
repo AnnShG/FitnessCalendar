@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fitnesscalendar.databinding.WorkoutDetailScreenBinding;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
+import com.example.fitnesscalendar.R;
 
 public class WorkoutDetailFragment extends Fragment {
 
@@ -35,16 +36,21 @@ public class WorkoutDetailFragment extends Fragment {
 
         workoutViewModel = new ViewModelProvider(this).get(WorkoutViewModel.class);
 
-        // 1. Setup Horizontal Gallery RecyclerView
-        galleryAdapter = new WorkoutGalleryAdapter();
+        galleryAdapter = new WorkoutGalleryAdapter(exerciseId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong("exerciseId", exerciseId);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_WorkoutsDetail_to_ExerciseDetail, bundle);
+        });
+
         binding.rvExerciseGallery.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvExerciseGallery.setAdapter(galleryAdapter);
 
-        // 2. Get the Workout ID from Navigation Arguments
+        //  Workout ID from Navigation Arguments
         long workoutId = getArguments() != null ? getArguments().getLong("workoutId", -1) : -1;
 
         if (workoutId != -1) {
-            // 3. Observe the database for the Full Record (Workout + Exercises)
             workoutViewModel.getFullWorkoutById(workoutId).observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
                     bindWorkoutData(record);
@@ -52,7 +58,6 @@ public class WorkoutDetailFragment extends Fragment {
             });
         }
 
-        // 4. Back Button logic
         binding.backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
     }
 

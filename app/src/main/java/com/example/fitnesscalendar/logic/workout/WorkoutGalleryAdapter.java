@@ -18,6 +18,15 @@ import lombok.NonNull;
 
 public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAdapter.ViewHolder> {
     private List<Exercise> exercises = new ArrayList<>();
+    private OnExerciseClickListener listener;
+
+    public interface OnExerciseClickListener {
+        void onExerciseClick(long exerciseId);
+    }
+
+    public WorkoutGalleryAdapter(OnExerciseClickListener listener) {
+        this.listener = listener;
+    }
 
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
@@ -48,6 +57,12 @@ public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAd
         } else {
             holder.binding.exerciseMedia.setImageResource(R.drawable.ic_add_photo);
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onExerciseClick(exercise.getExerciseId());
+            }
+        });
     }
 
     @Override
