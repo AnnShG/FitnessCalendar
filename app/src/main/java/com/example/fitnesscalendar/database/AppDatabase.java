@@ -41,7 +41,7 @@ import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
                 Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class
 },
-        version = 14,
+        version = 15,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -61,16 +61,29 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract WorkoutDao workoutDao();
     public abstract ActivityDao activityDao();
 
-    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {@Override
+    public void onCreate(@NonNull SupportSQLiteDatabase db) {
+        super.onCreate(db);
+        fillCategories();
+    }
+
         @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            databaseWriteExecutor.execute(() -> {
-                // Pre-populate using the helper method
-                INSTANCE.categoryDao().insertAll(getPredefinedCategories());
-            });
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            // Every time the app opens, ensure categories exist
+            fillCategories();
         }
     };
+
+    private static void fillCategories() {
+        databaseWriteExecutor.execute(() -> {
+            CategoryDao dao = INSTANCE.categoryDao();
+            // check if table is empty before inserting to avoid duplicates
+            if (dao.getCategoryCount() == 0) {
+                dao.insertAll(getPredefinedCategories());
+            }
+        });
+    }
 
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
