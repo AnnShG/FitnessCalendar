@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
-    android:background="@color/home_page_background_colour">
+    android:background="@color/home_page_background_colour"
+    tools:context=".logic.workout.WorkoutDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <View
-                android:id="@+id/colorIndicator"
+                android:id="@+id/colourIndicator"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"

@@ -171,6 +171,8 @@
     <string name="workout_list_title">All Workouts</string>
     <string name="workout_filtered_text">Filtered by: </string>
     <string name="workout_filter_icon_description">Filter</string>
+    <string name="workout_title_text">Full Body Strength</string>
+    <string name="workout_title_description">A high-intensity workout focusing on all major muscle groups.</string>
 
     <!--    Exercise select screen -->
     <string name="exercises_select_title">Select Exercises</string>
