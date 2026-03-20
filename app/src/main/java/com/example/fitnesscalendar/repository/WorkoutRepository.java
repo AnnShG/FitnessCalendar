@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
-import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;

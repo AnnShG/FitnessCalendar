@@ -12,7 +12,6 @@ import androidx.room.Update;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
-import com.example.fitnesscalendar.relations.WorkoutWithExercises;
 
 import java.util.List;
 
