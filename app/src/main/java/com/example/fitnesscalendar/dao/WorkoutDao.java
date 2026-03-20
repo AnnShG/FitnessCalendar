@@ -32,8 +32,12 @@ public interface WorkoutDao {
     void insertExerciseCrossRef(WorkoutExerciseCrossRef crossRef);
 
     @Transaction
-    @Query("SELECT * FROM workouts")
-    LiveData<List<FullWorkoutRecord>> getFullWorkoutRecords();
+    @Query("SELECT * FROM workouts WHERE owner_id IS NULL OR owner_id = :userId")
+    LiveData<List<FullWorkoutRecord>> getFullWorkoutRecords(long userId);
+
+    @Transaction
+    @Query("SELECT * FROM workouts WHERE workout_id = :workoutId")
+    LiveData<FullWorkoutRecord> getFullWorkoutById(long workoutId);
 
 
 

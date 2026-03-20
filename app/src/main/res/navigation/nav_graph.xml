@@ -108,6 +108,10 @@
         <action
             android:id="@+id/action_NavigationProfile_to_ExercisesList"
             app:destination="@id/ExercisesList" />
+
+        <action
+            android:id="@+id/action_NavigationProfile_to_WorkoutsList"
+            app:destination="@id/WorkoutsList" />
     </fragment>
 
     <fragment
@@ -127,6 +131,26 @@
         android:label="Exercise Details">
         <argument
             android:name="exerciseId"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/WorkoutsList"
+        android:name="com.example.fitnesscalendar.logic.workout.WorkoutsListFragment"
+        android:label="Workouts"
+        tools:layout="@layout/workouts_list_screen">
+
+        <action
+            android:id="@+id/action_WorkoutsList_to_WorkoutsDetail"
+            app:destination="@id/WorkoutDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/WorkoutDetail"
+        android:name="com.example.fitnesscalendar.logic.workout.WorkoutDetailFragment"
+        android:label="Workout Details">
+        <argument
+            android:name="workoutId"
             app:argType="long" />
     </fragment>
 

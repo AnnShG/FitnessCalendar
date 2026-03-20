@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.repository.WorkoutRepository;
@@ -32,6 +33,14 @@ public class WorkoutViewModel extends AndroidViewModel {
 
     public void saveWorkout(Workout workout, List<Long> exercises) {
         workoutRepository.insertFullWorkout(workout, exercises);
+    }
+
+    public LiveData<List<FullWorkoutRecord>> getAllWorkouts(long userId) {
+        return workoutRepository.getAvailableWorkouts(userId);
+    }
+
+    public LiveData<FullWorkoutRecord> getFullWorkoutById(long id) {
+        return workoutRepository.getFullWorkoutById(id);
     }
 
 }

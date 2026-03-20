@@ -62,6 +62,11 @@ public class ProfileScreenFragment extends Fragment {
                     .navigate(R.id.action_NavigationProfile_to_ExercisesList);
         });
 
+        binding.allWorkoutsRow.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_NavigationProfile_to_WorkoutsList);
+        });
+
     }
 
     private void showEditDialog(Goal goal) {
