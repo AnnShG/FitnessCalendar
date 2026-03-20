@@ -149,6 +149,11 @@
         android:id="@+id/WorkoutDetail"
         android:name="com.example.fitnesscalendar.logic.workout.WorkoutDetailFragment"
         android:label="Workout Details">
+
+        <action
+            android:id="@+id/action_WorkoutsDetail_to_ExerciseDetail"
+            app:destination="@id/ExerciseDetail" />
+
         <argument
             android:name="workoutId"
             app:argType="long" />
