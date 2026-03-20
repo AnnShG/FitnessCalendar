@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
-import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
@@ -18,7 +17,6 @@ import java.util.concurrent.Executors;
 public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
-    private final LiveData<List<FullWorkoutRecord>> allFullWorkoutRecords;
 
     public static final ExecutorService databaseExecutor =
             Executors.newFixedThreadPool(2);
@@ -26,7 +24,6 @@ public class WorkoutRepository {
     public WorkoutRepository(Application app) {
         AppDatabase db = AppDatabase.getDatabase(app);
         workoutDao = db.workoutDao();
-        allFullWorkoutRecords = workoutDao.getFullWorkoutRecords();
     }
 
     public void insertFullWorkout(Workout workout, List<Long> exerciseIds) {
@@ -44,4 +41,13 @@ public class WorkoutRepository {
             }
         });
     }
+
+    public LiveData<List<FullWorkoutRecord>> getAvailableWorkouts(long userId) {
+        return workoutDao.getFullWorkoutRecords(userId);
+    }
+
+    public LiveData<FullWorkoutRecord> getFullWorkoutById(long id) {
+        return workoutDao.getFullWorkoutById(id);
+    }
+
 }

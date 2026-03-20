@@ -7,20 +7,21 @@
     android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivExercise"
+        android:id="@+id/exerciseMedia"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:shapeAppearanceOverlay="@style/RoundedCornersGallery"
         app:srcCompat="@drawable/sample_exercise" />
 
     <TextView
-        android:id="@+id/tvExerciseName"
-        android:layout_width="wrap_content"
+        android:id="@+id/exerciseTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/lexend_font"
         android:text="Deadlift"
+        android:gravity="center"
         android:textColor="@color/black_colour"
         android:textSize="16sp"
         android:textStyle="bold" />

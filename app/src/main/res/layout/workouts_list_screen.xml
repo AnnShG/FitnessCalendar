@@ -6,12 +6,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:background="@color/home_page_background_colour"
-    tools:context=".logic.exercise.AddExerciseFragment">
+    tools:context=".logic.workout.WorkoutsListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="32dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="@dimen/margin_left"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black_colour" />
 
         <TextView
             android:id="@+id/allWorkoutsTitle"
@@ -19,16 +33,16 @@
             android:layout_height="wrap_content"
 
             android:text="@string/workout_list_title"
-            android:layout_marginTop="45dp"
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/black_colour"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/backButton" />
 
         <LinearLayout
             android:id="@+id/headerContainer"
@@ -76,6 +90,19 @@
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/headerContainer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/workoutsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="8dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filteredWorkouts"
+            tools:listitem="@layout/workouts_list_item_grid" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

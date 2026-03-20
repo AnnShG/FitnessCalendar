@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
-    android:background="@color/home_page_background_colour">
+    android:background="@color/home_page_background_colour"
+    tools:context=".logic.workout.WorkoutDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="32dp">
+        android:paddingBottom="16dp">
 
         <ImageButton
             android:id="@+id/backButton"
@@ -38,10 +39,11 @@
             app:layout_constraintTop_toTopOf="@id/backButton"
             app:layout_constraintBottom_toBottomOf="@id/backButton"
             app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/editExerciseButton">
 
             <View
-                android:id="@+id/colorIndicator"
+                android:id="@+id/colourIndicator"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
@@ -57,24 +59,22 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/black_colour" />
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/colorIndicator"
-            app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
             <ImageView
-                android:id="@+id/edit_workout_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="40dp"
+                android:id="@+id/editExerciseButton"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="13dp"
 
                 app:srcCompat="@drawable/ic_edit_field"
                 app:tint="@color/workout_left_side_control_icons_colour"
 
-                app:layout_constraintStart_toEndOf="@id/addWorkoutTitle"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/headerContainer"
+                app:layout_constraintBottom_toBottomOf="@id/headerContainer"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gallerySection"

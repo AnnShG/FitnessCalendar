@@ -177,8 +177,9 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     private void onSaveButtonClicked() {
-        String title = binding.workoutTitleInput.getText().toString();
+        String title = binding.workoutTitleInput.getText().toString().trim();
         if (title.isEmpty()) {
+            binding.workoutTitleInput.setError("Title is required");
             Toast.makeText(getContext(), "Please enter a workout title", Toast.LENGTH_SHORT).show();
             return;
         }
