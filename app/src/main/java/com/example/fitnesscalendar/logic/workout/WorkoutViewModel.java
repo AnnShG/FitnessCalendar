@@ -38,8 +38,8 @@ public class WorkoutViewModel extends AndroidViewModel {
         return workoutRepository.getAvailableWorkouts(userId);
     }
 
-//    public LiveData<FullWorkoutRecord> getFullWorkoutById(long id) {
-//        return workoutRepository.getFullWorkoutById(id);
-//    }
+    public LiveData<FullWorkoutRecord> getFullWorkoutById(long id) {
+        return workoutRepository.getFullWorkoutById(id);
+    }
 
 }
