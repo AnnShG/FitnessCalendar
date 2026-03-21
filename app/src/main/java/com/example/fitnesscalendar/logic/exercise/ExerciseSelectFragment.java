@@ -23,9 +23,10 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // child binding
         binding = ExercisesSelectScreenBinding.inflate(inflater, container, false);
 
-        super.binding = ExercisesListScreenBinding.bind(binding.getRoot()); // parent's binding var
+//        super.binding = ExercisesListScreenBinding.bind(binding.getRoot()); // parent's binding var
 
         super.root = binding.getRoot(); // Pass the root to the parent
         return super.root;
@@ -34,7 +35,7 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // shared viewModel
-        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
+//        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
         // super - parent - sets up the recyclerView and Adapter
         super.onViewCreated(view, savedInstanceState);
 

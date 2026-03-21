@@ -41,9 +41,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // 1. Get the Full Record
         FullWorkoutRecord record = workouts.get(position);
-        // 2. Extract the Workout entity from the record
+        // extract the Workout entity from the record
         Workout workout = record.workout;
 
         holder.binding.workoutTitle.setText(workout.getTitle());

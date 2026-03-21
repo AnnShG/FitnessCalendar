@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.fitnesscalendar.R;
@@ -49,6 +51,13 @@ public class ExercisesListFragment extends Fragment {
 
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
 
+        RecyclerView recyclerView = view.findViewById(R.id.exercisesRecyclerView);
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            recyclerView.setAdapter(adapter);
+            recyclerView.setNestedScrollingEnabled(false);
+        }
+
         // navigation to details logic
         adapter.setOnInfoClickListener(id -> { // lambda defines what happens when the users taps the item
             Bundle bundle = new Bundle();
@@ -58,9 +67,12 @@ public class ExercisesListFragment extends Fragment {
                     .navigate(R.id.action_ExercisesList_to_ExerciseDetail, bundle); // take bundle (envelope) with ex id
         });
 
-        binding.exercisesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        binding.exercisesRecyclerView.setAdapter(adapter);
-        binding.exercisesRecyclerView.setNestedScrollingEnabled(false); // prevents list scrolling from stuck
+        if (binding != null) {
+            binding.exercisesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            binding.exercisesRecyclerView.setAdapter(adapter);
+            binding.exercisesRecyclerView.setNestedScrollingEnabled(false); // prevents list scrolling from stuck
+
+        }
 
         // Observe the Data
         exerciseViewModel.getAllFullExerciseRecords().observe(getViewLifecycleOwner(), exercises -> {
@@ -72,10 +84,12 @@ public class ExercisesListFragment extends Fragment {
             }
         });
 
-        binding.backButton.setOnClickListener(v ->
-                NavHostFragment.findNavController(ExercisesListFragment.this)
-                        .navigateUp()
-        );
+        View backBtn = view.findViewById(R.id.backButton);
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v ->
+                    NavHostFragment.findNavController(this).navigateUp()
+            );
+        }
     }
 
     @Override

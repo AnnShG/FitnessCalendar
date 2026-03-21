@@ -16,7 +16,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
-import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
@@ -72,19 +71,19 @@ public class AddWorkoutFragment extends Fragment {
         setupColorSelection();
 
         // edit mode screen opened?
-//        if (getArguments() != null) {
-//            existingWorkoutId = getArguments().getLong("workoutId", -1);
-//        }
-//
-//        if (existingWorkoutId != -1) {
-//            binding.addWorkoutTitle.setText("Edit Workout");
-//
-//            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
-//                if (record != null) {
-//                    prefillForm(record);
-//                }
-//            });
-//        }
+        if (getArguments() != null) {
+            existingWorkoutId = getArguments().getLong("workoutId", -1);
+        }
+
+        if (existingWorkoutId != -1) {
+            binding.addWorkoutTitle.setText("Edit Workout");
+
+            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
+                if (record != null) {
+                    prefillForm(record);
+                }
+            });
+        }
 
             binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
                 Bundle bundle = new Bundle();
@@ -107,20 +106,38 @@ public class AddWorkoutFragment extends Fragment {
         );
     }
 
+//    private void loadSelectedExercisesIntoUI(long[] selectedIds) {
+//
+//        for (int i = 0; i < selectedIds.length; i++) {
+//            long id = selectedIds[i];
+//            if (!selectedExerciseIdList.contains(id)) { // Store for saving later
+//                selectedExerciseIdList.add(id);
+//            }
+//
+//            int position = i + 1;
+//            exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
+//                if (record != null) {
+//                    inflateExerciseRow(record, position);
+//                }
+//            });
+//        }
+//    }
+
     private void loadSelectedExercisesIntoUI(long[] selectedIds) {
+        int currentCount = binding.exercisesContainer.getChildCount();
 
-        for (int i = 0; i < selectedIds.length; i++) {
-            long id = selectedIds[i];
-            if (!selectedExerciseIdList.contains(id)) { // Store for saving later
+        for (long id : selectedIds) {
+            if (!selectedExerciseIdList.contains(id)) {
                 selectedExerciseIdList.add(id);
-            }
 
-            int position = i + 1;
-            exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
-                if (record != null) {
-                    inflateExerciseRow(record, position);
-                }
-            });
+                final int position = ++currentCount;
+
+                exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
+                    if (record != null) {
+                        inflateExerciseRow(record, position);
+                    }
+                });
+            }
         }
     }
 
@@ -198,7 +215,6 @@ public class AddWorkoutFragment extends Fragment {
         String title = binding.workoutTitleInput.getText().toString().trim();
         if (title.isEmpty()) {
             binding.workoutTitleInput.setError("Title is required");
-            Toast.makeText(getContext(), "Please enter a workout title", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -212,6 +228,10 @@ public class AddWorkoutFragment extends Fragment {
         workout.setNote(note);
 
         workout.setColour(selectedWorkoutColor);
+
+        if (existingWorkoutId != -1) { // if editing mode
+            workout.setWorkoutId(existingWorkoutId);
+        }
 
         if (selectedExerciseIdList.isEmpty()) {
             Toast.makeText(getContext(), "Please add at least one exercise to this workout", Toast.LENGTH_SHORT).show();
@@ -240,15 +260,35 @@ public class AddWorkoutFragment extends Fragment {
 
         if (record.workout.getColour() != null) {
             int savedColor = record.workout.getColour();
-            // e.g., selectColorById(savedColor);
+            setupColorSelection();
+
+            View colorView = null;
+            if (savedColor == 0xFF4CAF50) colorView = binding.colorGreen;
+            else if (savedColor == 0xFF2196F3) colorView = binding.colorBlue;
+            else if (savedColor == 0xFF9C27B0) colorView = binding.colorPurple;
+            else if (savedColor == 0xFFF44336) colorView = binding.colorRed;
+            else if (savedColor == 0xFF3F51B5) colorView = binding.colorDarkBlue;
+            else if (savedColor == 0xFF888588) colorView = binding.colorGrey;
+            else if (savedColor == 0xFFF2D607) colorView = binding.colorYellow;
+
+            if (colorView != null) {
+                selectColor(savedColor, colorView);
+            }
         }
 
         if (record.exercises != null && !record.exercises.isEmpty()) {
+            // Clear current list and UI container to avoid duplicates
+            selectedExerciseIdList.clear();
             binding.exercisesContainer.removeAllViews();
-            for (Exercise exercise : record.exercises) {
-                // Use your existing method to add an exercise row to the UI
-                // addExerciseRow(exercise);
+
+            // Extract IDs from the list of exercises
+            long[] exerciseIds = new long[record.exercises.size()];
+            for (int i = 0; i < record.exercises.size(); i++) {
+                exerciseIds[i] = record.exercises.get(i).getExerciseId();
             }
+
+            loadSelectedExercisesIntoUI(exerciseIds);
+
         }
     }
 
