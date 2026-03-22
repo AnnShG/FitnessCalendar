@@ -16,14 +16,12 @@ import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExerciseDetailScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
-import com.example.fitnesscalendar.logic.survey.SurveyPage3Fragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 
 public class ExerciseDetailFragment extends Fragment {
 
     private ExerciseDetailScreenBinding binding;
-    private ExerciseViewModel viewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,7 +33,7 @@ public class ExerciseDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
+        ExerciseViewModel viewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
 
         // Get the ID passed from the List Screen
         long exerciseId = getArguments() != null ? getArguments().getLong("exerciseId") : -1;
@@ -87,10 +85,6 @@ public class ExerciseDetailFragment extends Fragment {
 //        binding.editExerciseButton.setOnClickListener(v -> {
 //            // Logic to navigate to AddExerciseFragment with the ID for editing
 //        });
-//
-//        binding.deleteExerciseButton.setOnClickListener(v -> {
-//            // Logic to call viewModel.delete(record.exercise) and navigateUp()
-//        });
 
         binding.stepsContainer.removeAllViews();
         if (record.steps != null) {
@@ -105,6 +99,26 @@ public class ExerciseDetailFragment extends Fragment {
 
                 binding.stepsContainer.addView(stepRow);
             }
+        }
+
+        String description = record.exercise.getDescription();
+        if (description == null || description.trim().isEmpty()) {
+            binding.exerciseDescriptionLabel.setVisibility(View.GONE);
+            binding.exerciseDescriptionText.setVisibility(View.GONE);
+        } else {
+            binding.exerciseDescriptionLabel.setVisibility(View.VISIBLE);
+            binding.exerciseDescriptionText.setVisibility(View.VISIBLE);
+            binding.exerciseDescriptionText.setText(description);
+        }
+
+        String notes = record.exercise.getNote();
+        if (notes == null || notes.trim().isEmpty()) {
+            binding.exerciseNotesLabel.setVisibility(View.GONE);
+            binding.exerciseNotesText.setVisibility(View.GONE);
+        } else {
+            binding.exerciseNotesLabel.setVisibility(View.VISIBLE);
+            binding.exerciseNotesText.setVisibility(View.VISIBLE);
+            binding.exerciseNotesText.setText(notes);
         }
     }
 

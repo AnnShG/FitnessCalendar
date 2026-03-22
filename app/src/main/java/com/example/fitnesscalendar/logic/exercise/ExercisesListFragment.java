@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
 
@@ -23,7 +22,7 @@ public class ExercisesListFragment extends Fragment {
     protected ExercisesListScreenBinding binding;
     protected ExerciseAdapter adapter;
     protected ExerciseViewModel exerciseViewModel;
-    private Long currentUserId;
+//    private Long currentUserId;
     protected View root;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
