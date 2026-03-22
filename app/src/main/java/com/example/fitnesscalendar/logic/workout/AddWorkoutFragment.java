@@ -19,6 +19,7 @@ import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
+import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class AddWorkoutFragment extends Fragment {
     private Long currentUserId;
     private final List<Long> selectedExerciseIdList = new ArrayList<>();
     private int selectedWorkoutColor = 0xFFFF5722;
+    private long existingWorkoutId = -1;
 
 
     @Override
@@ -62,11 +64,33 @@ public class AddWorkoutFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("exercise_selection", getViewLifecycleOwner(), (requestKey, bundle) -> {
             long[] selectedIds = bundle.getLongArray("selected_ids");
             if (selectedIds != null) {
+                selectedExerciseIdList.clear();
+                binding.exercisesContainer.removeAllViews();
                 loadSelectedExercisesIntoUI(selectedIds);
             }
         });
 
         setupColorSelection();
+
+        // edit mode screen opened?
+        if (getArguments() != null) {
+            existingWorkoutId = getArguments().getLong("workoutId", -1);
+        }
+
+        if (existingWorkoutId != -1) {
+            binding.addWorkoutTitle.setText("Edit Workout");
+
+            binding.deleteWorkoutButton.setVisibility(View.VISIBLE);
+            binding.deleteWorkoutButton.setOnClickListener(v -> {
+                showDeleteConfirmationDialog();
+            });
+
+            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
+                if (record != null) {
+                    prefillForm(record);
+                }
+            });
+        }
 
             binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
                 Bundle bundle = new Bundle();
@@ -76,7 +100,7 @@ public class AddWorkoutFragment extends Fragment {
 
             Navigation.findNavController(view)
                     .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen, bundle);
-        });
+             });
 
         binding.saveWorkoutButton.setOnClickListener(v -> {
             onSaveButtonClicked();
@@ -90,14 +114,13 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     private void loadSelectedExercisesIntoUI(long[] selectedIds) {
-
         for (int i = 0; i < selectedIds.length; i++) {
             long id = selectedIds[i];
-            if (!selectedExerciseIdList.contains(id)) { // Store for saving later
-                selectedExerciseIdList.add(id);
-            }
+            selectedExerciseIdList.add(id);
 
-            int position = i + 1;
+            //  async database call
+            final int position = i + 1;
+
             exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
                     inflateExerciseRow(record, position);
@@ -180,7 +203,6 @@ public class AddWorkoutFragment extends Fragment {
         String title = binding.workoutTitleInput.getText().toString().trim();
         if (title.isEmpty()) {
             binding.workoutTitleInput.setError("Title is required");
-            Toast.makeText(getContext(), "Please enter a workout title", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -208,11 +230,80 @@ public class AddWorkoutFragment extends Fragment {
             return;
         }
 
-        workoutViewModel.saveWorkout(workout, selectedExerciseIdList);
+        if (existingWorkoutId != -1) {
+            workout.setWorkoutId(existingWorkoutId); // attach the ID to the object
+            workoutViewModel.updateWorkout(workout, selectedExerciseIdList);
+            Toast.makeText(getContext(), "Workout Updated!", Toast.LENGTH_SHORT).show();
+        } else {
+            workoutViewModel.saveWorkout(workout, selectedExerciseIdList);
+            Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
+    }
 
+
+    private void prefillForm(FullWorkoutRecord record) {
+        binding.workoutTitleInput.setText(record.workout.getTitle());
+        binding.workoutDescriptionInput.setText(record.workout.getDescription());
+        binding.workoutNotesInput.setText(record.workout.getNote());
+
+        if (record.workout.getColour() != null) {
+            int savedColor = record.workout.getColour();
+            setupColorSelection();
+
+            View colorView = null;
+            if (savedColor == 0xFF4CAF50) colorView = binding.colorGreen;
+            else if (savedColor == 0xFF2196F3) colorView = binding.colorBlue;
+            else if (savedColor == 0xFF9C27B0) colorView = binding.colorPurple;
+            else if (savedColor == 0xFFF44336) colorView = binding.colorRed;
+            else if (savedColor == 0xFF3F51B5) colorView = binding.colorDarkBlue;
+            else if (savedColor == 0xFF888588) colorView = binding.colorGrey;
+            else if (savedColor == 0xFFF2D607) colorView = binding.colorYellow;
+
+            if (colorView != null) {
+                selectColor(savedColor, colorView);
+            }
+        }
+
+        if (record.exercises != null && !record.exercises.isEmpty()) {
+//            selectedExerciseIdList.clear();
+//            binding.exercisesContainer.removeAllViews();
+
+            if (selectedExerciseIdList.isEmpty()) {
+                // Extract IDs from the list of exercises
+                long[] exerciseIds = new long[record.exercises.size()];
+                for (int i = 0; i < record.exercises.size(); i++) {
+                    exerciseIds[i] = record.exercises.get(i).getExerciseId();
+                }
+                loadSelectedExercisesIntoUI(exerciseIds);
+            }
+        }
+    }
+
+    private void showDeleteConfirmationDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Delete Workout")
+                .setMessage("Are you sure you want to delete this workout? This action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    deleteCurrentWorkout();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void deleteCurrentWorkout() {
+        if (existingWorkoutId != -1) {
+            Workout workoutToDelete = new Workout();
+            workoutToDelete.setWorkoutId(existingWorkoutId);
+
+            workoutViewModel.deleteWorkout(workoutToDelete);
+
+            Toast.makeText(getContext(), "Workout deleted", Toast.LENGTH_SHORT).show();
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_AddWorkoutScreen_to_WorkoutsList);
+        }
     }
 
     @Override

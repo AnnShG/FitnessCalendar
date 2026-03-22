@@ -18,7 +18,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="25dp"
-            android:layout_marginStart="@dimen/margin_left"
+            android:layout_marginStart="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/back_button"
             android:padding="4dp"
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:gravity="center_vertical"
             android:padding="20dp"
 
@@ -40,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="@id/backButton"
             app:layout_constraintStart_toEndOf="@id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/editExerciseButton">
+            app:layout_constraintEnd_toStartOf="@id/editWorkoutButton">
 
             <View
                 android:id="@+id/colourIndicator"
@@ -57,14 +57,14 @@
 
             android:text="@string/workout_item_title"
             android:fontFamily="@font/lexend_font"
-            android:textSize="25sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             android:textColor="@color/black_colour" />
 
         </LinearLayout>
 
             <ImageView
-                android:id="@+id/editExerciseButton"
+                android:id="@+id/editWorkoutButton"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="13dp"
@@ -191,7 +191,6 @@
 
             app:layout_constraintTop_toBottomOf="@id/workoutNotes"
             app:layout_constraintStart_toStartOf="parent"/>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

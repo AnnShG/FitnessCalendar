@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
@@ -23,6 +22,7 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // child binding
         binding = ExercisesSelectScreenBinding.inflate(inflater, container, false);
 
         super.binding = ExercisesListScreenBinding.bind(binding.getRoot()); // parent's binding var
@@ -34,31 +34,28 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // shared viewModel
-        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
+//        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
         // super - parent - sets up the recyclerView and Adapter
         super.onViewCreated(view, savedInstanceState);
 
         if (adapter != null) {
-//            this.isSelectionMode = mode;
             adapter.setSelectionMode(true); // Tell adapter to show checkboxes and eye
 
-            adapter.setOnSelectionChangedListener(count -> { //adapter sends count
-                if (count > 0) {
-                    binding.buttonContainer.setVisibility(View.VISIBLE);
-                    String btnText = "Add " + count + (count == 1 ? " Exercise" : " Exercises");
-                    binding.selectExerciseButton.setText(btnText);
-                } else {
-                    binding.buttonContainer.setVisibility(View.GONE);
-                }
+            adapter.setOnSelectionChangedListener(count -> {
+                updateSelectionButton(count); //  helper method
             });
         }
 
-        long[] existing = getArguments().getLongArray("existing_ids");
-        if (existing != null) {
+        // get existing IDs passed from the Workout screen
+        long[] existing = getArguments() != null ? getArguments().getLongArray("existing_ids") : null;
+        if (existing != null && existing.length > 0) {
             List<Long> existingList = new ArrayList<>();
-
             for (long id : existing) existingList.add(id);
+
+            // Set them in the adapter
             adapter.setSelectedIds(existingList);
+
+            updateSelectionButton(existingList.size());
         }
 
         // This triggers the navigation to details
@@ -86,6 +83,16 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)
                         .navigateUp()
         );
+    }
+
+    private void updateSelectionButton(int count) {
+        if (count > 0) {
+            binding.buttonContainer.setVisibility(View.VISIBLE);
+            String btnText = "Add " + count + (count == 1 ? " Exercise" : " Exercises");
+            binding.selectExerciseButton.setText(btnText);
+        } else {
+            binding.buttonContainer.setVisibility(View.GONE);
+        }
     }
 
 }

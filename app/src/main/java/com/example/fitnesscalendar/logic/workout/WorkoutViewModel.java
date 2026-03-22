@@ -42,4 +42,12 @@ public class WorkoutViewModel extends AndroidViewModel {
         return workoutRepository.getFullWorkoutById(id);
     }
 
+    public void updateWorkout(Workout workout, List<Long> exerciseIds) {
+        workoutRepository.updateFullWorkout(workout, exerciseIds);
+    }
+
+    public void deleteWorkout(Workout workout) {
+        workoutRepository.deleteWorkout(workout);
+    }
+
 }

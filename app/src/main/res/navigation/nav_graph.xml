@@ -81,6 +81,10 @@
         <action
             android:id="@+id/action_AddWorkoutScreen_to_ExerciseSelectScreen"
             app:destination="@+id/ExerciseSelectScreen" />
+
+        <action
+            android:id="@+id/action_AddWorkoutScreen_to_WorkoutsList"
+            app:destination="@+id/WorkoutsList" />
     </fragment>
 
     <fragment
@@ -129,6 +133,11 @@
         android:id="@+id/ExerciseDetail"
         android:name="com.example.fitnesscalendar.logic.exercise.ExerciseDetailFragment"
         android:label="Exercise Details">
+
+        <action
+            android:id="@+id/action_ExerciseDetail_to_AddExerciseScreen"
+            app:destination="@id/AddExerciseScreen" />
+
         <argument
             android:name="exerciseId"
             app:argType="long" />
@@ -153,6 +162,10 @@
         <action
             android:id="@+id/action_WorkoutsDetail_to_ExerciseDetail"
             app:destination="@id/ExerciseDetail" />
+
+        <action
+            android:id="@+id/action_WorkoutsDetail_to_AddWorkoutScreen"
+            app:destination="@id/AddWorkoutScreen" />
 
         <argument
             android:name="workoutId"

@@ -50,4 +50,31 @@ public class WorkoutRepository {
         return workoutDao.getFullWorkoutById(id);
     }
 
+    public void updateFullWorkout(Workout workout, List<Long> exerciseIds) {
+        databaseExecutor.execute(() -> {
+            // update the main workout entity
+            workoutDao.update(workout);
+
+            // clear out the old exercise associations in the bridge table
+            workoutDao.deleteExercisesForWorkout(workout.getWorkoutId());
+
+            // Re-insert the current list of exercises
+            if (exerciseIds != null) {
+                for (Long exId : exerciseIds) {
+                    WorkoutExerciseCrossRef ref = new WorkoutExerciseCrossRef();
+                    ref.workoutId = workout.getWorkoutId();
+                    ref.exerciseId = exId;
+                    workoutDao.insertExerciseCrossRef(ref);
+                }
+            }
+        });
+    }
+
+    public void deleteWorkout(Workout workout) {
+        databaseExecutor.execute(() -> {
+            workoutDao.deleteExerciseLinks(workout.getWorkoutId()); // clean bridge table
+            workoutDao.delete(workout); // clean workout table
+        });
+    }
+
 }

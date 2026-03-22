@@ -30,6 +30,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/deleteWorkoutButton"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete_bin"
+            app:tint="@color/workout_left_side_control_icons_colour" />
+
         <TextView
             android:id="@+id/workoutTitle"
             android:layout_width="wrap_content"
@@ -274,8 +286,8 @@
             android:id="@+id/saveWorkoutButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_margin="32dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="32dp"
 
             android:text="@string/save_exercise"
             android:textStyle="bold"
@@ -284,9 +296,11 @@
             app:cornerRadius="13dp"
             app:backgroundTint="@color/exercise_save_button_background_colour"
             android:textColor="@color/exercise_save_text_colour"
+            android:foreground="?attr/selectableItemBackground"
 
             app:layout_constraintTop_toBottomOf="@id/addExerciseButton"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelWorkoutButton"
@@ -300,11 +314,12 @@
             app:cornerRadius="13dp"
             app:backgroundTint="@color/exercise_cancel_button_background_colour"
             android:textColor="@color/exercise_cancel_text_colour"
+            android:foreground="?attr/selectableItemBackground"
 
             app:layout_constraintTop_toBottomOf="@id/saveWorkoutButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

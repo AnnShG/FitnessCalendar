@@ -19,7 +19,7 @@ import lombok.Data;
         ),
         indices = {@Index("owner_id")}
 )
-public class Workout {
+public class  Workout {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "workout_id")
     public Long workoutId;

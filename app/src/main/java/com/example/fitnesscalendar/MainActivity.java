@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
                 if (id == R.id.CalendarHomePage || id == R.id.NavigationProfile || id == R.id.NavigationGraphs ||
-                        id == R.id.ExercisesList|| id == R.id.ExerciseDetail) {
+                        id == R.id.ExercisesList || id == R.id.ExerciseDetail || id == R.id.WorkoutsList ||
+                        id == R.id.WorkoutDetail) {
                     bottomNav.setVisibility(View.VISIBLE);
                 } else {
                     bottomNav.setVisibility(View.GONE);
