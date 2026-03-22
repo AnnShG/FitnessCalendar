@@ -76,7 +76,7 @@ public class ExercisesListFragment extends Fragment {
 
         // Observe the Data
         exerciseViewModel.getAllFullExerciseRecords().observe(getViewLifecycleOwner(), exercises -> {
-            if (exercises != null) {
+            if (exercises != null  && binding != null) {
                 adapter.setExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
 
                 String countText = exercises.size() + " Exercises Found";

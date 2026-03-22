@@ -81,6 +81,10 @@
         <action
             android:id="@+id/action_AddWorkoutScreen_to_ExerciseSelectScreen"
             app:destination="@+id/ExerciseSelectScreen" />
+
+        <action
+            android:id="@+id/action_AddWorkoutScreen_to_WorkoutsList"
+            app:destination="@+id/WorkoutsList" />
     </fragment>
 
     <fragment

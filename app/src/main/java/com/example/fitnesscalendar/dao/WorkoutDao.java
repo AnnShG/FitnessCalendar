@@ -24,8 +24,15 @@ public interface WorkoutDao {
     @Update
     void update(Workout workout);
 
+    @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :workoutId")
+    void deleteExercisesForWorkout(long workoutId);
+
     @Delete
     void delete(Workout workout);
+
+    // If you don't have CASCADE set in your Entity, you must also delete the links:
+    @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :id")
+    void deleteExerciseLinks(long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertExerciseCrossRef(WorkoutExerciseCrossRef crossRef);

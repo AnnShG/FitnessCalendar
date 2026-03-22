@@ -64,6 +64,8 @@ public class AddWorkoutFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("exercise_selection", getViewLifecycleOwner(), (requestKey, bundle) -> {
             long[] selectedIds = bundle.getLongArray("selected_ids");
             if (selectedIds != null) {
+                selectedExerciseIdList.clear();
+                binding.exercisesContainer.removeAllViews();
                 loadSelectedExercisesIntoUI(selectedIds);
             }
         });
@@ -77,6 +79,11 @@ public class AddWorkoutFragment extends Fragment {
 
         if (existingWorkoutId != -1) {
             binding.addWorkoutTitle.setText("Edit Workout");
+
+            binding.deleteWorkoutButton.setVisibility(View.VISIBLE);
+            binding.deleteWorkoutButton.setOnClickListener(v -> {
+                showDeleteConfirmationDialog();
+            });
 
             workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
@@ -106,38 +113,19 @@ public class AddWorkoutFragment extends Fragment {
         );
     }
 
-//    private void loadSelectedExercisesIntoUI(long[] selectedIds) {
-//
-//        for (int i = 0; i < selectedIds.length; i++) {
-//            long id = selectedIds[i];
-//            if (!selectedExerciseIdList.contains(id)) { // Store for saving later
-//                selectedExerciseIdList.add(id);
-//            }
-//
-//            int position = i + 1;
-//            exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
-//                if (record != null) {
-//                    inflateExerciseRow(record, position);
-//                }
-//            });
-//        }
-//    }
-
     private void loadSelectedExercisesIntoUI(long[] selectedIds) {
-        int currentCount = binding.exercisesContainer.getChildCount();
+        for (int i = 0; i < selectedIds.length; i++) {
+            long id = selectedIds[i];
+            selectedExerciseIdList.add(id);
 
-        for (long id : selectedIds) {
-            if (!selectedExerciseIdList.contains(id)) {
-                selectedExerciseIdList.add(id);
+            //  async database call
+            final int position = i + 1;
 
-                final int position = ++currentCount;
-
-                exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
-                    if (record != null) {
-                        inflateExerciseRow(record, position);
-                    }
-                });
-            }
+            exerciseViewModel.getFullExerciseById(id).observe(getViewLifecycleOwner(), record -> {
+                if (record != null) {
+                    inflateExerciseRow(record, position);
+                }
+            });
         }
     }
 
@@ -229,10 +217,6 @@ public class AddWorkoutFragment extends Fragment {
 
         workout.setColour(selectedWorkoutColor);
 
-        if (existingWorkoutId != -1) { // if editing mode
-            workout.setWorkoutId(existingWorkoutId);
-        }
-
         if (selectedExerciseIdList.isEmpty()) {
             Toast.makeText(getContext(), "Please add at least one exercise to this workout", Toast.LENGTH_SHORT).show();
             return;
@@ -246,9 +230,15 @@ public class AddWorkoutFragment extends Fragment {
             return;
         }
 
-        workoutViewModel.saveWorkout(workout, selectedExerciseIdList);
+        if (existingWorkoutId != -1) {
+            workout.setWorkoutId(existingWorkoutId); // attach the ID to the object
+            workoutViewModel.updateWorkout(workout, selectedExerciseIdList);
+            Toast.makeText(getContext(), "Workout Updated!", Toast.LENGTH_SHORT).show();
+        } else {
+            workoutViewModel.saveWorkout(workout, selectedExerciseIdList);
+            Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
+        }
 
-        Toast.makeText(getContext(), "Workout Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
     }
 
@@ -277,18 +267,42 @@ public class AddWorkoutFragment extends Fragment {
         }
 
         if (record.exercises != null && !record.exercises.isEmpty()) {
-            // Clear current list and UI container to avoid duplicates
-            selectedExerciseIdList.clear();
-            binding.exercisesContainer.removeAllViews();
+//            selectedExerciseIdList.clear();
+//            binding.exercisesContainer.removeAllViews();
 
-            // Extract IDs from the list of exercises
-            long[] exerciseIds = new long[record.exercises.size()];
-            for (int i = 0; i < record.exercises.size(); i++) {
-                exerciseIds[i] = record.exercises.get(i).getExerciseId();
+            if (selectedExerciseIdList.isEmpty()) {
+                // Extract IDs from the list of exercises
+                long[] exerciseIds = new long[record.exercises.size()];
+                for (int i = 0; i < record.exercises.size(); i++) {
+                    exerciseIds[i] = record.exercises.get(i).getExerciseId();
+                }
+                loadSelectedExercisesIntoUI(exerciseIds);
             }
+        }
+    }
 
-            loadSelectedExercisesIntoUI(exerciseIds);
+    private void showDeleteConfirmationDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Delete Workout")
+                .setMessage("Are you sure you want to delete this workout? This action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    deleteCurrentWorkout();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
 
+    private void deleteCurrentWorkout() {
+        if (existingWorkoutId != -1) {
+            Workout workoutToDelete = new Workout();
+            workoutToDelete.setWorkoutId(existingWorkoutId);
+
+            workoutViewModel.deleteWorkout(workoutToDelete);
+
+            Toast.makeText(getContext(), "Workout deleted", Toast.LENGTH_SHORT).show();
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_AddWorkoutScreen_to_WorkoutsList);
         }
     }
 
