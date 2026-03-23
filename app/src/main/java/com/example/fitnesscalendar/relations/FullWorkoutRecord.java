@@ -9,6 +9,9 @@ import com.example.fitnesscalendar.entities.Workout;
 
 import java.util.List;
 
+// query the entities
+// fetch a workout with its exercises
+// Room load many-to-many relations (rows)
 public class FullWorkoutRecord {
 
     @Embedded
@@ -16,8 +19,12 @@ public class FullWorkoutRecord {
 
     @Relation(
             parentColumn = "workout_id",
-            entityColumn = "exercise_id",
-            associateBy = @Junction(WorkoutExerciseCrossRef.class)
+            entityColumn = "exercise_id", // FK column inside join table
+            associateBy = @Junction(
+            value = WorkoutExerciseCrossRef.class,
+            parentColumn = "workout_id", // PK in workouts table
+            entityColumn = "exercise_id"  // PK in exercises table
+    )
     )
     public List<Exercise> exercises;
 }

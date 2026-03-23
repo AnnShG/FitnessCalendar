@@ -85,7 +85,8 @@ public class AddWorkoutFragment extends Fragment {
                 showDeleteConfirmationDialog();
             });
 
-            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
+            workoutViewModel.getFullWorkoutById(existingWorkoutId)
+                    .observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
                     prefillForm(record);
                 }

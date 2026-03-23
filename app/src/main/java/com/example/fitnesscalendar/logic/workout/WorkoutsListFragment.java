@@ -54,7 +54,7 @@ public class WorkoutsListFragment extends Fragment {
             if (userWithGoals != null) {
                 long userId = userWithGoals.user.id;
 
-                workoutViewModel.getAllWorkouts(userId).observe(getViewLifecycleOwner(), list -> {
+                workoutViewModel.getFullWorkoutRecords(userId).observe(getViewLifecycleOwner(), list -> {
                     if (list != null) {
                         workoutAdapter.setWorkouts(list);
                         binding.filteredWorkouts.setText(list.size() + " Workouts Found");

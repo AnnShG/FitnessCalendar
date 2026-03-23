@@ -36,13 +36,13 @@ public class WorkoutRepository {
                     crossRef.workoutId = newWorkoutId; // new id push to cross ref bridge table
                     crossRef.exerciseId = exId; // exId that we took from the list push to cross ref
 
-                    workoutDao.insertExerciseCrossRef(crossRef);
+                    workoutDao.insertWorkoutExerciseCrossRef(crossRef);
                 }
             }
         });
     }
 
-    public LiveData<List<FullWorkoutRecord>> getAvailableWorkouts(long userId) {
+    public LiveData<List<FullWorkoutRecord>> getFullWorkoutRecords(long userId) {
         return workoutDao.getFullWorkoutRecords(userId);
     }
 
@@ -64,7 +64,7 @@ public class WorkoutRepository {
                     WorkoutExerciseCrossRef ref = new WorkoutExerciseCrossRef();
                     ref.workoutId = workout.getWorkoutId();
                     ref.exerciseId = exId;
-                    workoutDao.insertExerciseCrossRef(ref);
+                    workoutDao.insertWorkoutExerciseCrossRef(ref);
                 }
             }
         });
