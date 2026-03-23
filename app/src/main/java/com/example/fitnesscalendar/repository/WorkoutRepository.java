@@ -72,7 +72,6 @@ public class WorkoutRepository {
 
     public void deleteWorkout(Workout workout) {
         databaseExecutor.execute(() -> {
-            workoutDao.deleteExerciseLinks(workout.getWorkoutId()); // clean bridge table
             workoutDao.delete(workout); // clean workout table
         });
     }

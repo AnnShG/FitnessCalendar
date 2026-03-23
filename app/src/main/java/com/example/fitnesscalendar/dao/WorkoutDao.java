@@ -42,9 +42,6 @@ public interface WorkoutDao {
     @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :workoutId")
     void deleteExercisesForWorkout(long workoutId);
 
-    @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :id")
-    void deleteExerciseLinks(long id);
-
 
 //    @Transaction
 //    @Query("SELECT * FROM workouts WHERE workoutId = :workoutId")
