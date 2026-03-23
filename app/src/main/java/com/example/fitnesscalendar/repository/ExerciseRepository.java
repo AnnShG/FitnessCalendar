@@ -97,13 +97,39 @@ public class ExerciseRepository {
         return categoryDao.getAllCategories();
     }
 
-//    public void prePopulateCategories() {
-//        String[] names = {"Legs", "Arms", "Chest", "Back", "Shoulders", "Core", "Cardio", "Full Body"};
-//        for (int i = 0; i < names.size(); i++) {
-//            // ID must match the IDs you use in your Fragment's switch statement (1, 2, 3...)
-//            Category cat = new org.tensorflow.lite.support.label.Category((long)i + 1, names[i]);
-//            categoryDao.insert(cat);
-//        }
-//    }
+    public void updateExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {
+        databaseExecutor.execute(() -> {
+            exerciseDao.update(exercise);
+
+            exerciseDao.deleteStepsByExerciseId(exercise.getExerciseId());
+            if (steps != null) {
+                for (Step step : steps) {
+                    step.setExerciseId(exercise.getExerciseId());
+                    stepDao.insert(step);
+                }
+            }
+
+            exerciseDao.deleteCategoryCrossRefsByExerciseId(exercise.getExerciseId());
+            if (categoryIds != null) {
+                for (Long catId : categoryIds) {
+                    ExerciseCategoryCrossRef ref = new ExerciseCategoryCrossRef();
+                    ref.exerciseId = exercise.getExerciseId();
+                    ref.categoryId = catId;
+                    exerciseDao.insertCategoryCrossRef(ref);
+                }
+            }
+        });
+    }
+
+    public void deleteFullExercise(long id) {
+        databaseExecutor.execute(() -> {
+            exerciseDao.deleteStepsByExerciseId(id);
+            exerciseDao.deleteCategoryCrossRefsByExerciseId(id);
+
+            Exercise exercise = new Exercise();
+            exercise.setExerciseId(id);
+            exerciseDao.delete(exercise);
+        });
+    }
 
 }

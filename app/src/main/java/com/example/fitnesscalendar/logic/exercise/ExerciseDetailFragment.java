@@ -48,14 +48,23 @@ public class ExerciseDetailFragment extends Fragment {
             });
         }
 
+
+
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(ExerciseDetailFragment.this)
                         .navigateUp()
         );
+
+        binding.editExerciseButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong("exerciseId", exerciseId); // Use the ID currently being viewed
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_ExerciseDetail_to_AddExerciseScreen, bundle);
+        });
     }
 
     private void bindExerciseData(FullExerciseRecord record) {
-        binding.addExerciseTitle.setText(record.exercise.getTitle());
+        binding.exerciseTitle.setText(record.exercise.getTitle());
         binding.exerciseDescriptionText.setText(record.exercise.getDescription());
         binding.exerciseNotesText.setText(record.exercise.getNote());
 

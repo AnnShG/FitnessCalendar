@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +24,8 @@ import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
+import com.example.fitnesscalendar.relations.FullExerciseRecord;
+import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ public class AddExerciseFragment extends Fragment {
     private ExerciseViewModel exerciseViewModel;
 
     private int stepCount = 0;
+    private long editingId = -1;
 
     @Override
     public View onCreateView(
@@ -67,13 +71,46 @@ public class AddExerciseFragment extends Fragment {
         binding.addStepButton.setOnClickListener(v -> addNewStep());
 
         // listener - observes the list of categories from the VM, and display them
+//        exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
+//            if (categories != null) {
+//                renderCategories(categories);
+//            }  else {
+//                android.util.Log.d("CHIP_DEBUG", "Categories list is NULL");
+//            }
+//        });
+
         exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
             if (categories != null) {
                 renderCategories(categories);
-            }  else {
-                android.util.Log.d("CHIP_DEBUG", "Categories list is NULL");
+
+                //  If edit mode, re-run the chip selection
+                if (editingId != -1) {
+                    exerciseViewModel.getFullExerciseById(editingId).observe(getViewLifecycleOwner(), record -> {
+                        if (record != null && record.categories != null) {
+                            List<Long> ids = new ArrayList<>();
+                            for (Category c : record.categories) ids.add(c.getId());
+                            selectChipsByIds(ids);
+                        }
+                    });
+                }
             }
         });
+
+        editingId = getArguments() != null ? getArguments().getLong("exerciseId", -1) : -1;
+
+        if (editingId != -1) {
+            binding.addExerciseTitle.setText("Edit Exercise");
+            binding.deleteExerciseButton.setVisibility(View.VISIBLE);
+
+            // Fetch and pre-fill data
+            exerciseViewModel.getFullExerciseById(editingId).observe(getViewLifecycleOwner(), record -> {
+                if (record != null) {
+                    prefillForm(record);
+                }
+            });
+
+            binding.deleteExerciseButton.setOnClickListener(v -> showDeleteConfirmation(editingId));
+        }
 
         binding.saveExerciseButton.setOnClickListener(v -> onSaveButtonClicked());
 
@@ -203,10 +240,78 @@ public class AddExerciseFragment extends Fragment {
 //            binding.exerciseCategoryLabel.setTextColor(Color.RED);
             return;
         }
-        exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
+
+        if (editingId != -1) {
+            exercise.setExerciseId(editingId); // Important: attach the ID so Room knows to update
+            exerciseViewModel.updateExercise(exercise, steps, selectedCategoryIds);
+        } else {
+            exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
+        }
 
         Toast.makeText(getContext(), "Exercise Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
+    }
+
+    private void prefillForm(FullExerciseRecord record) {
+        binding.exerciseNameInput.setText(record.exercise.getTitle());
+        binding.exerciseDescriptionInput.setText(record.exercise.getDescription());
+        binding.exerciseNotesInput.setText(record.exercise.getNote());
+
+        if (record.exercise.getMediaUri() != null && !record.exercise.getMediaUri().isEmpty()) {
+            this.selectedMediaUri = record.exercise.getMediaUri();
+            binding.exerciseMediaView.setImageURI(android.net.Uri.parse(selectedMediaUri));
+        }
+
+        binding.stepsContainer.removeAllViews();
+        stepCount = 0;
+        if (record.steps != null) {
+            for (Step step : record.steps) {
+                addNewStep();
+
+                View lastStepView = binding.stepsContainer.getChildAt(binding.stepsContainer.getChildCount() - 1);
+                EditText input = lastStepView.findViewById(R.id.stepInput);
+
+                if (input != null) {
+                    input.setText(step.getDescription());
+                }
+            }
+        }
+
+        if (record.categories != null) {
+            List<Long> targetIds = new ArrayList<>();
+            for (Category cat : record.categories) {
+                targetIds.add(cat.getId());
+            }
+            selectChipsByIds(targetIds);
+        }
+    }
+
+    private void selectChipsByIds(List<Long> targetIds) {
+        for (int i = 0; i < binding.categoryChipGroup.getChildCount(); i++) {
+            Chip chip = (Chip) binding.categoryChipGroup.getChildAt(i);
+            Long chipId = (Long) chip.getTag();
+
+            if (targetIds.contains(chipId)) {
+                chip.setChecked(true);
+            }
+        }
+    }
+
+    private void showDeleteConfirmation(long id) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Exercise")
+                .setMessage("Are you sure you want to delete this exercise? This will also remove it from any workouts.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+
+                    exerciseViewModel.deleteExercise(id);
+
+                    Toast.makeText(getContext(), "Exercise deleted", Toast.LENGTH_SHORT).show();
+
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_AddExerciseScreen_to_ExercisesList);
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     @Override

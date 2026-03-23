@@ -24,9 +24,6 @@ public interface ExerciseDao {
     @Update
     void update(Exercise exercise);
 
-    @Delete
-    void delete(Exercise exercise);
-
     // method creates the "Link" between an Exercise and a Category.
     @Insert(onConflict = OnConflictStrategy.REPLACE) // prevents linking the same Ex to the same Cat
     void insertCategoryCrossRef(ExerciseCategoryCrossRef crossRef);
@@ -60,6 +57,17 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercises WHERE exercise_id = :id")
     LiveData<FullExerciseRecord> getFullExerciseById(long id);
 
+
+    @Delete
+    void delete(Exercise exercise);
+
+    // Delete existing steps before inserting new ones to avoid duplicates
+    @Query("DELETE FROM steps WHERE exercise_id = :exerciseId")
+    void deleteStepsByExerciseId(long exerciseId);
+
+    // Delete existing category links
+    @Query("DELETE FROM exercise_category_cross_ref WHERE exercise_id = :exerciseId")
+    void deleteCategoryCrossRefsByExerciseId(long exerciseId);
 
 //    @Transaction
 //    @Query("SELECT * FROM exercises")
