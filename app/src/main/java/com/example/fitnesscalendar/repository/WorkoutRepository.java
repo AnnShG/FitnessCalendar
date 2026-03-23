@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+// Combines multiple DAO calls if needed - database operations
+// Provides a single interface to the ViewModel
+// Can implement caching, mapping, or complex queries
+// Repository hides the database complexity
 public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
@@ -27,7 +31,7 @@ public class WorkoutRepository {
     }
 
     public void insertFullWorkout(Workout workout, List<Long> exerciseIds) {
-        databaseExecutor.execute(() -> {
+        databaseExecutor.execute(() -> { // all DB operations run on bg thread
             long newWorkoutId = workoutDao.insert(workout);
 
             if (exerciseIds != null) {
@@ -50,21 +54,21 @@ public class WorkoutRepository {
         return workoutDao.getFullWorkoutById(id);
     }
 
-    public void updateFullWorkout(Workout workout, List<Long> exerciseIds) {
+    public void updateFullWorkout(Workout workout, List<Long> existingExercisesIds) {
         databaseExecutor.execute(() -> {
-            // update the main workout entity
+            // update the main workout entity (without exercises)
             workoutDao.update(workout);
 
             // clear out the old exercise associations in the bridge table
             workoutDao.deleteExercisesForWorkout(workout.getWorkoutId());
 
             // Re-insert the current list of exercises
-            if (exerciseIds != null) {
-                for (Long exId : exerciseIds) {
-                    WorkoutExerciseCrossRef ref = new WorkoutExerciseCrossRef();
-                    ref.workoutId = workout.getWorkoutId();
-                    ref.exerciseId = exId;
-                    workoutDao.insertWorkoutExerciseCrossRef(ref);
+            if (existingExercisesIds != null) {
+                for (Long exId : existingExercisesIds) {
+                    WorkoutExerciseCrossRef crossRef = new WorkoutExerciseCrossRef();
+                    crossRef.workoutId = workout.getWorkoutId();
+                    crossRef.exerciseId = exId;
+                    workoutDao.insertWorkoutExerciseCrossRef(crossRef);
                 }
             }
         });
