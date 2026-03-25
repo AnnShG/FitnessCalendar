@@ -72,4 +72,11 @@ public class ExerciseViewModel extends AndroidViewModel {
         return exerciseRepository.getAllFullExerciseRecords();
     }
 
+    public void updateExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {
+        exerciseRepository.updateExercise(exercise, steps, categoryIds);
+    }
+
+    public void deleteExercise(long id) {exerciseRepository.deleteFullExercise(id);
+    }
+
 }

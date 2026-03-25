@@ -55,13 +55,17 @@ public class AddWorkoutFragment extends Fragment {
         workoutViewModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
         exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
 
-        workoutViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
+        // DB observation
+        workoutViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> { // calls lambda everytime the data changes (LiveData)
             if (userWithGoals != null) {
                 this.currentUserId = userWithGoals.user.getId();
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener("exercise_selection", getViewLifecycleOwner(), (requestKey, bundle) -> {
+        // Fragment to fragment communication (exercise selection)
+        getParentFragmentManager().setFragmentResultListener("exercise_selection", // registers a listener for a result with the key "exercise_selection"
+                getViewLifecycleOwner(), // Ties the listener to the fragment’s view lifecycle
+                (requestKey, bundle) -> {
             long[] selectedIds = bundle.getLongArray("selected_ids");
             if (selectedIds != null) {
                 selectedExerciseIdList.clear();
@@ -70,7 +74,7 @@ public class AddWorkoutFragment extends Fragment {
             }
         });
 
-        setupColorSelection();
+        setupColourSelection();
 
         // edit mode screen opened?
         if (getArguments() != null) {
@@ -85,14 +89,15 @@ public class AddWorkoutFragment extends Fragment {
                 showDeleteConfirmationDialog();
             });
 
-            workoutViewModel.getFullWorkoutById(existingWorkoutId).observe(getViewLifecycleOwner(), record -> {
+            workoutViewModel.getFullWorkoutById(existingWorkoutId)
+                    .observe(getViewLifecycleOwner(), record -> {
                 if (record != null) {
                     prefillForm(record);
                 }
             });
         }
 
-            binding.addExerciseButton.setOnClickListener(v -> {// lambda - shorter
+            binding.addExerciseButton.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
                 // Convert List<Long> to long[] to send in bundle
                 long[] existing = selectedExerciseIdList.stream().mapToLong(l -> l).toArray();
@@ -111,6 +116,39 @@ public class AddWorkoutFragment extends Fragment {
                             .navigateUp();
                 }
         );
+    }
+
+    private void setupColourSelection() {
+        binding.colorGreen.setOnClickListener(v -> selectColour(0xFF4CAF50, v));
+        binding.colorBlue.setOnClickListener(v -> selectColour(0xFF2196F3, v));
+        binding.colorPurple.setOnClickListener(v -> selectColour(0xFF9C27B0, v));
+        binding.colorRed.setOnClickListener(v -> selectColour(0xFFF44336, v));
+        binding.colorDarkBlue.setOnClickListener(v -> selectColour(0xFF3F51B5, v));
+        binding.colorGrey.setOnClickListener(v -> selectColour(0xFF888588, v));
+        binding.colorYellow.setOnClickListener(v -> selectColour(0xFFF2D607, v));
+    }
+
+    private void selectColour(int color, View view) {
+        this.selectedWorkoutColor = color; // this will be stored in the Workout table
+
+        View[] colors = {binding.colorGreen, binding.colorBlue, binding.colorPurple,
+                binding.colorRed, binding.colorDarkBlue, binding.colorGrey, binding.colorYellow}; // array of clickable views
+
+        // setting transparency to not chosen circles
+        for (View v : colors) {
+            v.setAlpha(0.5f);
+            if (v instanceof ShapeableImageView) {
+                ((ShapeableImageView) v).setStrokeWidth(0f);
+            }
+        }
+
+        view.setAlpha(1.0f); // the one view (v) the user clicked
+        if (view instanceof ShapeableImageView) {
+            ((ShapeableImageView) view).setStrokeWidth(6f);
+            ((ShapeableImageView) view).setStrokeColor(
+                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.black_colour, null))
+            );
+        }
     }
 
     private void loadSelectedExercisesIntoUI(long[] selectedIds) {
@@ -137,6 +175,7 @@ public class AddWorkoutFragment extends Fragment {
         ImageView img = rowView.findViewById(R.id.exerciseImage);
         ImageView deleteBtn = rowView.findViewById(R.id.leftSideControlDelete);
 
+        //categories should be here
         indexTv.setText(String.valueOf(position));
         titleTv.setText(record.exercise.getTitle());
 
@@ -164,38 +203,6 @@ public class AddWorkoutFragment extends Fragment {
             View child = binding.exercisesContainer.getChildAt(i);
             TextView indexTv = child.findViewById(R.id.leftSideControlIndex);
             if (indexTv != null) indexTv.setText(String.valueOf(i + 1));
-        }
-    }
-
-    private void setupColorSelection() {
-        binding.colorGreen.setOnClickListener(v -> selectColor(0xFF4CAF50, v));
-        binding.colorBlue.setOnClickListener(v -> selectColor(0xFF2196F3, v));
-        binding.colorPurple.setOnClickListener(v -> selectColor(0xFF9C27B0, v));
-        binding.colorRed.setOnClickListener(v -> selectColor(0xFFF44336, v));
-        binding.colorDarkBlue.setOnClickListener(v -> selectColor(0xFF3F51B5, v));
-        binding.colorGrey.setOnClickListener(v -> selectColor(0xFF888588, v));
-        binding.colorYellow.setOnClickListener(v -> selectColor(0xFFF2D607, v));
-    }
-
-    private void selectColor(int color, View view) {
-        this.selectedWorkoutColor = color;
-
-        View[] colors = {binding.colorGreen, binding.colorBlue, binding.colorPurple,
-                binding.colorRed, binding.colorDarkBlue, binding.colorGrey, binding.colorYellow};
-
-        for (View v : colors) {
-            v.setAlpha(0.5f);
-            if (v instanceof ShapeableImageView) {
-                ((ShapeableImageView) v).setStrokeWidth(0f);
-            }
-        }
-
-        view.setAlpha(1.0f);
-        if (view instanceof ShapeableImageView) {
-            ((ShapeableImageView) view).setStrokeWidth(6f);
-            ((ShapeableImageView) view).setStrokeColor(
-                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.black_colour, null))
-            );
         }
     }
 
@@ -250,7 +257,7 @@ public class AddWorkoutFragment extends Fragment {
 
         if (record.workout.getColour() != null) {
             int savedColor = record.workout.getColour();
-            setupColorSelection();
+            setupColourSelection();
 
             View colorView = null;
             if (savedColor == 0xFF4CAF50) colorView = binding.colorGreen;
@@ -262,7 +269,7 @@ public class AddWorkoutFragment extends Fragment {
             else if (savedColor == 0xFFF2D607) colorView = binding.colorYellow;
 
             if (colorView != null) {
-                selectColor(savedColor, colorView);
+                selectColour(savedColor, colorView);
             }
         }
 

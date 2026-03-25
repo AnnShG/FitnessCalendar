@@ -71,7 +71,13 @@
     <fragment
         android:id="@+id/AddExerciseScreen"
         android:name="com.example.fitnesscalendar.logic.exercise.AddExerciseFragment"
-        tools:layout="@layout/add_exercise_screen"/>
+        tools:layout="@layout/add_exercise_screen">
+
+        <action
+            android:id="@+id/action_AddExerciseScreen_to_ExercisesList"
+            app:destination="@+id/ExercisesList" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/AddWorkoutScreen"
