@@ -54,7 +54,7 @@
 
     <string name="own_goal">Or, type your own goal&#8230;</string>
 
-    <!--Survey page #3-->
+    <!--Survey page #4-->
     <string name="survey_end_heading">Each day is a new opportunity</string>
     <string name="survey_end_button">Continue Your Journey</string>
     <string name="survey_text_last_page">A month is made of days.
@@ -87,20 +87,10 @@
     <string name="menu_add_workout">Add Workout</string>
     <string name="menu_plan_program">Plan Program</string>
 
-
 <!--    Navigation Bottom Bar-->
     <string name="icon_home_title"/>
     <string name="icon_graphs_title"/>
     <string name="icon_profile_title"/>
-
-<!--    Profile screen -->
-    <string name="profile_my_goals">My Goals</string>
-    <string name="profile_add_goal">Add Goal +</string>
-    <string name="profile_exercises">Exercises</string>
-    <string name="profile_workouts">Workouts</string>
-    <string name="profile_settings">Settings</string>
-    <string name="edit_icon_description">Edit your goal</string>
-    <string name="my_goals_hint">My goals</string>
 
 <!--    Add exercise screen-->
     <string name="add_exercise_title">Add Exercise</string>
@@ -139,6 +129,13 @@
     <string name="workout_add_exercise_button">Add Exercise</string>
 
     <string name="colour_picker_description">Colour Picker</string>
+
+    <!--    Plan Program screen-->
+    <string name="plan_program_title">Your Program, Your Rules</string>
+    <string name="plan_program_instruction_text">Attach workouts to specific days on the calendar</string>
+    <string name="plan_program_instruction2_text">Tap dates on the calendar to schedule this workout</string>
+    <string name="plan_program_apply_btn_text">Apply</string>
+    <string name="plan_program_attach_btn_text">Attach Workout to Calendar</string>
 
 <!--    Workout item screen -->
     <string name="workout_item_title">Workout Title</string>
@@ -181,4 +178,14 @@
 
     <string name="select_exercise">Select</string>
     <string name="cancel_exercise_selecting">Cancel</string>
+
+
+    <!--    Profile screen -->
+    <string name="profile_my_goals">My Goals</string>
+    <string name="profile_add_goal">Add Goal +</string>
+    <string name="profile_exercises">Exercises</string>
+    <string name="profile_workouts">Workouts</string>
+    <string name="profile_settings">Settings</string>
+    <string name="edit_icon_description">Edit your goal</string>
+    <string name="my_goals_hint">My goals</string>
 </resources>

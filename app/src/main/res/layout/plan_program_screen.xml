@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Your Program, Your Rules"
+            android:text="@string/plan_program_title"
             android:textColor="@color/black_colour"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -33,7 +33,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/lexend_font"
-            android:text="Attach workouts to specific days on the calendar"
+            android:text="@string/plan_program_instruction_text"
             android:textColor="@color/black_colour"
             android:textSize="16sp"
             android:textStyle="normal"
@@ -174,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Tap dates on the calendar to schedule this workout"
+                    android:text="@string/plan_program_instruction2_text"
                     android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -187,7 +187,7 @@
             android:layout_marginTop="24dp"
 
             android:backgroundTint="@color/apply_btn_colour"
-            android:text="Apply"
+            android:text="@string/plan_program_apply_btn_text"
             android:textColor="@color/apply_bth_text_colour"
             android:textStyle="bold"
             android:visibility="gone"
@@ -205,7 +205,7 @@
             android:layout_marginTop="12dp"
 
             android:backgroundTint="@color/attach_btn_colour"
-            android:text="Attach Workout to Calendar"
+            android:text="@string/plan_program_attach_btn_text"
             android:textColor="@color/attach_bth_text_colour"
             android:textStyle="bold"
 
