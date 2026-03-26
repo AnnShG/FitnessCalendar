@@ -104,7 +104,7 @@
                 android:id="@+id/exerciseNameInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/exercise_title_description"
+                android:hint="@string/exercise_title_hint"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -140,7 +140,7 @@
                 android:id="@+id/exerciseDescriptionInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/exercise_description"
+                android:hint="@string/exercise_description_hint"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -224,7 +224,7 @@
                 android:id="@+id/exerciseNotesInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/exercise_notes_description"
+                android:hint="@string/exercise_notes_hint"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -250,9 +250,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginHorizontal="16dp"
+
             app:chipSpacingHorizontal="8dp"
             app:chipSpacingVertical="8dp"
             app:singleSelection="false"
+
             app:layout_constraintTop_toBottomOf="@id/exerciseCategoryLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
