@@ -146,7 +146,7 @@ public class AddWorkoutFragment extends Fragment {
         if (view instanceof ShapeableImageView) {
             ((ShapeableImageView) view).setStrokeWidth(6f);
             ((ShapeableImageView) view).setStrokeColor(
-                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.black_colour, null))
+                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.text_black_colour, null))
             );
         }
     }

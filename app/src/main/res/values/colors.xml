@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    Survey -->
+    <color name="text_black_colour">#1C1C1C</color>
+
+    <!--    Survey -->
     <color name="text_black">#1C1C1C</color>
     <color name="survey_text_black">#000000</color>
     <color name="survey_button_black">#000000</color>
@@ -21,7 +23,6 @@
     <color name="chip_unselected_circle_stroke">#8A8585  </color>
     <color name="chip_bg_colour">#FFFFFF</color>
     <color name="chip_stroke_colour">#C5B9B9</color>
-
     <color name="chip_text_colour">#000000</color>
 
 <!--    Calendar home-page -->
@@ -29,7 +30,6 @@
     <color name="mindset_button_fill_colour">#F0ECF6</color>
     <color name="mindset_button_stroke_colour">#C0BABA</color>
     <color name="mindset_button_text_colour">#F05A09</color>
-    <color name="black_colour">#1C1C1C</color>
 
     <color name="plus_button_colour">#FFFAFA</color>
     <color name="plus_button_background_colour">#F05A09</color>

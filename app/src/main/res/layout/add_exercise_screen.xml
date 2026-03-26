@@ -23,7 +23,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -61,7 +61,7 @@
             android:background="@color/add_exercise_media_container_bg_colour"
 
             android:contentDescription="@string/add_exercise_media_description"
-            app:strokeColor="@color/black_colour"
+            app:strokeColor="@color/text_black_colour"
             app:strokeWidth="1dp"
             app:shapeAppearanceOverlay="@style/RoundedCorners"
 
@@ -82,7 +82,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/exerciseMediaView"
             app:layout_constraintStart_toStartOf="parent" />
@@ -119,7 +119,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutTitle"
             app:layout_constraintStart_toStartOf="parent" />
@@ -155,7 +155,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutDescription"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -202,7 +202,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/addStepButton"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -239,7 +239,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutNotes"
             app:layout_constraintStart_toStartOf="parent"/>

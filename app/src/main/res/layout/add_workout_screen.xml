@@ -23,7 +23,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -53,7 +53,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/addWorkoutTitle"
             app:layout_constraintStart_toStartOf="parent" />
@@ -74,7 +74,7 @@
                 android:id="@+id/workoutTitleInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/workout_title_tint"
+                android:hint="@string/workout_title_hint"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -89,7 +89,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutTitle"
             app:layout_constraintStart_toStartOf="parent" />
@@ -125,7 +125,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutDescription"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -162,7 +162,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutNotes"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -245,7 +245,7 @@
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/workoutColourText"
             app:layout_constraintStart_toStartOf="parent"/>

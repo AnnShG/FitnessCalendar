@@ -85,7 +85,7 @@ public class ExerciseDetailFragment extends Fragment {
                 chip.setChipStrokeWidth(2f);
                 chip.setChipStrokeColorResource(R.color.button_stroke_colour);
                 chip.setChipBackgroundColorResource(android.R.color.transparent);
-                chip.setTextColor(getResources().getColor(R.color.black_colour, null));
+                chip.setTextColor(getResources().getColor(R.color.text_black_colour, null));
 
                 binding.categoryChipGroup.addView(chip);
             }

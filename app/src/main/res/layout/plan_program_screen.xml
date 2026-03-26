@@ -19,7 +19,7 @@
             android:layout_marginTop="30dp"
             android:fontFamily="@font/lexend_font"
             android:text="@string/plan_program_title"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/lexend_font"
             android:text="@string/plan_program_instruction_text"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
             android:textSize="16sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,9 +64,9 @@
                 app:icon="@drawable/ic_arrow_back"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
-                app:iconTint="@color/black_colour"
+                app:iconTint="@color/text_black_colour"
                 app:iconSize="32dp"
-                app:tint="@color/black_colour"
+                app:tint="@color/text_black_colour"
                 android:foreground="?attr/selectableItemBackground" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -92,9 +92,9 @@
 
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
-                app:iconTint="@color/black_colour"
+                app:iconTint="@color/text_black_colour"
                 app:iconSize="32dp"
-                app:tint="@color/black_colour"
+                app:tint="@color/text_black_colour"
                 android:foreground="?attr/selectableItemBackground" />
         </LinearLayout>
 
@@ -160,7 +160,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/lexend_font"
                         android:text="Attaching: Workout Name"
-                        android:textColor="@color/black_colour"
+                        android:textColor="@color/text_black_colour"
                         android:textStyle="bold" />
 
                     <View
