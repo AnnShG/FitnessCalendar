@@ -9,7 +9,10 @@ import android.widget.TextView; // UI component to display text
 import androidx.annotation.NonNull; // Annotation to indicate a parameter cannot be null
 import androidx.recyclerview.widget.RecyclerView; // Base library for efficient list rendering
 
+import java.time.LocalDate;
 import java.util.List; // Java utility for handling lists of data
+
+import kotlin.time.Duration;
 
 //Data Mapper or a Translator
 //    Takes the list of dates and maps them to the day_view - into the little boxes on the calendar
