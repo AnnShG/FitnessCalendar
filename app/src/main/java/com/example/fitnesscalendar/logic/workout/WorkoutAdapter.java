@@ -16,6 +16,7 @@ import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
     private List<FullWorkoutRecord> workouts = new ArrayList<>();
+    private boolean isSelectionMode = false;
     private final OnWorkoutClickListener listener;
 
     public interface OnWorkoutClickListener {
@@ -54,6 +55,30 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
         }
 
         holder.itemView.setOnClickListener(v -> listener.onWorkoutClick(workout.getWorkoutId()));
+
+        // Eye icon - click logic
+        holder.binding.btnViewDetails.setOnClickListener(v -> {
+            if (infoListener != null) infoListener.onInfoClick(id);
+        });
+
+        // Entire item - selection logic
+        holder.itemView.setOnClickListener(v -> {
+            if (isSelectionMode) {
+                if (selectedIds.contains(id)) {
+                    selectedIds.remove(id);
+                } else {
+                    selectedIds.add(id);
+                }
+                notifyItemChanged(position); // Refresh only this item
+                if (selectionListener != null) {
+                    selectionListener.onSelectionChanged(selectedIds.size());
+                }
+            } else {
+                // Logic for the original list (Browse mode)
+                // If not selecting, a click on the row also opens details
+                if (infoListener != null) infoListener.onInfoClick(id);
+            }
+        });
     }
 
 

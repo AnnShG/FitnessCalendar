@@ -35,7 +35,7 @@ public class AddWorkoutFragment extends Fragment {
     private Long currentUserId;
     private final List<Long> selectedExerciseIdList = new ArrayList<>();
     private int selectedWorkoutColor = 0xFFFF5722;
-    private long existingWorkoutId = -1;
+    private long existingWorkoutId = -1; // the workout exists for updating and deleting? -1 it is not
 
 
     @Override
@@ -81,7 +81,7 @@ public class AddWorkoutFragment extends Fragment {
             existingWorkoutId = getArguments().getLong("workoutId", -1);
         }
 
-        if (existingWorkoutId != -1) {
+        if (existingWorkoutId != -1) { // 1 means it exists
             binding.addWorkoutTitle.setText("Edit Workout");
 
             binding.deleteWorkoutButton.setVisibility(View.VISIBLE);
@@ -171,13 +171,13 @@ public class AddWorkoutFragment extends Fragment {
         View rowView = getLayoutInflater().inflate(R.layout.workout_exercise_item_row, binding.exercisesContainer, false);
 
         TextView indexTv = rowView.findViewById(R.id.leftSideControlIndex);
-        TextView titleTv = rowView.findViewById(R.id.titleLabel);
+        TextView titleLabel = rowView.findViewById(R.id.titleLabel);
         ImageView img = rowView.findViewById(R.id.exerciseImage);
         ImageView deleteBtn = rowView.findViewById(R.id.leftSideControlDelete);
 
         //categories should be here
         indexTv.setText(String.valueOf(position));
-        titleTv.setText(record.exercise.getTitle());
+        titleLabel.setText(record.exercise.getTitle());
 
         if (record.exercise.getMediaUri() != null) {
             Glide.with(this)
@@ -201,8 +201,8 @@ public class AddWorkoutFragment extends Fragment {
     private void recalculateIndices() {
         for (int i = 0; i < binding.exercisesContainer.getChildCount(); i++) {
             View child = binding.exercisesContainer.getChildAt(i);
-            TextView indexTv = child.findViewById(R.id.leftSideControlIndex);
-            if (indexTv != null) indexTv.setText(String.valueOf(i + 1));
+            TextView exerciseIndex = child.findViewById(R.id.leftSideControlIndex);
+            if (exerciseIndex != null) exerciseIndex.setText(String.valueOf(i + 1));
         }
     }
 
