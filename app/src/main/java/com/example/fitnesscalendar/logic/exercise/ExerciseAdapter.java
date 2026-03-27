@@ -32,12 +32,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     public interface OnInfoClickListener { // listener on eye
         void onInfoClick(long exerciseId); // this method must be implemented in the fragment
     }
-    public interface OnSelectionChangedListener { // listener on changes hiw many exes were selected
+    public interface OnSelectionChangedListener { // listener on changes how many exes were selected
         void onSelectionChanged(int count);
     }
 
     // set method allows the fragment to pass logic into the adapter
-    // listener on eye
     public void setOnInfoClickListener(OnInfoClickListener listener) {
         this.infoListener = listener;
     }
@@ -95,7 +94,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
         // Eye icon - click logic
         holder.binding.btnViewDetails.setOnClickListener(v -> {
-            if (infoListener != null) infoListener.onInfoClick(id);
+            if (infoListener != null) infoListener.onInfoClick(id); // user clicked the eye - passed id
         });
 
         // Entire item - selection logic

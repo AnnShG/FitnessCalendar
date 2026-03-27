@@ -64,15 +64,15 @@ public class ExercisesListFragment extends Fragment {
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ExercisesList_to_ExerciseDetail, bundle); // take bundle (envelope) with ex id
         });
+//
+//        if (binding != null) {
+//            binding.exercisesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+//            binding.exercisesRecyclerView.setAdapter(adapter);
+//            binding.exercisesRecyclerView.setNestedScrollingEnabled(false); // prevents list scrolling from stuck
+//
+//        }
 
-        if (binding != null) {
-            binding.exercisesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            binding.exercisesRecyclerView.setAdapter(adapter);
-            binding.exercisesRecyclerView.setNestedScrollingEnabled(false); // prevents list scrolling from stuck
-
-        }
-
-        // Observe the Data
+        // Observe the Data - when it changes - the block runs
         exerciseViewModel.getAllFullExerciseRecords().observe(getViewLifecycleOwner(), exercises -> {
             if (exercises != null  && binding != null) {
                 adapter.setExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
