@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:background="@color/home_page_background_colour"
+    tools:context=".logic.workout.WorkoutSelectFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="@dimen/margin_left"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_black_colour" />
+
+        <TextView
+            android:id="@+id/selectWorkoutsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/workouts_select_title"
+            android:fontFamily="@font/lexend_font"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_black_colour"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.35"
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/backButton" />
+
+        <LinearLayout
+            android:id="@+id/headerContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/margin_left"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="20dp"
+
+            app:layout_constraintTop_toBottomOf="@id/selectWorkoutsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchWorkoutsField"
+                android:layout_width="300dp"
+                android:layout_height="50dp" />
+
+            <ImageView
+                android:id="@+id/filterWorkoutsButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="@dimen/margin_left"
+                android:layout_marginStart="20dp"
+
+                app:srcCompat="@drawable/ic_filter"
+                android:contentDescription="@string/workout_select_filter_icon_description"
+                app:tint="@color/workout_left_side_control_icons_colour" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/filteredWorkouts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/margin_left"
+
+            android:text="@string/workouts_select_filtered_text"
+            android:fontFamily="@font/lexend_font"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@color/text_black_colour"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerContainer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/workoutsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
+            android:paddingHorizontal="8dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filteredWorkouts"
+            tools:listitem="@layout/workouts_list_item_grid" />
+
+        <LinearLayout
+            android:id="@+id/btnContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="40dp"
+            android:paddingBottom="24dp"
+            android:paddingHorizontal="16dp"
+
+            android:background="@drawable/bg_button_float_gradient"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/selectWorkoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="@string/select_workout"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/lexend_font"
+                app:cornerRadius="13dp"
+                app:backgroundTint="@color/exercise_save_button_background_colour"
+                android:textColor="@color/exercise_save_text_colour"
+                app:elevation="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancelWorkoutSelectBtn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/cancel_workout_selecting"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="@font/lexend_font"
+                app:cornerRadius="13dp"
+                android:textAllCaps="false"
+                app:backgroundTint="@color/exercise_cancel_button_background_colour"
+                android:textColor="@color/exercise_cancel_text_colour" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
