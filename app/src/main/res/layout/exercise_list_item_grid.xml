@@ -78,30 +78,5 @@
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        <TextView-->
-<!--            android:id="@+id/exerciseTitle"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#E0E0E0"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="8dp"-->
-<!--            android:text="Name"-->
-<!--            android:textColor="@color/black_colour"-->
-<!--            android:textSize="16sp" />-->
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/exerciseName"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#FFFFFF"-->
-<!--            android:gravity="start"-->
-<!--            android:padding="10dp"-->
-<!--            android:text="Exercise Name"-->
-<!--            android:fontFamily="@font/lexend_font"-->
-<!--            android:textColor="@color/black_colour"-->
-<!--            android:textSize="14sp"-->
-<!--            android:textStyle="bold" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
