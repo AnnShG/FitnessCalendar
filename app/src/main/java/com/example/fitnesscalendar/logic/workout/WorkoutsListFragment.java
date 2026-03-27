@@ -12,22 +12,27 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fitnesscalendar.R;
+import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
 import com.example.fitnesscalendar.databinding.WorkoutsListScreenBinding;
 
 import lombok.NonNull;
 
 public class WorkoutsListFragment extends Fragment {
-    private WorkoutsListScreenBinding binding;
-    private WorkoutViewModel workoutViewModel;
-    private WorkoutAdapter workoutAdapter;
+    protected WorkoutsListScreenBinding binding;
+    protected WorkoutViewModel workoutViewModel;
+    protected WorkoutAdapter workoutAdapter;
+    protected View root;
+
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        binding = WorkoutsListScreenBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (root == null) {
+            binding = WorkoutsListScreenBinding.inflate(inflater, container, false);
+            root = binding.getRoot();
+        } else {
+            binding = WorkoutsListScreenBinding.bind(root);
+        }
+        return root;
     }
 
     @Override
