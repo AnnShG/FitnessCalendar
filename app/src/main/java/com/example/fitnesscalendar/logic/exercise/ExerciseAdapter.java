@@ -93,8 +93,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         }
 
         // Eye icon - click logic
-        holder.binding.btnViewDetails.setOnClickListener(v -> {
-            if (infoListener != null) infoListener.onInfoClick(id); // user clicked the eye - passed id
+        holder.binding.btnViewDetails.setOnClickListener(v -> { // system event - finger touched the screen
+            if (infoListener != null) infoListener.onInfoClick(id); // my event - finger touched the eye - passed id
         });
 
         // Entire item - selection logic
