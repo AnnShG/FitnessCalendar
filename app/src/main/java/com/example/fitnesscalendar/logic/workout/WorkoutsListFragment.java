@@ -9,11 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
 import com.example.fitnesscalendar.databinding.WorkoutsListScreenBinding;
+import com.example.fitnesscalendar.logic.exercise.ExerciseAdapter;
 
 import lombok.NonNull;
 
@@ -39,18 +42,38 @@ public class WorkoutsListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (workoutAdapter == null) {
+            workoutAdapter = new WorkoutAdapter();
+        }
+
         workoutViewModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
 
-        workoutAdapter = new WorkoutAdapter(id -> {
+        RecyclerView recyclerView = view.findViewById(R.id.workoutsRecyclerView);
+        if (recyclerView != null) {
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            recyclerView.setAdapter(workoutAdapter);
+            recyclerView.setNestedScrollingEnabled(false);
+        }
+
+
+        workoutAdapter.setOnInfoClickListener(id -> {
             Bundle bundle = new Bundle();
             bundle.putLong("workoutId", id);
+
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_WorkoutsList_to_WorkoutsDetail, bundle);
         });
 
-        binding.workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.workoutsRecyclerView.setAdapter(workoutAdapter);
-        binding.workoutsRecyclerView.setNestedScrollingEnabled(false);
+//        workoutAdapter = new WorkoutAdapter(id -> {
+//            Bundle bundle = new Bundle();
+//            bundle.putLong("workoutId", id);
+//            NavHostFragment.findNavController(this)
+//                    .navigate(R.id.action_WorkoutsList_to_WorkoutsDetail, bundle);
+//        });
+
+//        binding.workoutsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        binding.workoutsRecyclerView.setAdapter(workoutAdapter);
+//        binding.workoutsRecyclerView.setNestedScrollingEnabled(false);
 
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigateUp());
@@ -67,6 +90,13 @@ public class WorkoutsListFragment extends Fragment {
                 });
             }
         });
+
+        View backBtn = view.findViewById(R.id.backButton);
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v ->
+                    NavHostFragment.findNavController(this).navigateUp()
+            );
+        }
     }
 
     @Override

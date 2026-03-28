@@ -9,27 +9,58 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.databinding.WorkoutsListItemGridBinding;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.logic.exercise.ExerciseAdapter;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
     private List<FullWorkoutRecord> workouts = new ArrayList<>();
-    private boolean isSelectionMode = false;
-    private final OnWorkoutClickListener listener;
+    private final Set<Long> selectedIds = new HashSet<>();
 
-    public interface OnWorkoutClickListener {
-        void onWorkoutClick(long workoutId);
+    private boolean isSelectionMode = false;
+//    private final OnWorkoutClickListener listener;
+
+    private OnInfoClickListener infoListener;
+    private OnSelectionChangedListener selectionListener;
+
+//    public interface OnWorkoutClickListener {
+//        void onWorkoutClick(long workoutId);
+//    }
+    public interface OnInfoClickListener { // listener on eye
+        void onInfoClick(long workoutId); // this method must be implemented in the fragment
+    }
+    public interface OnSelectionChangedListener { // listener on changes how many exes were selected
+        void onSelectionChanged(int count);
+    }
+//
+//    public WorkoutAdapter(OnWorkoutClickListener listener) {
+//        this.listener = listener;
+//    }
+
+    public void setOnInfoClickListener(OnInfoClickListener listener) {
+        this.infoListener = listener;
     }
 
-    public WorkoutAdapter(OnWorkoutClickListener listener) {
-        this.listener = listener;
+    public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
+        this.selectionListener = listener;
     }
 
     public void setWorkouts(List<FullWorkoutRecord> workouts) {
         this.workouts = workouts;
         notifyDataSetChanged();
+    }
+
+    public void setSelectionMode(boolean mode) {
+        this.isSelectionMode = mode;
+        notifyDataSetChanged();
+    }
+
+    public List<Long> getSelectedWorkoutIds() {
+        return new ArrayList<>(selectedIds);
     }
 
     @NonNull
@@ -43,6 +74,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FullWorkoutRecord record = workouts.get(position);
+        long id = record.workout.getWorkoutId();
+
         // extract the Workout entity from the record
         Workout workout = record.workout;
 
@@ -54,7 +87,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
                     ColorStateList.valueOf(workout.getColour()));
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onWorkoutClick(workout.getWorkoutId()));
+//        holder.itemView.setOnClickListener(v -> listener.onWorkoutClick(workout.getWorkoutId()));
 
         // Eye icon - click logic
         holder.binding.btnViewDetails.setOnClickListener(v -> {
@@ -80,7 +113,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
             }
         });
     }
-
 
     @Override
     public int getItemCount() {

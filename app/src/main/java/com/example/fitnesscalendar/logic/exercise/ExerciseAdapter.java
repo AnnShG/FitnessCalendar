@@ -102,7 +102,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             if (isSelectionMode) {
                 if (selectedIds.contains(id)) {
                     selectedIds.remove(id);
-                } else {
+                } else { // if doesn't contain
                     selectedIds.add(id);
                 }
                 notifyItemChanged(position); // Refresh only this item
