@@ -8,6 +8,7 @@ import android.widget.PopupMenu;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
@@ -69,18 +70,20 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             popup.setOnMenuItemClickListener(item -> {
                 int id = item.getItemId(); // item (tag) id that is one menu.xml
                 if (id == R.id.action_add_exercise) {
-                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
                     return true;
                 } else if (id == R.id.action_add_workout) {
-                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_AddWorkoutScreen);
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_CalendarHomePage_to_AddWorkoutScreen);
                     return true;
-//                } else if (id == R.id.action_plan_program) {
-//                    Navigation.findNavController(requireView()).navigate(R.id.action_CalendarHomePage_to_PlanProgramScreen);
-//                    return true;
+                } else if (id == R.id.action_plan_program) {
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_CalendarHomePage_to_PlanProgramScreen);
+                    return true;
                 }
                 return false;
             });
-
             popup.show();
         });
 
