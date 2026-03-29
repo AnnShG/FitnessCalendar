@@ -65,7 +65,7 @@
 
         <action
             android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"
-            app:destination="@+id/plan_program_screen" />
+            app:destination="@+id/PlanProgramScreen" />
     </fragment>
 
     <fragment
