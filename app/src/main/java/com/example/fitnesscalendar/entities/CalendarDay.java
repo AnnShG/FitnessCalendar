@@ -17,7 +17,8 @@ import lombok.Data;
                 onDelete = ForeignKey.CASCADE))
 public class CalendarDay {
     @PrimaryKey(autoGenerate = true)
-    public long id;
+    @ColumnInfo(name = "calendar_day_id")
+    public long calendarDayId;
 
     @ColumnInfo(name = "user_id")
     public long userId;
