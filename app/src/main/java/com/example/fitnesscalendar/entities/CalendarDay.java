@@ -3,6 +3,7 @@ package com.example.fitnesscalendar.entities;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import lombok.Data;
 
 @Data
 @Entity(tableName = "calendar_days",
+        indices = {@Index(value = {"user_id", "date"}, unique = true)},
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
                 childColumns = "user_id",
@@ -26,7 +28,7 @@ public class CalendarDay {
     @ColumnInfo(name = "date")
     public Date date;
 
-    @ColumnInfo(name = "completed")
-    public boolean completed;
+//    @ColumnInfo(name = "completed")
+//    public boolean completed;
 
 }
