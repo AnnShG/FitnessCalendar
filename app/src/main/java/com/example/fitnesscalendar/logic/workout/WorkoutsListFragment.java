@@ -83,7 +83,7 @@ public class WorkoutsListFragment extends Fragment {
                 long userId = userWithGoals.user.id;
 
                 workoutViewModel.getFullWorkoutRecords(userId).observe(getViewLifecycleOwner(), list -> {
-                    if (list != null) {
+                    if (list != null && binding != null) {
                         workoutAdapter.setWorkouts(list);
                         binding.filteredWorkouts.setText(list.size() + " Workouts Found");
                     }
@@ -91,12 +91,12 @@ public class WorkoutsListFragment extends Fragment {
             }
         });
 
-        View backBtn = view.findViewById(R.id.backButton);
-        if (backBtn != null) {
-            backBtn.setOnClickListener(v ->
-                    NavHostFragment.findNavController(this).navigateUp()
-            );
-        }
+//        View backBtn = view.findViewById(R.id.backButton);
+//        if (backBtn != null) {
+//            backBtn.setOnClickListener(v ->
+//                    NavHostFragment.findNavController(this).navigateUp()
+//            );
+//        }
     }
 
     @Override

@@ -59,11 +59,11 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             Bundle bundle = new Bundle();
             bundle.putLong("exerciseId", exerciseId);
             NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_ExerciseSelectScreen_to_ExerciseDetail, bundle);
+                    .navigate(R.id.action_WorkoutSelectScreen_to_WorkoutDetail, bundle);
         });
 
         binding.selectWorkoutBtn.setOnClickListener(v -> {
-            List<Long> selectedIds = workoutAdapter.getSelectedExerciseIds();
+            List<Long> selectedIds = workoutAdapter.getSelectedWorkoutIds();
             // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
             long[] idArray = selectedIds.stream().mapToLong(l -> l).toArray();
 
@@ -71,7 +71,7 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             result.putLongArray("selected_ids", idArray);
 
             // send result back to AddWorkoutFragment
-            getParentFragmentManager().setFragmentResult("exercise_selection", result);
+            getParentFragmentManager().setFragmentResult("workout_selection", result);
             NavHostFragment.findNavController(this).navigateUp();
         });
 
@@ -84,7 +84,7 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
     private void updateSelectionButton(int count) {
         if (count > 0) {
             binding.btnContainer.setVisibility(View.VISIBLE);
-            String btnText = "Add " + count + (count == 1 ? " Exercise" : " Exercises");
+            String btnText = "Add " + count + (count == 1 ? " Workout" : " Workouts");
             binding.selectWorkoutBtn.setText(btnText);
         } else {
             binding.btnContainer.setVisibility(View.GONE);

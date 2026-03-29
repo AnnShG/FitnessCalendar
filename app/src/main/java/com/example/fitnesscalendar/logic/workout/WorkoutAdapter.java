@@ -119,6 +119,19 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
         return workouts.size();
     }
 
+    public void setSelectedIds(List<Long> existingIds) {
+        if (existingIds != null) {
+            this.selectedIds.clear();
+            this.selectedIds.addAll(existingIds);
+            notifyDataSetChanged();
+
+            // Trigger the listener to update the "Add X Exercises" button text
+            if (selectionListener != null) {
+                selectionListener.onSelectionChanged(selectedIds.size());
+            }
+        }
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         final WorkoutsListItemGridBinding binding;
         ViewHolder(WorkoutsListItemGridBinding binding) {
