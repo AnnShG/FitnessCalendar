@@ -4,40 +4,86 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CalendarManager {
+    private final Calendar currentDate = Calendar.getInstance();
+
     private LocalDate selectedDate;
 
     public CalendarManager() {
         this.selectedDate = LocalDate.now();
     }
 
-    public void nextMonth() { selectedDate = selectedDate.plusMonths(1); }
-    public void prevMonth() { selectedDate = selectedDate.minusMonths(1); }
-    public String getMonthYearString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-        return selectedDate.format(formatter);
-    }
+//    public String getMonthYearString() {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+//        return selectedDate.format(formatter);
+//    }
 
-    public List<String> daysInMonthArray() {
-        ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(selectedDate);
-        int daysInMonth = yearMonth.lengthOfMonth();
+    public List<String> getDaysOfMonthList() {
+        List<String> daysList = new ArrayList<>();
 
-        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue(); // 1 (Mon) to 7 (Sun)
+        // set a clone to the first day of the currently selected month
+        Calendar cal = (Calendar) currentDate.clone();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
 
-        // Fill empty slots before the 1st of the month
-        for (int i = 1; i < dayOfWeek; i++) {
-            daysInMonthArray.add("");
+        // calculate leading empty slots (Adjusting for Monday start)
+        int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 2;
+        if (firstDayOfWeek < 0) firstDayOfWeek = 6;
+
+        // add empty strings for the previous month's trailing days
+        for (int i = 0; i < firstDayOfWeek; i++) {
+            daysList.add("");
         }
-        // Fill actual dates
+
+        // add the actual days of the current month
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysInMonth; i++) {
-            daysInMonthArray.add(String.valueOf(i));
+            daysList.add(String.valueOf(i));
         }
-        return daysInMonthArray;
+
+        return daysList;
     }
 
-    public LocalDate getSelectedDate() { return selectedDate; }
+    public void goToNextMonth() {
+        currentDate.add(Calendar.MONTH, 1);
+    }
+
+    public void goToPrevMonth() {
+        currentDate.add(Calendar.MONTH, -1);
+    }
+
+    public String getHeaderString() {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd MMMM yyyy", java.util.Locale.getDefault());
+        return sdf.format(currentDate.getTime());
+    }
+
+    /**
+     * Returns the raw Calendar instance if needed for database queries
+     */
+    public Calendar getCurrentCalendar() {
+        return (Calendar) currentDate.clone();
+    }
+
+    public String getDateKeyForDay(String dayText) {
+        if (dayText == null || dayText.isEmpty()) {
+            return null;
+        }
+
+        try {
+            // create a clone of the current calendar to avoid changing the main date
+            java.util.Calendar tempCal = (java.util.Calendar) currentDate.clone();
+
+            // set the specific day provided by the adapter
+            int day = Integer.parseInt(dayText);
+            tempCal.set(java.util.Calendar.DAY_OF_MONTH, day);
+
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+            return sdf.format(tempCal.getTime());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
