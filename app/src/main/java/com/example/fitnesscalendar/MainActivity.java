@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 int id = destination.getId();
                 if (id == R.id.CalendarHomePage || id == R.id.NavigationProfile || id == R.id.NavigationGraphs ||
                         id == R.id.ExercisesList || id == R.id.ExerciseDetail || id == R.id.WorkoutsList ||
-                        id == R.id.WorkoutDetail) {
+                        id == R.id.WorkoutDetail || id == R.id.PlanProgramScreen || id == R.id.ExerciseSelectScreen) {
                     bottomNav.setVisibility(View.VISIBLE);
                 } else {
                     bottomNav.setVisibility(View.GONE);
