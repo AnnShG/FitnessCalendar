@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
@@ -15,11 +14,8 @@ import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import lombok.NonNull;
 
