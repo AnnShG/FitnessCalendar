@@ -2,6 +2,7 @@ package com.example.fitnesscalendar.logic.workout;
 
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -80,6 +81,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
         Workout workout = record.workout;
 
         holder.binding.workoutTitle.setText(workout.getTitle());
+
+        // the Eye and Checkbox are displayed only in "Selection Mode"
+        int selectionVisibility = isSelectionMode ? View.VISIBLE : View.GONE;
+
+        // Bind Selection UI (Checkbox) and eye
+        holder.binding.workoutCheckbox.setVisibility(selectionVisibility);
+        holder.binding.btnViewDetails.setVisibility(selectionVisibility);
+
         holder.binding.workoutDescription.setText(workout.getDescription());
 
         if (workout.getColour() != null) {
