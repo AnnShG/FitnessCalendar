@@ -10,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.WorkoutsSelectScreenBinding;
 import com.example.fitnesscalendar.databinding.WorkoutsListScreenBinding;
+import com.example.fitnesscalendar.entities.Workout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,16 +64,18 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
         });
 
         binding.selectWorkoutBtn.setOnClickListener(v -> {
-            List<Long> selectedIds = workoutAdapter.getSelectedWorkoutIds();
-            // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
-            long[] idArray = selectedIds.stream().mapToLong(l -> l).toArray();
+            Workout selectedWorkout = workoutAdapter.getSelectedWorkout();
 
-            Bundle result = new Bundle();
-            result.putLongArray("selected_ids", idArray);
+            if (selectedWorkout != null) {
+                Bundle result = new Bundle();
+                result.putLong("workoutId", selectedWorkout.getWorkoutId());
+                result.putString("workoutName", selectedWorkout.getTitle());
+                result.putInt("workoutColor", selectedWorkout.getColour());
 
-            // send result back to AddWorkoutFragment
-            getParentFragmentManager().setFragmentResult("workout_selection", result);
-            NavHostFragment.findNavController(this).navigateUp();
+                getParentFragmentManager().setFragmentResult("workout_selection", result);
+
+                NavHostFragment.findNavController(this).navigateUp();
+            }
         });
 
         binding.backButton.setOnClickListener(v ->
