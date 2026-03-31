@@ -1,8 +1,6 @@
 package com.example.fitnesscalendar.logic.calendar;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
