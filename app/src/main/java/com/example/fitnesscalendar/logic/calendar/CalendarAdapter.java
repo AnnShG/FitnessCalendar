@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.R;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
