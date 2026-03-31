@@ -20,6 +20,6 @@ public interface CalendarDayDao {
    void delete(CalendarDay days);
 
    // when the user chooses one of the days
-    @Query("SELECT * FROM calendar_days WHERE id = :dayId")
+    @Query("SELECT * FROM calendar_days WHERE user_id = :dayId")
     CalendarDay getCalendarDayById(int dayId);
 }

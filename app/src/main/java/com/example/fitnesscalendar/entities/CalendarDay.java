@@ -14,7 +14,7 @@ import lombok.Data;
 @Entity(tableName = "calendar_days",
         indices = {@Index(value = {"user_id", "date"}, unique = true)},
         foreignKeys = @ForeignKey(entity = User.class,
-                parentColumns = "id",
+                parentColumns = "user_id",
                 childColumns = "user_id",
                 onDelete = ForeignKey.CASCADE))
 public class CalendarDay {
