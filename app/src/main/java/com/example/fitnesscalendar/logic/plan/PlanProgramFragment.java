@@ -1,12 +1,16 @@
 package com.example.fitnesscalendar.logic.plan;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.PlanProgramScreenBinding;
 import com.example.fitnesscalendar.logic.calendar.CalendarAdapter;
 import com.example.fitnesscalendar.logic.calendar.CalendarManager;
@@ -65,6 +69,24 @@ public class PlanProgramFragment extends Fragment {
 
         updateUI();
 
+        getParentFragmentManager().setFragmentResultListener("workout_selection", getViewLifecycleOwner(), (requestKey, bundle) -> {
+            long workoutId = bundle.getLong("workoutId");
+            String workoutName = bundle.getString("workoutName");
+            int workoutColor = bundle.getInt("workoutColor");
+
+            // 2. Show the "Selected Workout" Card
+            binding.selectedWorkoutCard.setVisibility(View.VISIBLE);
+            binding.selectedWorkoutTitle.setText("Attaching: " + workoutName);
+
+            // 3. Update the circle
+            binding.workoutCircle.setBackgroundTintList(ColorStateList.valueOf(workoutColor));
+
+            // 4. Store the ID locally so you can use it when "Apply" is clicked
+            this.currentSelectedWorkoutId = workoutId;
+
+            binding.btnAttachWorkout.setVisibility(View.GONE);
+        });
+
         binding.calendarPrevButton.setOnClickListener(v -> {
             manager.goToPrevMonth();
             updateUI();
@@ -73,6 +95,28 @@ public class PlanProgramFragment extends Fragment {
         binding.calendarNextButton.setOnClickListener(v -> {
             manager.goToNextMonth();
             updateUI();
+        });
+
+        binding.btnAttachWorkout.setOnClickListener(v -> {
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_PlanProgramScreen_to_WorkoutSelectScreen);
+        });
+
+        binding.btnApply.setOnClickListener(v -> {
+            // 1. Get the set of highlighted dates from your adapter
+            Set<String> datesToSave = adapter.getHighlightedDateKeys();
+
+            if (datesToSave.isEmpty()) {
+                Toast.makeText(getContext(), "Please select at least one date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 2. Logic to save to DB (using your CalendarDay and CrossRef logic)
+            workoutViewModel.attachWorkoutToDates(currentSelectedWorkoutId, datesToSave);
+
+            // 3. Reset UI or navigate back
+            Toast.makeText(getContext(), "Program Applied!", Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(this).navigateUp();
         });
 //
 //        Calendar cal = manager.getCurrentCalendar();
