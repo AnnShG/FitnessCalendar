@@ -26,9 +26,9 @@ import lombok.NonNull;
 // directly interacts with the UI - change the month view (arrows) and title, indicated the touched day
 public class CalendarHomePageFragment extends Fragment implements CalendarAdapter.OnItemListener {
     private CalendarHomePageBinding binding;
-    private final Calendar currentDate = Calendar.getInstance();
     private final List<String> daysList = new ArrayList<>(); // takes a list of numbers/dates 1,2,3,4
     private CalendarAdapter adapter;
+    CalendarManager manager = new CalendarManager();
 
     @Override
     public View onCreateView(
@@ -91,13 +91,13 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         binding.calendarRecyclerView.setAdapter(adapter);
 
         binding.calendarPrevButton.setOnClickListener(v -> {
-            currentDate.add(Calendar.MONTH, -1);
-            updateCalendarUI();
+            manager.goToPrevMonth();
+            updateUI();
         });
 
         binding.calendarNextButton.setOnClickListener(v -> {
-            currentDate.add(Calendar.MONTH, 1);
-            updateCalendarUI();
+            manager.goToNextMonth();
+            updateUI();
         });
 
         binding.mindsetButton.setOnClickListener(v -> {
@@ -105,50 +105,21 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             dialog.show(getParentFragmentManager(), "MindsetDialog");
         });
 
-        updateCalendarUI();
+        updateUI();
     }
 
     @Override
     public void onItemClick(int position, String dayText) {
-        if (!dayText.isEmpty()) {
-            String message = "Selected Date: " + dayText + " " +
-                    new SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-                            .format(currentDate.getTime());
-
+        if (dayText != null && !dayText.isEmpty()) {
+            String message = "Selected Date: " + dayText + " " + manager.getHeaderString();
             android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateCalendarUI() {
-        daysList.clear();
-
-        Calendar today = Calendar.getInstance();
-
-        SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        String monthYearText = monthYearFormat.format(currentDate.getTime());
-
-        boolean isCurrentMonth = (currentDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
-                currentDate.get(Calendar.YEAR) == today.get(Calendar.YEAR));
-
-        if (isCurrentMonth) {
-            int dayOfMonth = today.get(Calendar.DAY_OF_MONTH);
-            binding.monthAndYear.setText(dayOfMonth + " " + monthYearText);
-        } else {
-            binding.monthAndYear.setText(monthYearText);
-        }
-
-        Calendar cal = (Calendar) currentDate.clone();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-
-        int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK) - 2;
-        if (firstDayOfWeek < 0) firstDayOfWeek = 6;
-
-        for (int i = 0; i < firstDayOfWeek; i++) daysList.add("");
-
-        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = 1; i <= daysInMonth; i++) daysList.add(String.valueOf(i));
-
-        adapter.notifyDataSetChanged();
+private void updateUI() {
+        binding.monthAndYear.setText(manager.getHeaderString());
+        List<String> days = manager.getDaysOfMonthList();
+        adapter.setDays(days);
     }
 
     @Override
