@@ -1,18 +1,20 @@
 package com.example.fitnesscalendar.logic.calendar;
 
-import android.graphics.Color; // Used to define colors programmatically
-import android.view.Gravity; // Used to align text within the view
-import android.view.View; // Base class for all UI components
-import android.view.ViewGroup; // Base class for view containers and LayoutParams
-import android.widget.TextView; // UI component to display text
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull; // Annotation to indicate a parameter cannot be null
-import androidx.recyclerview.widget.RecyclerView; // Base library for efficient list rendering
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fitnesscalendar.R;
 
 import java.time.LocalDate;
-import java.util.List; // Java utility for handling lists of data
-
-import kotlin.time.Duration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //Data Mapper or a Translator
 //    Takes the list of dates and maps them to the day_view - into the little boxes on the calendar
@@ -21,6 +23,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     private final List<String> daysOfMonth;
     private OnItemListener onItemListener;
+    private Set<String> highlightedDates = new HashSet<>();
+    private CalendarManager calendarManager;
 
     public interface OnItemListener {
         void onItemClick(int position, String dayText);
@@ -31,6 +35,17 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.onItemListener = onItemListener;
     }
 
+    public void setHighlightedDates(Set<String> dates, CalendarManager manager) {
+        this.highlightedDates = dates;
+        this.calendarManager = manager;
+        notifyDataSetChanged();
+    }
+
+    public void setDays(List<String> days) {
+        this.daysOfMonth.clear();
+        this.daysOfMonth.addAll(days);
+        notifyDataSetChanged();
+    }
 
     /**
      * Constructor to initialize the adapter with a list of days.
@@ -57,21 +72,33 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         dayText.setTextColor(Color.BLACK);
 
-        // Wrap the created TextView in a ViewHolder and return it
         return new CalendarViewHolder(dayText);
     }
 
-    // make the box with the number be touchable
+
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         String day = daysOfMonth.get(position);
         holder.dayOfMonth.setText(day);
 
+        // make the box with the number be touchable
         holder.itemView.setOnClickListener(v -> {
             if (onItemListener != null) {
                 onItemListener.onItemClick(position, day);
             }
         });
+
+        //  grey circle highlight on the calendar
+        if (calendarManager != null && !day.isEmpty()) {
+            String dateKey = calendarManager.getDateKeyForDay(day);
+            if (highlightedDates.contains(dateKey)) {
+                holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
+            } else {
+                holder.dayOfMonth.setBackground(null);
+            }
+        } else {
+            holder.dayOfMonth.setBackground(null);
+        }
     }
 
     @Override
