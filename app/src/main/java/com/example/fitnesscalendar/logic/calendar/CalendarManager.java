@@ -1,5 +1,6 @@
 package com.example.fitnesscalendar.logic.calendar;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,14 +71,14 @@ public class CalendarManager {
         }
 
         try {
-            // create a clone of the current calendar to avoid changing the main date
+            // calendar clone used to avoid accidentally change the main date
             java.util.Calendar tempCal = (java.util.Calendar) currentDate.clone();
 
             // set the specific day provided by the adapter
             int day = Integer.parseInt(dayText);
             tempCal.set(java.util.Calendar.DAY_OF_MONTH, day);
 
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
             return sdf.format(tempCal.getTime());
         } catch (Exception e) {
             return null;

@@ -24,7 +24,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     private CalendarHomePageBinding binding;
     private final List<String> daysList = new ArrayList<>(); // takes a list of numbers/dates 1,2,3,4
     private CalendarAdapter adapter;
-    CalendarManager manager = new CalendarManager();
+    CalendarManager calendarManager = new CalendarManager();
 
     @Override
     public View onCreateView(
@@ -87,12 +87,12 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         binding.calendarRecyclerView.setAdapter(adapter);
 
         binding.calendarPrevButton.setOnClickListener(v -> {
-            manager.goToPrevMonth();
+            calendarManager.goToPrevMonth();
             updateUI();
         });
 
         binding.calendarNextButton.setOnClickListener(v -> {
-            manager.goToNextMonth();
+            calendarManager.goToNextMonth();
             updateUI();
         });
 
@@ -107,14 +107,14 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     @Override
     public void onItemClick(int position, String dayText) {
         if (dayText != null && !dayText.isEmpty()) {
-            String message = "Selected Date: " + dayText + " " + manager.getHeaderString();
+            String message = "Selected Date: " + dayText + " " + calendarManager.getHeaderString();
             android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show();
         }
     }
 
 private void updateUI() {
-        binding.monthAndYear.setText(manager.getHeaderString());
-        List<String> days = manager.getDaysOfMonthList();
+        binding.monthAndYear.setText(calendarManager.getHeaderString());
+        List<String> days = calendarManager.getDaysOfMonthList();
         adapter.setDays(days);
     }
 
