@@ -4,13 +4,16 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.fitnesscalendar.dao.CalendarDayDao;
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,13 +24,14 @@ import java.util.concurrent.Executors;
 public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
+    private final CalendarDayDao calendarDao;
 
-    public static final ExecutorService databaseExecutor =
-            Executors.newFixedThreadPool(2);
+    public static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(2);
 
     public WorkoutRepository(Application app) {
         AppDatabase db = AppDatabase.getDatabase(app);
         workoutDao = db.workoutDao();
+        calendarDao = db.calendarDayDao();
     }
 
     public void insertFullWorkout(Workout workout, List<Long> exerciseIds) {
@@ -77,6 +81,23 @@ public class WorkoutRepository {
     public void deleteWorkout(Workout workout) {
         databaseExecutor.execute(() -> {
             workoutDao.delete(workout); // clean workout table
+        });
+    }
+
+    public void attachWorkoutToDates(long userId, long workoutId, Set<String> dateStrings) {
+        databaseExecutor.execute(() -> {
+            for (String dateStr : dateStrings) {
+                // Find or Create the CalendarDay for this date
+                long dayId = calendarDao.getOrCreateDayId(userId, dateStr);
+
+                // Insert into the CrossRef (Join Table)
+                CalendarDayWorkoutCrossRef ref = new CalendarDayWorkoutCrossRef();
+                ref.calendarDayId = dayId;
+                ref.workoutId = workoutId;
+                ref.isCompleted = false;
+
+                calendarDao.insertCalendarDayWorkoutCrossRef(ref);
+            }
         });
     }
 
