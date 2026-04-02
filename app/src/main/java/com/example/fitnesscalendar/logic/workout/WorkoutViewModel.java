@@ -14,6 +14,7 @@ import com.example.fitnesscalendar.repository.WorkoutRepository;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 public class WorkoutViewModel extends AndroidViewModel {
 
@@ -48,6 +49,10 @@ public class WorkoutViewModel extends AndroidViewModel {
 
     public void deleteWorkout(Workout workout) {
         workoutRepository.deleteWorkout(workout);
+    }
+
+    public void attachWorkoutToDates(long userId, long workoutId, Set<String> dateStrings) {
+        workoutRepository.attachWorkoutToDates(userId, workoutId, dateStrings);
     }
 
 }
