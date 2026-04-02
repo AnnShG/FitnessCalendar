@@ -111,13 +111,17 @@
 
         <action
             android:id="@+id/action_PlanProgramScreen_to_WorkoutSelectScreen"
-            app:destination="@id/ExercisesList" />
+            app:destination="@id/WorkoutSelectScreen" />
+
+        <action
+            android:id="@+id/action_PlanProgramScreen_to_CalendarHomePage"
+            app:destination="@id/CalendarHomePage" />
 
     </fragment>
 
     <fragment
         android:id="@+id/WorkoutSelectScreen"
-        android:name="com.example.fitnesscalendar.logic.exercise.ExerciseSelectFragment"
+        android:name="com.example.fitnesscalendar.logic.workout.WorkoutSelectFragment"
         tools:layout="@layout/workouts_select_screen">
 
         <action
