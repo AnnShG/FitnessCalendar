@@ -30,6 +30,7 @@ import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.entities.Quote;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.entities.User;
+import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
 import com.example.fitnesscalendar.relations.ExerciseCategoryCrossRef;
 import com.example.fitnesscalendar.relations.UserWorkoutCrossRef;
 import com.example.fitnesscalendar.entities.Workout;
@@ -39,9 +40,9 @@ import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
         entities= {
                 User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
                 Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
-                ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class
+                ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class
 },
-        version = 17,
+        version = 18,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
