@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            bottomNav.setOnItemReselectedListener(item -> {
+                if (item.getItemId() == R.id.CalendarHomePage) {
+                    navController.popBackStack(R.id.CalendarHomePage, false);
+                }
+            });
+
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
                 if (id == R.id.CalendarHomePage || id == R.id.NavigationProfile || id == R.id.NavigationGraphs ||
