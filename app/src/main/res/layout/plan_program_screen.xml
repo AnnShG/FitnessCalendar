@@ -191,11 +191,11 @@
             android:textColor="@color/apply_bth_text_colour"
             android:textStyle="bold"
             android:visibility="gone"
+            tools:visibility="visible"
 
             app:layout_constraintTop_toBottomOf="@id/selectedWorkoutCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/btnAttachWorkout"
