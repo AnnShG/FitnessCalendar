@@ -69,7 +69,7 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             if (selectedWorkout != null) {
                 Bundle result = new Bundle();
                 result.putLong("workoutId", selectedWorkout.getWorkoutId());
-                result.putString("workoutName", selectedWorkout.getTitle());
+                result.putString("workoutTitle", selectedWorkout.getTitle());
                 result.putInt("workoutColor", selectedWorkout.getColour());
 
                 getParentFragmentManager().setFragmentResult("workout_selection", result);
