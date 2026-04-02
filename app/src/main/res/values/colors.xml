@@ -80,6 +80,8 @@
 
     <color name="attach_btn_colour">#FD8646</color>
     <color name="attach_bth_text_colour">#1C1C1C</color>
+    <color name="workout_replace_btn_bg_colour">#F8F4FF</color>
+    <color name="workout_replace_btn_stroke_colour">#C5B9B9</color>
 
 
 <!--    Exercises list screen-->
@@ -101,7 +103,6 @@
 
     <!-- Exercises select screen-->
     <color name="select_save_buttons_bg">#CEDCE5</color>
-
 
     <!--    Profile screen -->
     <color name="goal_addition_bg_colour">#F7E8CF</color>
