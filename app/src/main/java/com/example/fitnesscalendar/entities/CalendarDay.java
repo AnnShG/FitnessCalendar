@@ -26,9 +26,5 @@ public class CalendarDay {
     public long userId;
 
     @ColumnInfo(name = "date")
-    public String date;
-
-//    @ColumnInfo(name = "completed")
-//    public boolean completed;
-
+    public Long date;
 }

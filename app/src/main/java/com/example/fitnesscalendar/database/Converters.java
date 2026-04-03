@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -34,5 +35,15 @@ public class Converters {
         if (value == null) return null;
         Type listType = new TypeToken<List<String>>() {}.getType();
         return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static Long fromLocalDate(LocalDate date) {
+        return date == null ? null : date.toEpochDay();
+    }
+
+    @TypeConverter
+    public static LocalDate toLocalDate(Long epochDay) {
+        return epochDay == null ? null : LocalDate.ofEpochDay(epochDay);
     }
 }
