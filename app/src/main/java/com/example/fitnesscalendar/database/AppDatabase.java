@@ -14,43 +14,32 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.example.fitnesscalendar.dao.ActivityDao;
-import com.example.fitnesscalendar.dao.CalendarDayDao;
-import com.example.fitnesscalendar.dao.CategoryDao;
-import com.example.fitnesscalendar.dao.ExerciseDao;
-import com.example.fitnesscalendar.dao.GoalDao;
-import com.example.fitnesscalendar.dao.StepDao;
-import com.example.fitnesscalendar.dao.UserDao;
-import com.example.fitnesscalendar.dao.WorkoutDao;
-import com.example.fitnesscalendar.entities.Activity;
-import com.example.fitnesscalendar.entities.CalendarDay;
-import com.example.fitnesscalendar.entities.Category;
-import com.example.fitnesscalendar.entities.Exercise;
-import com.example.fitnesscalendar.entities.Goal;
-import com.example.fitnesscalendar.entities.Quote;
-import com.example.fitnesscalendar.entities.Step;
-import com.example.fitnesscalendar.entities.User;
-import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
-import com.example.fitnesscalendar.relations.ExerciseCategoryCrossRef;
-import com.example.fitnesscalendar.relations.UserWorkoutCrossRef;
-import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
+import com.example.fitnesscalendar.dao.*;
+import com.example.fitnesscalendar.entities.*;
+import com.example.fitnesscalendar.relations.*;
 
+/**
+ * The Main Database Class for the application.
+ * This class serves as the central hub for Room persistence, registering all
+ * tables (Entities) and providing access points (DAOs) to interact with the data.
+ */
 @Database(
         entities= {
                 User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
                 Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class
 },
-        version = 18,
+        version = 20,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
 
 public abstract class AppDatabase extends RoomDatabase {
-    private static final int NUMBER_OF_THREADS = 4;
+    private static final int NUMBER_OF_THREADS = 4; // number of bg threads to use for database operations
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    // Singleton instance to prevent multiple database objects being opened simultaneously
     private static volatile AppDatabase INSTANCE;
 
     public abstract UserDao userDao();
@@ -62,30 +51,41 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract WorkoutDao workoutDao();
     public abstract ActivityDao activityDao();
 
+    /**
+     * Database Lifecycle Callback.
+     * Logic here runs when the database is first created or every time it is opened.
+     */
     private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {@Override
     public void onCreate(@NonNull SupportSQLiteDatabase db) {
         super.onCreate(db);
-        fillCategories();
+        fillCategories(); // Pre-populate data only once upon first installation
     }
 
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // Every time the app opens, ensure categories exist
+            // Every time the app starts, ensure categories present
             fillCategories();
         }
     };
 
+    /**
+     * Pre-populates the 'categories' table with default values
+     */
     private static void fillCategories() {
         databaseWriteExecutor.execute(() -> {
             CategoryDao dao = INSTANCE.categoryDao();
-            // check if table is empty before inserting to avoid duplicates
-            if (dao.getCategoryCount() == 0) {
-                dao.insertAll(getPredefinedCategories());
+            List<Category> predefined = getPredefinedCategories();
+            for (Category cat : predefined) {
+                dao.insert(cat); // Strategy.IGNORE handles the rest
             }
         });
     }
 
+    /**
+     * Singleton getter for the database.
+     * Uses double-check to ensure thread safety.
+     */
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -102,38 +102,26 @@ public abstract class AppDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /**
+     * Hardcoded list of default exercise categories.
+     */
     private static List<Category> getPredefinedCategories() {
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category(1L, "Neck"));
-        categories.add(new Category(2L, "Arms"));
-        categories.add(new Category(3L, "Shoulders"));
-        categories.add(new Category(4L, "Chest"));
-        categories.add(new Category(5L, "Back"));
-        categories.add(new Category(6L, "Abs"));
-        categories.add(new Category(7L, "Glutes"));
-        categories.add(new Category(8L, "Legs"));
-        categories.add(new Category(9L, "Cardio"));
-        categories.add(new Category(10L, "Full Body"));
-        categories.add(new Category(11L, "Biceps"));
-        categories.add(new Category(12L, "Triceps"));
-        categories.add(new Category(13L, "Forearms"));
-        categories.add(new Category(14L, "Side Delts"));
-        categories.add(new Category(15L, "Front Delts"));
-        categories.add(new Category(16L, "Rear Delts"));
-        categories.add(new Category(17L, "Upper Chest"));
-        categories.add(new Category(18L, "Middle Chest"));
-        categories.add(new Category(19L, "Lower Chest"));
-        categories.add(new Category(20L, "Upper Back"));
-        categories.add(new Category(21L, "Lower Back"));
-        categories.add(new Category(22L, "Upper Abs"));
-        categories.add(new Category(23L, "Lower Abs"));
-        categories.add(new Category(24L, "Obliques"));
-        categories.add(new Category(25L, "Quadriceps"));
-        categories.add(new Category(26L, "Hamstrings"));
-        categories.add(new Category(27L, "Adductors"));
-        categories.add(new Category(28L, "Abductors"));
-        categories.add(new Category(29L, "Calves"));
-        categories.add(new Category(30L, "Stretching"));
+
+        // Define names in a simple array.
+        // You can easily insert a new name anywhere in this list.
+        String[] names = {
+                "Neck", "Arms", "Shoulders", "Chest", "Back", "Abs", "Glutes", "Legs", "Stretching",
+                "Cardio", "Full Body", "Biceps", "Triceps", "Forearms", "Side Delts",
+                "Front Delts", "Rear Delts", "Upper Chest", "Middle Chest", "Lower Chest",
+                "Upper Back", "Lower Back", "Upper Abs", "Lower Abs", "Obliques",
+                "Quadriceps", "Hamstrings", "Adductors", "Abductors", "Calves"
+        };
+
+        for (String name : names) {
+            // the null is passed for the ID so Room auto-generates it
+            categories.add(new Category(null, name));
+        }
         return categories;
     }
 }
