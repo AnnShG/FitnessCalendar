@@ -16,21 +16,37 @@ import java.util.List;
 
 import lombok.NonNull;
 
+/**
+ * WorkoutGalleryAdapter manages a grid list of exercise images within the Workout Details screen.
+ */
 public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAdapter.ViewHolder> {
+
+    // The data source: a list of Exercise entities containing titles and media URIs
     private List<Exercise> exercises = new ArrayList<>();
-    private OnExerciseClickListener listener;
 
-    public interface OnExerciseClickListener {
-        void onExerciseClick(long exerciseId);
+    // Listeners to communicate clicks back to the Fragment
+    private final OnImageClickListener imageListener;
+    private OnInfoClickListener infoListener;
+
+//    Interface to handle full-screen image expansion
+    public interface OnImageClickListener {
+        void onImageClick(String uri);
+    }
+    public interface OnInfoClickListener { // listener on eye
+        void onInfoClick(long exerciseId);
     }
 
-    public WorkoutGalleryAdapter(OnExerciseClickListener listener) {
-        this.listener = listener;
+    public WorkoutGalleryAdapter(OnImageClickListener listener) {
+        this.imageListener = listener;
     }
 
+    // Updates the exercise list and refreshes the gallery
     public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
         notifyDataSetChanged();
+    }
+    public void setOnInfoClickListener(OnInfoClickListener listener) {
+        this.infoListener = listener;
     }
 
     @NonNull
@@ -45,6 +61,8 @@ public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Exercise exercise = exercises.get(position);
+        long id = exercise.getExerciseId();
+        String imageUri = exercise.getMediaUri();
 
         holder.binding.exerciseTitle.setText(exercise.getTitle());
 
@@ -58,10 +76,13 @@ public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAd
             holder.binding.exerciseMedia.setImageResource(R.drawable.ic_add_photo);
         }
 
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onExerciseClick(exercise.getExerciseId());
-            }
+        holder.binding.btnViewDetails.setOnClickListener(v -> {
+            if (infoListener != null) infoListener.onInfoClick(id);
+        });
+
+//        Image Click: Opens Full Screen Image
+        holder.binding.exerciseMedia.setOnClickListener(v -> {
+            if (imageListener != null) imageListener.onImageClick(imageUri);
         });
     }
 
@@ -70,7 +91,7 @@ public class WorkoutGalleryAdapter extends RecyclerView.Adapter<WorkoutGalleryAd
         return exercises.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         final WorkoutItemGalleryImageBinding binding;
         ViewHolder(WorkoutItemGalleryImageBinding binding) {
             super(binding.getRoot());
