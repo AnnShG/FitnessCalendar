@@ -7,11 +7,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fitnesscalendar.dao.CalendarDayDao;
 import com.example.fitnesscalendar.databinding.PlannedWorkoutItemBinding;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,7 @@ import java.util.List;
 public class PlannedWorkoutsAdapter extends RecyclerView.Adapter<PlannedWorkoutsAdapter.ViewHolder> {
     // The data source - a list of unique workouts scheduled on the calendar
     private List<PlannedWorkoutInfo> items = new ArrayList<>();
-    private OnPlanActionListener listener; // sends button clicks from the card back to the Fragment
+    private final OnPlanActionListener listener; // sends button clicks from the card back to the Fragment
 
     public interface OnPlanActionListener { // handles user interactions within the list
         void onEdit(PlannedWorkoutInfo info); // Triggered when the "Edit" text is clicked
