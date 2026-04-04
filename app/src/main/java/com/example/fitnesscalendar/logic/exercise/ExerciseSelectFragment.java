@@ -83,6 +83,11 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)
                         .navigateUp()
         );
+
+        binding.cancelExerciseSelectBtn.setOnClickListener(v ->
+                NavHostFragment.findNavController(ExerciseSelectFragment.this)
+                        .navigateUp()
+        );
     }
 
     private void updateSelectionButton(int count) {
