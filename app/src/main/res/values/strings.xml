@@ -74,6 +74,10 @@
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
 
+<!--    Calendar legend-->
+    <string name="workout_title">Workout Title, Another</string>
+
+
     <!--    Mindset window-->
     <string name="quote_author_text">Author</string>
 
