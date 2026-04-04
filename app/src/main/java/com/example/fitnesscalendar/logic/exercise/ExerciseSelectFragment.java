@@ -66,7 +66,7 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                     .navigate(R.id.action_ExerciseSelectScreen_to_ExerciseDetail, bundle);
         });
 
-        binding.selectExerciseButton.setOnClickListener(v -> {
+        binding.selectExerciseBtn.setOnClickListener(v -> {
             List<Long> selectedIds = adapter.getSelectedExerciseIds();
             // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
             long[] idArray = selectedIds.stream().mapToLong(l -> l).toArray();
@@ -83,15 +83,20 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)
                         .navigateUp()
         );
+
+        binding.cancelExerciseSelectBtn.setOnClickListener(v ->
+                NavHostFragment.findNavController(ExerciseSelectFragment.this)
+                        .navigateUp()
+        );
     }
 
     private void updateSelectionButton(int count) {
         if (count > 0) {
-            binding.buttonContainer.setVisibility(View.VISIBLE);
+            binding.btnContainer.setVisibility(View.VISIBLE);
             String btnText = "Add " + count + (count == 1 ? " Exercise" : " Exercises");
-            binding.selectExerciseButton.setText(btnText);
+            binding.selectExerciseBtn.setText(btnText);
         } else {
-            binding.buttonContainer.setVisibility(View.GONE);
+            binding.btnContainer.setVisibility(View.GONE);
         }
     }
 

@@ -10,37 +10,54 @@
     app:cardBackgroundColor="@color/workout_detail_card_bg_colour"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    app:strokeColor="#F5F5F5"
-    app:strokeWidth="1dp">
+    app:strokeWidth="2dp"
+    app:strokeColor="@android:color/transparent">
+<!--    app:strokeColor="#F5F5F5"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingTop="30dp"
+        android:paddingStart="16dp"
+        android:paddingBottom="20dp"
+        android:paddingEnd="5dp">
 
         <View
             android:id="@+id/workoutIndicatorBar"
             android:layout_width="5dp"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/workout_indicator_rounded"
+            tools:backgroundTint="@color/workout_indicator_dark_blue_colour"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/btnViewDetails"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/circle_white_for_eye"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:backgroundTint="@color/workout_indicator_dark_blue_colour" />
+            app:srcCompat="@drawable/ic_eye"
+            app:tint="@color/text_black_colour" />
 
         <TextView
             android:id="@+id/workoutTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
 
             android:fontFamily="@font/lexend_font"
-            android:textColor="@color/black_colour"
+            android:textColor="@color/text_black_colour"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="@string/workout_title_text"
 
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnViewDetails"
             app:layout_constraintStart_toEndOf="@id/workoutIndicatorBar"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,15 +70,13 @@
             android:ellipsize="end"
             android:fontFamily="@font/lexend_font"
             android:maxLines="2"
-            android:textColor="@color/survey_text_black"
+            android:textColor="@color/text_black_colour"
             android:textSize="14sp"
             tools:text="@string/workout_title_description"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/workoutTitle"
             app:layout_constraintStart_toStartOf="@id/workoutTitle"
             app:layout_constraintTop_toBottomOf="@id/workoutTitle" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </com.google.android.material.card.MaterialCardView>

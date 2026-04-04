@@ -1,5 +1,7 @@
 package com.example.fitnesscalendar.logic.exercise;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,12 +34,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     public interface OnInfoClickListener { // listener on eye
         void onInfoClick(long exerciseId); // this method must be implemented in the fragment
     }
-    public interface OnSelectionChangedListener { // listener on changes hiw many exes were selected
+    public interface OnSelectionChangedListener { // listener on changes how many exes were selected
         void onSelectionChanged(int count);
     }
 
     // set method allows the fragment to pass logic into the adapter
-    // listener on eye
     public void setOnInfoClickListener(OnInfoClickListener listener) {
         this.infoListener = listener;
     }
@@ -71,18 +72,10 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FullExerciseRecord record = exercises.get(position);
         long id = record.exercise.getExerciseId();
+        String imageUri = record.exercise.getMediaUri();
 
         // Bind Text
         holder.binding.exerciseTitle.setText(record.exercise.getTitle());
-
-        // the Eye and Checkbox are displayed only in "Selection Mode"
-        int selectionVisibility = isSelectionMode ? View.VISIBLE : View.GONE;
-
-        // Bind Selection UI (Checkbox) and eye
-        holder.binding.exerciseCheckbox.setVisibility(selectionVisibility);
-        holder.binding.btnViewDetails.setVisibility(selectionVisibility);
-
-        holder.binding.exerciseCheckbox.setChecked(selectedIds.contains(id));
 
         // Use Glide to load the URI from the DB (bind image)
         if (record.exercise.getMediaUri() != null) {
@@ -93,18 +86,33 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
             holder.binding.exerciseImage.setImageResource(R.drawable.ic_add_photo);
         }
 
-        // Eye icon - click logic
-        holder.binding.btnViewDetails.setOnClickListener(v -> {
-            if (infoListener != null) infoListener.onInfoClick(id);
+        // the Eye is displayed only in "Selection Mode"
+        holder.binding.btnViewDetails.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
+        holder.binding.btnViewDetails.setOnClickListener(v -> { // system event - finger touched the screen
+            if (infoListener != null) infoListener.onInfoClick(id); // my event - finger touched the eye - passed id
         });
+
+        boolean isSelected = selectedIds.contains(id);
+        if (isSelected) {
+            // Active State
+            holder.binding.getRoot().setStrokeColor(ColorStateList.valueOf(Color.parseColor("#FF8C00"))); // Orange
+            holder.binding.getRoot().setStrokeWidth(6);
+            holder.binding.getRoot().setCardElevation(20f);
+        } else {
+            // Inactive State
+            holder.binding.getRoot().setStrokeWidth(2);
+            holder.binding.getRoot().setStrokeColor(ColorStateList.valueOf(Color.TRANSPARENT));
+            holder.binding.getRoot().setCardElevation(2f);
+        }
 
         // Entire item - selection logic
         holder.itemView.setOnClickListener(v -> {
             if (isSelectionMode) {
                 if (selectedIds.contains(id)) {
                     selectedIds.remove(id);
-                } else {
+                } else { // if doesn't contain
                     selectedIds.add(id);
+
                 }
                 notifyItemChanged(position); // Refresh only this item
                 if (selectionListener != null) {

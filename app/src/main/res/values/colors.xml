@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    Survey -->
+    <color name="text_black_colour">#1C1C1C</color>
+
+    <!--    Survey -->
     <color name="text_black">#1C1C1C</color>
     <color name="survey_text_black">#000000</color>
     <color name="survey_button_black">#000000</color>
@@ -21,7 +23,6 @@
     <color name="chip_unselected_circle_stroke">#8A8585  </color>
     <color name="chip_bg_colour">#FFFFFF</color>
     <color name="chip_stroke_colour">#C5B9B9</color>
-
     <color name="chip_text_colour">#000000</color>
 
 <!--    Calendar home-page -->
@@ -29,27 +30,19 @@
     <color name="mindset_button_fill_colour">#F0ECF6</color>
     <color name="mindset_button_stroke_colour">#C0BABA</color>
     <color name="mindset_button_text_colour">#F05A09</color>
-    <color name="black_colour">#1C1C1C</color>
 
     <color name="plus_button_colour">#FFFAFA</color>
     <color name="plus_button_background_colour">#F05A09</color>
 
+    <!--    Mindset window-->
+    <color name="quote_author_text_colour">#F05A09</color>
+    <color name="quote_window_bg_colour">#FFFFFF</color>
+    <color name="quote_window_stroke_colour">#C5B9B9</color>
 
 <!--    Plus DropDown menu -->
     <color name="menu_text_colour">#1C1C1C</color>
     <color name="menu_bg_colour">#FFFFFF</color>
     <color name="icon_workout_list_colour">#F05A09</color>
-
-<!--    Mindset window-->
-    <color name="quote_author_text_colour">#F05A09</color>
-    <color name="quote_window_bg_colour">#FFFFFF</color>
-    <color name="quote_window_stroke_colour">#C5B9B9</color>
-
-    <!--    Profile screen -->
-    <color name="goal_addition_bg_colour">#F7E8CF</color>
-    <color name="goal_addition_text_colour">#DA9215</color>
-    <color name="dumbbell_colour">#DA9215</color>
-    <color name="assignment_colour">#DA9215</color>
 
 <!--    Add exercise screen-->
     <color name="add_exercise_media_container_bg_colour">#F8F4FF</color>
@@ -81,9 +74,29 @@
 
     <color name="workout_left_side_control_icons_colour">#F05A09</color>
 
+<!--    Plan Program screen-->
+    <color name="plan_program_apply_btn_colour">#F05A09</color>
+    <color name="apply_bth_text_colour">#1C1C1C</color>
+
+    <color name="plan_program_attach_btn_colour">#F05A09</color>
+    <color name="attach_bth_text_colour">#1C1C1C</color>
+    <color name="workout_replace_btn_bg_colour">#F8F4FF</color>
+    <color name="workout_replace_btn_stroke_colour">#C5B9B9</color>
+
+<!--    Planned workout item -->
+    <color name="planned_workout_edit_colour">#F05A09</color>
+    <color name="planned_workout_bin_colour">#F05A09</color>
+
+
+
 <!--    Exercises list screen-->
     <color name="exercises_icon_filter_colour">#F05A09</color>
     <color name="exercises_icon_search_colour">#F05A09</color>
+
+    <!--    Exercises list item grid -->
+
+    <!-- Exercises select screen-->
+    <color name="select_save_buttons_bg">#CEDCE5</color>
 
     <!--    Exercises detail screen-->
     <color name="exercises_detail_black_colour">#1C1C1C</color>
@@ -96,11 +109,16 @@
 
     <!-- Workouts detail screen-->
 
+<!--    Workout detail gallery image-->
+    <color name="close_icon_colour">#FFFFFF</color>
 
 
-    <!-- Exercises select screen-->
-    <color name="select_save_buttons_bg">#CEDCE5</color>
 
+    <!--    Profile screen -->
+    <color name="goal_addition_bg_colour">#F7E8CF</color>
+    <color name="goal_addition_text_colour">#DA9215</color>
+    <color name="dumbbell_colour">#DA9215</color>
+    <color name="assignment_colour">#DA9215</color>
 
 
 </resources>

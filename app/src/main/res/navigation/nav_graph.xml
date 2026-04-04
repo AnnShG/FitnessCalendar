@@ -63,9 +63,9 @@
             android:id="@+id/action_CalendarHomePage_to_AddWorkoutScreen"
             app:destination="@+id/AddWorkoutScreen" />
 
-<!--        <action-->
-<!--            android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"-->
-<!--            app:destination="@+id/plan_program_screen" />-->
+        <action
+            android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"
+            app:destination="@+id/PlanProgramScreen" />
     </fragment>
 
     <fragment
@@ -104,10 +104,32 @@
 
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/PlanProgramScreen"-->
-<!--        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment"-->
-<!--        tools:layout="@layout/plan_program_screen"/>-->
+    <fragment
+        android:id="@+id/PlanProgramScreen"
+        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment"
+        tools:layout="@layout/plan_program_screen">
+
+        <action
+            android:id="@+id/action_PlanProgramScreen_to_WorkoutSelectScreen"
+            app:destination="@id/WorkoutSelectScreen" />
+
+        <action
+            android:id="@+id/action_PlanProgramScreen_to_CalendarHomePage"
+            app:destination="@id/CalendarHomePage" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/WorkoutSelectScreen"
+        android:name="com.example.fitnesscalendar.logic.workout.WorkoutSelectFragment"
+        tools:layout="@layout/workouts_select_screen">
+
+        <action
+            android:id="@+id/action_WorkoutSelectScreen_to_WorkoutDetail"
+            app:destination="@+id/WorkoutDetail" />
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/NavigationProfile"

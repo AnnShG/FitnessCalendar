@@ -4,32 +4,42 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.fitnesscalendar.dao.CalendarDayDao;
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
+import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
+import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// Combines multiple DAO calls if needed - database operations
-// Provides a single interface to the ViewModel
-// Can implement caching, mapping, or complex queries
-// Repository hides the database complexity
+// Combines multiple DAO calls - acts a DAO coordinator
+// handles complex business logic like M:M relationship mapping and background execution
 public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
+    private final CalendarDayDao calendarDao;
 
-    public static final ExecutorService databaseExecutor =
-            Executors.newFixedThreadPool(2);
+
+    // A dedicated thread pool for database operations to prevent blocking the UI
+    public static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(2);
 
     public WorkoutRepository(Application app) {
         AppDatabase db = AppDatabase.getDatabase(app);
         workoutDao = db.workoutDao();
+        calendarDao = db.calendarDayDao();
     }
 
+    /**
+     * Inserts a workout and links it to a list of exercises.
+     */
     public void insertFullWorkout(Workout workout, List<Long> exerciseIds) {
         databaseExecutor.execute(() -> { // all DB operations run on bg thread
             long newWorkoutId = workoutDao.insert(workout);
@@ -54,6 +64,9 @@ public class WorkoutRepository {
         return workoutDao.getFullWorkoutById(id);
     }
 
+    /**
+     * Updates an existing workout and synchronizes its exercise list.
+     */
     public void updateFullWorkout(Workout workout, List<Long> existingExercisesIds) {
         databaseExecutor.execute(() -> {
             // update the main workout entity (without exercises)
@@ -77,6 +90,64 @@ public class WorkoutRepository {
     public void deleteWorkout(Workout workout) {
         databaseExecutor.execute(() -> {
             workoutDao.delete(workout); // clean workout table
+        });
+    }
+
+    /**
+     * Attaches a workout to specific calendar dates.
+     */
+    public void attachWorkoutToDates(long userId, long workoutId, Set<LocalDate> dates) {
+        databaseExecutor.execute(() -> {
+            for (LocalDate date : dates) {
+                // Get the ID for the date
+                long dayId = calendarDao.getOrCreateDayId(userId, date.toEpochDay());
+                // Check if day already has 3 workouts
+                if (calendarDao.getWorkoutCountForDay(dayId) < 3) {
+                    CalendarDayWorkoutCrossRef ref = new CalendarDayWorkoutCrossRef();
+                    ref.calendarDayId = dayId;
+                    ref.workoutId = workoutId;
+                    calendarDao.insertCalendarDayWorkoutCrossRef(ref);
+                }
+            }
+        });
+    }
+
+    /**
+     * Retrieves the data needed for drawing calendar event dots.
+     */
+    public LiveData<List<DateColourResult>> getWorkoutColorsForUser(long userId) {
+        return calendarDao.getCalendarWorkoutDots(userId);
+    }
+
+    /**
+     * Retrieves unique workouts currently found on the user's calendar.
+     */
+    public LiveData<List<PlannedWorkoutInfo>> getUniquePlannedWorkouts(long userId) {
+        return calendarDao.getUniquePlannedWorkouts(userId);
+    }
+
+    public void deleteWorkoutFromCalendar(long userId, long workoutId) {
+        databaseExecutor.execute(() -> {
+            calendarDao.deleteWorkoutFromCalendar(userId, workoutId);
+        });
+    }
+
+    /**
+     * Syncs a workout schedule during Edit Mode - select/unselect operations.
+     */
+    public void updateWorkoutPlan(long userId, long workoutId, Set<Long> epochDays) {
+        databaseExecutor.execute(() -> {
+            // Delete all existing schedule links for this specific workout and user
+            calendarDao.deleteWorkoutPlanLinks(userId, workoutId);
+
+            // Insert the new set of dates (in the UI)
+            for (Long epochDay : epochDays) {
+                long dayId = calendarDao.getOrCreateDayId(userId, epochDay);
+                CalendarDayWorkoutCrossRef ref = new CalendarDayWorkoutCrossRef();
+                ref.calendarDayId = dayId;
+                ref.workoutId = workoutId;
+                calendarDao.insertCalendarDayWorkoutCrossRef(ref);
+            }
         });
     }
 

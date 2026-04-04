@@ -130,9 +130,9 @@
             app:icon="@drawable/ic_arrow_back"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconTint="@color/black_colour"
+            app:iconTint="@color/text_black_colour"
             app:iconSize="32dp"
-            app:tint="@color/black_colour"
+            app:tint="@color/text_black_colour"
             android:foreground="?attr/selectableItemBackground" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -158,9 +158,9 @@
 
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconTint="@color/black_colour"
+            app:iconTint="@color/text_black_colour"
             app:iconSize="32dp"
-            app:tint="@color/black_colour"
+            app:tint="@color/text_black_colour"
             android:foreground="?attr/selectableItemBackground" />
     </LinearLayout>
 

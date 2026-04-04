@@ -25,7 +25,6 @@ import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
-import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -157,7 +156,7 @@ public class AddExerciseFragment extends Fragment {
                     chip.setChipStrokeWidth(4f);
                 } else {
                     chip.setChipStrokeColor(ColorStateList.valueOf(getResources().getColor(R.color.button_stroke_colour, null)));
-                    chip.setTextColor(getResources().getColor(R.color.black_colour, null));
+                    chip.setTextColor(getResources().getColor(R.color.text_black_colour, null));
                     chip.setChipStrokeWidth(2f);
                 }
             });

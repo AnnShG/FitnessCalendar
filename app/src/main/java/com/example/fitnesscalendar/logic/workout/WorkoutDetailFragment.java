@@ -1,10 +1,13 @@
 package com.example.fitnesscalendar.logic.workout;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.databinding.WorkoutDetailScreenBinding;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.R;
@@ -34,18 +38,28 @@ public class WorkoutDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        workoutViewModel = new ViewModelProvider(this).get(WorkoutViewModel.class);
-
-        galleryAdapter = new WorkoutGalleryAdapter(exerciseId -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong("exerciseId", exerciseId);
-
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_WorkoutsDetail_to_ExerciseDetail, bundle);
+        galleryAdapter = new WorkoutGalleryAdapter(uri -> {
+            if (uri != null && !uri.isEmpty()) {
+                showFullScreenImage(requireContext(), uri);
+            }
         });
+
+        workoutViewModel = new ViewModelProvider(this).get(WorkoutViewModel.class);
 
         binding.rvExerciseGallery.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvExerciseGallery.setAdapter(galleryAdapter);
+
+//        galleryAdapter.setOnImageClickListener(uri -> {
+//            if (uri != null && !uri.isEmpty()) {
+//                showFullScreenImage(requireContext(), uri);
+//            }});
+
+        galleryAdapter.setOnInfoClickListener(exerciseId -> {
+            Bundle bundle = new Bundle();
+            bundle.putLong("exerciseId", exerciseId);
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_WorkoutsDetail_to_ExerciseDetail, bundle);
+        });
 
         //  Workout ID from Navigation Arguments
         long workoutId = getArguments() != null ? getArguments().getLong("workoutId", -1) : -1;
@@ -103,6 +117,23 @@ public class WorkoutDetailFragment extends Fragment {
         }
 
         galleryAdapter.setExercises(record.exercises);
+    }
+
+    private void showFullScreenImage(Context context, String uriString) {
+        // Create a dialog with a custom style (no title, transparent background)
+        android.app.Dialog dialog = new android.app.Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setContentView(R.layout.full_screen_image);
+
+        ImageView fullImage = dialog.findViewById(R.id.fullScreenImageView);
+        ImageButton closeBtn = dialog.findViewById(R.id.btnCloseFullscreen);
+
+        // Load the image using Glide (which you have in your dependencies)
+        Glide.with(context)
+                .load(android.net.Uri.parse(uriString))
+                .into(fullImage);
+
+        closeBtn.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     @Override

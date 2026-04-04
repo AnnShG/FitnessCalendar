@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_page_background_colour"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="30dp">
+
+        <TextView
+            android:id="@+id/titleHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/lexend_font"
+            android:text="@string/plan_program_title"
+            android:textColor="@color/text_black_colour"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/instructionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/lexend_font"
+            android:text="@string/plan_program_instruction_text"
+            android:textColor="@color/text_black_colour"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleHeader" />
+
+        <LinearLayout
+            android:id="@+id/calendar_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/instructionHeader">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calendar_prev_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="60dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+
+                android:contentDescription="@string/arrow_back_description"
+                app:icon="@drawable/ic_arrow_back"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/text_black_colour"
+                app:iconSize="32dp"
+                app:tint="@color/text_black_colour"
+                android:foreground="?attr/selectableItemBackground" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/monthAndYear"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text=""
+                android:fontFamily="@font/lexend_font"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calendar_next_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="60dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="16dp"
+                app:icon="@drawable/ic_arrow_next"
+                android:contentDescription="@string/arrow_next_description"
+
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconTint="@color/text_black_colour"
+                app:iconSize="32dp"
+                app:tint="@color/text_black_colour"
+                android:foreground="?attr/selectableItemBackground" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/calendar_header"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+
+            app:layout_constraintTop_toBottomOf="@id/calendar_navigation">
+
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/monday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/tuesday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/wednesday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/thursday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/friday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/saturday" />
+            <TextView style="@style/CalendarHeaderStyle" android:text="@string/sunday" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendar_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="7"
+            app:layout_constraintTop_toBottomOf="@id/calendar_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Selected Workout (Initially GONE) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/selectedWorkoutCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintTop_toBottomOf="@id/calendar_recycler_view"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/selectedWorkoutTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/lexend_font"
+                        android:text="@string/plan_program_attaching_text"
+                        android:textColor="@color/text_black_colour"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/workoutCircle"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/workout_circle_indicator_blue" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/plan_program_instruction2_text"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_black_colour" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="24dp"
+
+            android:backgroundTint="@color/plan_program_apply_btn_colour"
+            android:text="@string/plan_program_apply_btn_text"
+            android:textColor="@color/apply_bth_text_colour"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"
+
+            app:layout_constraintTop_toBottomOf="@id/selectedWorkoutCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/btnAttachWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+
+            android:backgroundTint="@color/plan_program_attach_btn_colour"
+            android:text="@string/plan_program_attach_btn_text"
+            android:textColor="@color/attach_bth_text_colour"
+            android:textStyle="bold"
+
+            app:layout_constraintTop_toBottomOf="@id/btnApply"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/plannedWorkoutsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toBottomOf="@id/btnAttachWorkout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,11 +1,6 @@
 <resources>
     <string name="app_name">FitnessCalendar</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <!--    Survey page #1-->
     <string name="survey_heading">Growth Takes Consistency</string>
@@ -54,7 +49,7 @@
 
     <string name="own_goal">Or, type your own goal&#8230;</string>
 
-    <!--Survey page #3-->
+    <!--Survey page #4-->
     <string name="survey_end_heading">Each day is a new opportunity</string>
     <string name="survey_end_button">Continue Your Journey</string>
     <string name="survey_text_last_page">A month is made of days.
@@ -87,40 +82,25 @@
     <string name="menu_add_workout">Add Workout</string>
     <string name="menu_plan_program">Plan Program</string>
 
-
 <!--    Navigation Bottom Bar-->
     <string name="icon_home_title"/>
     <string name="icon_graphs_title"/>
     <string name="icon_profile_title"/>
 
-<!--    Profile screen -->
-    <string name="profile_my_goals">My Goals</string>
-    <string name="profile_add_goal">Add Goal +</string>
-    <string name="profile_exercises">Exercises</string>
-    <string name="profile_workouts">Workouts</string>
-    <string name="profile_settings">Settings</string>
-    <string name="edit_icon_description">Edit your goal</string>
-    <string name="my_goals_hint">My goals</string>
-
 <!--    Add exercise screen-->
     <string name="add_exercise_title">Add Exercise</string>
     <string name="add_exercise_media_description">New exercise image</string>
     <string name="exercise_title">Title *</string>
-    <string name="exercise_title_description">Title</string>
+    <string name="exercise_title_hint">Enter exercise title (e.g. Push-up)</string>
     <string name="exercise_description">Description</string>
+    <string name="exercise_description_hint">Briefly describe the exercise</string>
     <string name="exercise_steps">Steps</string>
-    <string name="add_exercise_steps">Add another step</string>
+    <string name="add_exercise_steps">Add a step</string>
     <string name="add_exercise_steps_hint">Describe the step&#8230;</string>
     <string name="exercise_notes">Notes</string>
-    <string name="exercise_notes_description">Notes</string>
+    <string name="exercise_notes_description">Exercise Notes</string>
+    <string name="exercise_notes_hint">Any additional notes or tips</string>
     <string name="exercise_category">Category *</string>
-
-    <string name="category_legs">Legs</string>
-    <string name="category_arms">Arms</string>
-    <string name="category_chest">Chest</string>
-    <string name="category_Shoulders">Shoulders</string>
-    <string name="category_back">Back</string>
-    <string name="category_core">Core</string>
 
     <string name="save_exercise">Save</string>
     <string name="cancel_exercise">Cancel</string>
@@ -128,7 +108,7 @@
 <!--    Add workout screen-->
     <string name="add_workout_title">Add Workout</string>
     <string name="workout_title_label">Title *</string>
-    <string name="workout_title_tint">Title</string>
+    <string name="workout_title_hint">Title</string>
     <string name="workout_description">Description</string>
     <string name="workout_notes">Notes</string>
     <string name="workout_notes_description">Notes</string>
@@ -140,16 +120,34 @@
 
     <string name="colour_picker_description">Colour Picker</string>
 
-<!--    Workout item screen -->
-    <string name="workout_item_title">Workout Title</string>
-    <string name="workout_item_description">Description</string>
-    <string name="workout_item_description_text">Description Text</string>
-    <string name="workout_item_notes">Notes</string>
-    <string name="workout_item_notes_text">Notes Text</string>
+    <!--    Plan Program screen-->
+    <string name="plan_program_title">Your Program, Your Rules</string>
+    <string name="plan_program_instruction_text">Attach workouts to specific days on the calendar</string>
+    <string name="plan_program_apply_btn_text">Apply</string>
+    <string name="plan_program_attach_btn_text">Attach Workout to Calendar</string>
 
-    <string name="exercises">Exercises</string>
 
-<!--    Exercise detail screen -->
+    <string name="plan_program_attaching_text">Attaching: Workout Title</string>
+    <string name="plan_program_instruction2_text">Tap dates on the calendar to schedule this workout</string>
+
+    <!--    Planned workout item -->
+    <string name="planned_workout_edit_text">Edit</string>
+
+
+    <!--    Exercise list screen -->
+    <string name="exercises_list_title">All Exercises</string>
+    <string name="exercises_filtered_text">Filtered by: </string>
+    <string name="exercises_filter_icon_description">Filter</string>
+
+    <!--    Exercise select screen -->
+    <string name="exercises_select_title">Select Exercises</string>
+    <string name="exercises_select_filtered_text">Filtered by: </string>
+    <string name="exercises_select_filter_icon_description">Filter</string>
+
+    <string name="select_exercise">Select</string>
+    <string name="cancel_exercise_selecting">Cancel</string>
+
+    <!--    Exercise detail screen -->
     <string name="exercise_item_title">Exercise Title</string>
     <string name="exercise_item_media_description">Exercise Media</string>
     <string name="exercise_item_description_label">Description</string>
@@ -162,23 +160,43 @@
     <string name="exercise_item_category_label">Category</string>
     <string name="exercise_item_chip_category_description">Muscles Categories List</string>
 
-<!--    Exercise list screen -->
-    <string name="exercises_list_title">All Exercises</string>
-    <string name="exercises_filtered_text">Filtered by: </string>
-    <string name="exercises_filter_icon_description">Filter</string>
-
-<!--    Workout list screen -->
+    <!--    Workout list screen -->
     <string name="workout_list_title">All Workouts</string>
     <string name="workout_filtered_text">Filtered by: </string>
     <string name="workout_filter_icon_description">Filter</string>
     <string name="workout_title_text">Full Body Strength</string>
     <string name="workout_title_description">A high-intensity workout focusing on all major muscle groups.</string>
 
-    <!--    Exercise select screen -->
-    <string name="exercises_select_title">Select Exercises</string>
-    <string name="exercises_select_filtered_text">Filtered by: </string>
-    <string name="exercises_select_filter_icon_description">Filter</string>
+    <!--    Workout select screen -->
+    <string name="workouts_select_title">Select Workouts</string>
+    <string name="workouts_select_filtered_text">Filtered by: </string>
+    <string name="workouts_select_filter_icon_description">Filter</string>
+    <string name="workout_select_filter_icon_description">Filter</string>
 
-    <string name="select_exercise">Select</string>
-    <string name="cancel_exercise_selecting">Cancel</string>
+    <string name="select_workout">Select</string>
+    <string name="cancel_workout_selecting">Cancel</string>
+
+    <!--    Workout detail screen -->
+    <string name="workout_item_title">Workout Title</string>
+    <string name="workout_item_description">Description</string>
+    <string name="workout_item_description_text">Description Text</string>
+    <string name="workout_item_notes">Notes</string>
+    <string name="workout_item_notes_text">Notes Text</string>
+
+    <string name="exercises">Exercises</string>
+
+    <!--    Workout detail gallery image-->
+    <string name="workout_item_galley_image_title">Exercise Title</string>
+
+<!--    Full screen image-->
+
+
+    <!--    Profile screen -->
+    <string name="profile_my_goals">My Goals</string>
+    <string name="profile_add_goal">Add Goal +</string>
+    <string name="profile_exercises">Exercises</string>
+    <string name="profile_workouts">Workouts</string>
+    <string name="profile_settings">Settings</string>
+    <string name="edit_icon_description">Edit your goal</string>
+    <string name="my_goals_hint">My goals</string>
 </resources>
