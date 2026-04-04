@@ -1,6 +1,13 @@
 package com.example.fitnesscalendar.logic.calendar;
 
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,22 +17,38 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.R;
+import com.example.fitnesscalendar.relations.DateColourResult;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-//Data Mapper or a Translator
-//    Takes the list of dates and maps them to the day_view - into the little boxes on the calendar
-// fills the boxes with the dates (1,2,3,4) into MaterialTextView
+/**
+ * CalendarAdapter acts as a Data Mapper or a Translator.
+ * It takes a list of strings (day numbers) and maps them to a grid of TextViews - into the little boxes on the calendar
+ * It is responsible for rendering the visual state of each day, including:
+ * 1. The day number (1,2,3,4)
+ * 2. Selection highlights (grey circles).
+ * 3. Planned workout indicators (colored dots).
+ */
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder> {
-
-    private final List<String> daysOfMonth;
-    private OnItemListener onItemListener;
-    private Set<String> highlightedDates = new HashSet<>();
     private CalendarManager calendarManager;
+    private final List<String> daysOfMonth;
+    private final OnItemListener onItemListener;
 
-    public interface OnItemListener {
+    // State Management: Stores which dates are currently selected by the user (grey circles)
+    private Set<Long> highlightedDates = new HashSet<>();
+
+    // Data Management: Raw list of results from the database (Date + Colour + WorkoutID)
+    private List<DateColourResult> plannedWorkouts = new ArrayList<>();
+
+    // UI Optimization: A Map that groups workout colors by date for instant lookup during drawing
+    private final Map<Long, List<Integer>> dayWorkoutsMap = new HashMap<>(); // 20554 (April 10) -> [Red, Blue]
+
+    public interface OnItemListener { // communicate click events back to the Fragment
         void onItemClick(int position, String dayText);
     }
 
@@ -34,27 +57,21 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         this.onItemListener = onItemListener;
     }
 
-    public void setHighlightedDates(Set<String> dates, CalendarManager manager) {
+    // Updates the highlighted state (grey circles) and stores the manager reference
+    public void setHighlightedDates(Set<Long> dates, CalendarManager manager) {
         this.highlightedDates = dates;
         this.calendarManager = manager;
         notifyDataSetChanged();
     }
 
-    public void setDays(List<String> days) {
+    public void setDays(List<String> days) { // Updates the grid days (e.g., when moving from March to April)
         this.daysOfMonth.clear();
         this.daysOfMonth.addAll(days);
         notifyDataSetChanged();
     }
 
-    /**
-     * Constructor to initialize the adapter with a list of days.
-     * @param daysOfMonth The data source for the calendar grid.
-     */
-    public CalendarAdapter(List<String> daysOfMonth) {
-        this.daysOfMonth = daysOfMonth; // Assign the provided list to the local variable
-    }
-
-    // create a day bow for every number
+    // create the grid cells for every number
+    // TextViews are created programmatically to keep the layout lightweight
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,47 +79,142 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         dayText.setLayoutParams(new RecyclerView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, // Width fills the 1/7th of the grid
-                120 // Fixed height of 120 pixels for the calendar row
+                160 // Fixed height of 160 pixels for the calendar row
         ));
 
         dayText.setGravity(Gravity.CENTER);
-
         dayText.setTextSize(20);
-
         dayText.setTextColor(Color.BLACK);
 
         return new CalendarViewHolder(dayText);
     }
 
+    /**
+     * Receives new data from the DB and pre-calculates the Colour Map.
+     */
+    public void setPlannedWorkouts(List<DateColourResult> plans) {
+        this.plannedWorkouts = plans;
 
+        dayWorkoutsMap.clear();
+        for (DateColourResult plan : plans) {
+            if (plan.date == null) continue; // skip if date is null
+            List<Integer> colours = dayWorkoutsMap.get(plan.date);
+
+            // If this date hasn't been seen yet, create a new list
+            if (colours == null) {
+                colours = new ArrayList<>();
+                dayWorkoutsMap.put(plan.date, colours);
+            }
+
+            if (colours.size() < 3) {
+                colours.add(plan.colour);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<DateColourResult> getPlannedWorkouts() {
+        return plannedWorkouts != null ? plannedWorkouts : new ArrayList<>();
+    }
+
+    // runs for every cell in the calendar
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        String day = daysOfMonth.get(position);
-        holder.dayOfMonth.setText(day);
+        String dayText = daysOfMonth.get(position);
+        holder.dayOfMonth.setText(dayText);
 
-        // make the box with the number be touchable
+        // Initial Reset - empty calendar at the beginning
+        holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        holder.dayOfMonth.setBackground(null);
+
+        // handle empty cells
+        if (dayText.isEmpty()) {
+            holder.itemView.setOnClickListener(null);
+            return;
+        }
+
+        // Touch listener - one item clicked
         holder.itemView.setOnClickListener(v -> {
             if (onItemListener != null) {
-                onItemListener.onItemClick(position, day);
+                onItemListener.onItemClick(position, dayText);
             }
         });
 
-        //  grey circle highlight on the calendar
-        if (calendarManager != null && !day.isEmpty()) {
-            String dateKey = calendarManager.getDateKeyForDay(day);
-            if (highlightedDates.contains(dateKey)) {
+        //  Convert the number on the calendar to a unique numeric EpochDay
+        Long epochDay = (calendarManager != null) ? calendarManager.getEpochDayForDay(dayText) : null;
+
+        if (epochDay != null) {
+            // multiple dots - max 3
+            List<Integer> colors = dayWorkoutsMap.get(epochDay);
+            if (colors != null && !colors.isEmpty()) {
+                // a custom horizontal bitmap of dots
+                Drawable dotsDrawable = drawDots(holder.itemView.getContext(), colors);
+                holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(null, null, null, dotsDrawable);
+                holder.dayOfMonth.setCompoundDrawablePadding(6);
+            }
+
+            // draw grey circles
+            if (highlightedDates != null && highlightedDates.contains(epochDay)) {
                 holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
             } else {
                 holder.dayOfMonth.setBackground(null);
             }
-        } else {
-            holder.dayOfMonth.setBackground(null);
         }
+
+    }
+
+    // using Android Canvas API
+//     generates a BitmapDrawable containing 1 to 3 colored dots side-by-side.
+    private Drawable drawDots(android.content.Context context, List<Integer> colors) {
+        int dotRadius = 8;
+        int spacing = 6;
+        int maxDots = Math.min(colors.size(), 3);
+
+        // Calculate total width needed for the dots
+        int width = (dotRadius * 2 * maxDots) + (spacing * (maxDots - 1));
+        int height = dotRadius * 2;
+
+        Bitmap bitmap = android.graphics.Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new android.graphics.Canvas(bitmap);
+        Paint paint = new android.graphics.Paint(Paint.ANTI_ALIAS_FLAG);
+
+        for (int i = 0; i < maxDots; i++) {
+            paint.setColor(colors.get(i));
+            float x = dotRadius + (i * (dotRadius * 2 + spacing));
+            canvas.drawCircle(x, dotRadius, dotRadius, paint);
+        }
+
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     @Override
     public int getItemCount() {
         return daysOfMonth.size();
+    }
+
+    /**
+     * Checks if a specific workout is already on a specific date
+     * Prevents the user from planning the same workout twice on the same day
+     */
+    public boolean isWorkoutAlreadyPlanned(Long epochDay, long workoutId) {
+        if (plannedWorkouts == null || epochDay == null) return false;
+
+        for (DateColourResult plan : plannedWorkouts) {
+            // Compare the date and the specific workout ID
+            if (epochDay.equals(plan.date)) {
+                if (plan.workoutId != null && plan.workoutId == workoutId) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Returns how many workout dots are currently on this day, to prevent of allowing adding the forth one
+    public int getWorkoutsCountForDay(Long epochDay) {
+        if (epochDay == null) return 0;
+        List<Integer> colours = dayWorkoutsMap.get(epochDay);
+        return (colours != null) ? colours.size() : 0;
     }
 
     /**

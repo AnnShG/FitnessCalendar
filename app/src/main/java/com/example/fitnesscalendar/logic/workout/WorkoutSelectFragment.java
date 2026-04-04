@@ -17,6 +17,11 @@ import java.util.List;
 
 import lombok.NonNull;
 
+/**
+ * WorkoutSelectFragment allows the user to pick a specific workout to be scheduled on the calendar.
+ * It extends WorkoutsListFragment to reuse the search, filtering, and database observation logic,
+ * but adds a selection interface (orange border on cards) and a confirmation button.
+ */
 public class WorkoutSelectFragment extends WorkoutsListFragment {
 
     private WorkoutsSelectScreenBinding binding;
@@ -25,6 +30,7 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = WorkoutsSelectScreenBinding.inflate(inflater, container, false);
 
+//         manually binded the parent's layout variables.
         super.binding = WorkoutsListScreenBinding.bind(binding.getRoot());
 
         super.root = binding.getRoot();
@@ -36,14 +42,15 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (workoutAdapter != null) {
-            workoutAdapter.setSelectionMode(true);
+            workoutAdapter.setSelectionMode(true); // activates the visual "Orange Border"
 
+            // Listen for changes in selection to update the select button text
             workoutAdapter.setOnSelectionChangedListener(count -> {
                 updateSelectionButton(count);
             });
         }
 
-        // get existing IDs passed from the  screen
+        // get existing IDs passed from the screen
         long[] existing = getArguments() != null ? getArguments().getLongArray("existing_ids") : null;
         if (existing != null && existing.length > 0) {
             List<Long> existingList = new ArrayList<>();
@@ -55,14 +62,18 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             updateSelectionButton(existingList.size());
         }
 
-        // This triggers the navigation to details
-        workoutAdapter.setOnInfoClickListener(exerciseId -> {
-            Bundle bundle = new Bundle();
-            bundle.putLong("exerciseId", exerciseId);
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_WorkoutSelectScreen_to_WorkoutDetail, bundle);
-        });
+        // triggers the navigation to detail screen
+        if (workoutAdapter != null) {
+            workoutAdapter.setOnInfoClickListener(workoutId -> {
+                Bundle bundle = new Bundle();
+                bundle.putLong("workoutId", workoutId);
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_WorkoutSelectScreen_to_WorkoutDetail, bundle);
+            });
+        }
 
+//        When the "Add Workout" button is clicked, selected workout data is packed
+//        into a result bundle and sent back to the PlanProgramFragment.
         binding.selectWorkoutBtn.setOnClickListener(v -> {
             Workout selectedWorkout = workoutAdapter.getSelectedWorkout();
 
@@ -82,12 +93,17 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
                 NavHostFragment.findNavController(WorkoutSelectFragment.this)
                         .navigateUp()
         );
+
+        binding.cancelWorkoutSelectBtn.setOnClickListener(v ->
+                NavHostFragment.findNavController(WorkoutSelectFragment.this)
+                        .navigateUp()
+        );
     }
 
     private void updateSelectionButton(int count) {
         if (count > 0) {
             binding.btnContainer.setVisibility(View.VISIBLE);
-            String btnText = "Add " + count + (count == 1 ? " Workout" : " Workouts");
+            String btnText = "Add " + count + " Workout";
             binding.selectWorkoutBtn.setText(btnText);
         } else {
             binding.btnContainer.setVisibility(View.GONE);
