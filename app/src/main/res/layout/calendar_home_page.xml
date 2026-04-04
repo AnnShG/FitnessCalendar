@@ -25,7 +25,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/mindsetButton"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
 
         android:textSize="16sp"
         android:textStyle="bold"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/calendar_title_text"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/lexend_font"
         android:textSize="16sp"
         android:textStyle="normal"
@@ -121,7 +121,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_prev_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="60dp"
+            android:layout_width="35dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -148,7 +148,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_next_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="60dp"
+            android:layout_width="35dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
             android:layout_weight="1"
