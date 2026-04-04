@@ -94,7 +94,6 @@
     <color name="exercises_icon_search_colour">#F05A09</color>
 
     <!--    Exercises list item grid -->
-    <color name="exercises_icon_filter_colour">#F05A09</color>
 
     <!-- Exercises select screen-->
     <color name="select_save_buttons_bg">#CEDCE5</color>
