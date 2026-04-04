@@ -10,9 +10,9 @@
     app:cardBackgroundColor="@color/workout_detail_card_bg_colour"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
-    app:strokeColor="#F5F5F5"
-    app:strokeWidth="1dp">
-
+    app:strokeWidth="2dp"
+    app:strokeColor="@android:color/transparent">
+<!--    app:strokeColor="#F5F5F5"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,32 +22,16 @@
         android:paddingBottom="20dp"
         android:paddingEnd="5dp">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/workoutCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            app:buttonTint="@color/plus_button_background_colour"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-
-            android:visibility="gone"
-            tools:visibility="visible"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <View
             android:id="@+id/workoutIndicatorBar"
             android:layout_width="5dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/workout_indicator_rounded"
+            tools:backgroundTint="@color/workout_indicator_dark_blue_colour"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/workoutCheckbox"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:backgroundTint="@color/workout_indicator_dark_blue_colour" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/btnViewDetails"
@@ -86,7 +70,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/lexend_font"
             android:maxLines="2"
-            android:textColor="@color/survey_text_black"
+            android:textColor="@color/text_black_colour"
             android:textSize="14sp"
             tools:text="@string/workout_title_description"
 
