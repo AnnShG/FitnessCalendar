@@ -185,6 +185,11 @@
 
     <string name="exercises">Exercises</string>
 
+<!--    Workout exercise item grid-->
+    <string name="exercise_item_grid_category_text">Categories</string>
+    <string name="exercise_item_grid_title_text">Title</string>
+
+
     <!--    Workout detail gallery image-->
     <string name="workout_item_galley_image_title">Exercise Title</string>
 
