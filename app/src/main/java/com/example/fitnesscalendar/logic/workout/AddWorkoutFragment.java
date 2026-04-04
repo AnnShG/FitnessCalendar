@@ -172,12 +172,25 @@ public class AddWorkoutFragment extends Fragment {
 
         TextView indexTv = rowView.findViewById(R.id.leftSideControlIndex);
         TextView titleLabel = rowView.findViewById(R.id.titleLabel);
+        TextView catsList = rowView.findViewById(R.id.categoriesList);
         ImageView img = rowView.findViewById(R.id.exerciseImage);
         ImageView deleteBtn = rowView.findViewById(R.id.leftSideControlDelete);
 
-        //categories should be here
         indexTv.setText(String.valueOf(position));
         titleLabel.setText(record.exercise.getTitle());
+
+        if (record.categories != null && !record.categories.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < record.categories.size(); i++) {
+                sb.append(record.categories.get(i).getName());
+                if (i < record.categories.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+            catsList.setText(sb.toString());
+        } else {
+            catsList.setText("");
+        }
 
         if (record.exercise.getMediaUri() != null) {
             Glide.with(this)
@@ -207,14 +220,14 @@ public class AddWorkoutFragment extends Fragment {
     }
 
     private void onSaveButtonClicked() {
-        String title = binding.workoutTitleInput.getText().toString().trim();
+        String title = String.valueOf(binding.workoutTitleInput.getText()).trim();
         if (title.isEmpty()) {
             binding.workoutTitleInput.setError("Title is required");
             return;
         }
 
-        String Description = binding.workoutDescriptionInput.getText().toString();
-        String note = binding.workoutNotesInput.getText().toString();
+        String Description = String.valueOf(binding.workoutDescriptionInput.getText());
+        String note = String.valueOf(binding.workoutNotesInput.getText());
 
         Workout workout = new Workout();
         workout.setTitle(title);
@@ -274,9 +287,6 @@ public class AddWorkoutFragment extends Fragment {
         }
 
         if (record.exercises != null && !record.exercises.isEmpty()) {
-//            selectedExerciseIdList.clear();
-//            binding.exercisesContainer.removeAllViews();
-
             if (selectedExerciseIdList.isEmpty()) {
                 // Extract IDs from the list of exercises
                 long[] exerciseIds = new long[record.exercises.size()];
