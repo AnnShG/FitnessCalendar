@@ -75,18 +75,29 @@
     <color name="workout_left_side_control_icons_colour">#F05A09</color>
 
 <!--    Plan Program screen-->
-    <color name="apply_btn_colour">#FD8646</color>
+    <color name="plan_program_apply_btn_colour">#F05A09</color>
     <color name="apply_bth_text_colour">#1C1C1C</color>
 
-    <color name="attach_btn_colour">#FD8646</color>
+    <color name="plan_program_attach_btn_colour">#F05A09</color>
     <color name="attach_bth_text_colour">#1C1C1C</color>
     <color name="workout_replace_btn_bg_colour">#F8F4FF</color>
     <color name="workout_replace_btn_stroke_colour">#C5B9B9</color>
+
+<!--    Planned workout item -->
+    <color name="planned_workout_edit_colour">#F05A09</color>
+    <color name="planned_workout_bin_colour">#F05A09</color>
+
 
 
 <!--    Exercises list screen-->
     <color name="exercises_icon_filter_colour">#F05A09</color>
     <color name="exercises_icon_search_colour">#F05A09</color>
+
+    <!--    Exercises list item grid -->
+    <color name="exercises_icon_filter_colour">#F05A09</color>
+
+    <!-- Exercises select screen-->
+    <color name="select_save_buttons_bg">#CEDCE5</color>
 
     <!--    Exercises detail screen-->
     <color name="exercises_detail_black_colour">#1C1C1C</color>
@@ -99,10 +110,10 @@
 
     <!-- Workouts detail screen-->
 
+<!--    Workout detail gallery image-->
+    <color name="close_icon_colour">#FFFFFF</color>
 
 
-    <!-- Exercises select screen-->
-    <color name="select_save_buttons_bg">#CEDCE5</color>
 
     <!--    Profile screen -->
     <color name="goal_addition_bg_colour">#F7E8CF</color>

@@ -1,11 +1,6 @@
 <resources>
     <string name="app_name">FitnessCalendar</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <!--    Survey page #1-->
     <string name="survey_heading">Growth Takes Consistency</string>
@@ -128,20 +123,31 @@
     <!--    Plan Program screen-->
     <string name="plan_program_title">Your Program, Your Rules</string>
     <string name="plan_program_instruction_text">Attach workouts to specific days on the calendar</string>
-    <string name="plan_program_instruction2_text">Tap dates on the calendar to schedule this workout</string>
     <string name="plan_program_apply_btn_text">Apply</string>
     <string name="plan_program_attach_btn_text">Attach Workout to Calendar</string>
 
-<!--    Workout item screen -->
-    <string name="workout_item_title">Workout Title</string>
-    <string name="workout_item_description">Description</string>
-    <string name="workout_item_description_text">Description Text</string>
-    <string name="workout_item_notes">Notes</string>
-    <string name="workout_item_notes_text">Notes Text</string>
 
-    <string name="exercises">Exercises</string>
+    <string name="plan_program_attaching_text">Attaching: Workout Title</string>
+    <string name="plan_program_instruction2_text">Tap dates on the calendar to schedule this workout</string>
 
-<!--    Exercise detail screen -->
+    <!--    Planned workout item -->
+    <string name="planned_workout_edit_text">Edit</string>
+
+
+    <!--    Exercise list screen -->
+    <string name="exercises_list_title">All Exercises</string>
+    <string name="exercises_filtered_text">Filtered by: </string>
+    <string name="exercises_filter_icon_description">Filter</string>
+
+    <!--    Exercise select screen -->
+    <string name="exercises_select_title">Select Exercises</string>
+    <string name="exercises_select_filtered_text">Filtered by: </string>
+    <string name="exercises_select_filter_icon_description">Filter</string>
+
+    <string name="select_exercise">Select</string>
+    <string name="cancel_exercise_selecting">Cancel</string>
+
+    <!--    Exercise detail screen -->
     <string name="exercise_item_title">Exercise Title</string>
     <string name="exercise_item_media_description">Exercise Media</string>
     <string name="exercise_item_description_label">Description</string>
@@ -154,25 +160,12 @@
     <string name="exercise_item_category_label">Category</string>
     <string name="exercise_item_chip_category_description">Muscles Categories List</string>
 
-<!--    Exercise list screen -->
-    <string name="exercises_list_title">All Exercises</string>
-    <string name="exercises_filtered_text">Filtered by: </string>
-    <string name="exercises_filter_icon_description">Filter</string>
-
-<!--    Workout list screen -->
+    <!--    Workout list screen -->
     <string name="workout_list_title">All Workouts</string>
     <string name="workout_filtered_text">Filtered by: </string>
     <string name="workout_filter_icon_description">Filter</string>
     <string name="workout_title_text">Full Body Strength</string>
     <string name="workout_title_description">A high-intensity workout focusing on all major muscle groups.</string>
-
-    <!--    Exercise select screen -->
-    <string name="exercises_select_title">Select Exercises</string>
-    <string name="exercises_select_filtered_text">Filtered by: </string>
-    <string name="exercises_select_filter_icon_description">Filter</string>
-
-    <string name="select_exercise">Select</string>
-    <string name="cancel_exercise_selecting">Cancel</string>
 
     <!--    Workout select screen -->
     <string name="workouts_select_title">Select Workouts</string>
@@ -180,9 +173,22 @@
     <string name="workouts_select_filter_icon_description">Filter</string>
     <string name="workout_select_filter_icon_description">Filter</string>
 
-
     <string name="select_workout">Select</string>
     <string name="cancel_workout_selecting">Cancel</string>
+
+    <!--    Workout detail screen -->
+    <string name="workout_item_title">Workout Title</string>
+    <string name="workout_item_description">Description</string>
+    <string name="workout_item_description_text">Description Text</string>
+    <string name="workout_item_notes">Notes</string>
+    <string name="workout_item_notes_text">Notes Text</string>
+
+    <string name="exercises">Exercises</string>
+
+    <!--    Workout detail gallery image-->
+    <string name="workout_item_galley_image_title">Exercise Title</string>
+
+<!--    Full screen image-->
 
 
     <!--    Profile screen -->
