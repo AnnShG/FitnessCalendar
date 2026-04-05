@@ -55,7 +55,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calendar_prev_button"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="60dp"
+                android:layout_width="35dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -82,7 +82,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calendar_next_button"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="60dp"
+                android:layout_width="35dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"

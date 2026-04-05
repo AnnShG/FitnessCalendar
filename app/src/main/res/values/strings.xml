@@ -74,6 +74,10 @@
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
 
+<!--    Calendar legend-->
+    <string name="workout_title">Workout Title, Another</string>
+
+
     <!--    Mindset window-->
     <string name="quote_author_text">Author</string>
 
@@ -184,6 +188,11 @@
     <string name="workout_item_notes_text">Notes Text</string>
 
     <string name="exercises">Exercises</string>
+
+<!--    Workout exercise item grid-->
+    <string name="exercise_item_grid_category_text">Categories</string>
+    <string name="exercise_item_grid_title_text">Title</string>
+
 
     <!--    Workout detail gallery image-->
     <string name="workout_item_galley_image_title">Exercise Title</string>
