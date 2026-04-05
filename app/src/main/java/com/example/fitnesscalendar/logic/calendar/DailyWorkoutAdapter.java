@@ -1,6 +1,7 @@
 package com.example.fitnesscalendar.logic.calendar;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -52,7 +53,7 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         DateColourResult item = items.get(position);
 
-        holder.binding.workoutTitle.setText(item.title != null ? item.title : "Workout");
+        holder.binding.workoutTitle.setText(item.title);
 
         if (item.colour != null) {
             holder.binding.workoutColorDot.setBackgroundTintList(ColorStateList.valueOf(item.colour));
@@ -70,6 +71,22 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
         holder.binding.workoutCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) listener.onToggleCompletion(item, isChecked);
         });
+
+        if (item.isCompleted) {
+            // Grey out the card
+            holder.binding.getRoot().setCardBackgroundColor(Color.parseColor("#F5F5F5"));
+            holder.binding.workoutTitle.setTextColor(Color.GRAY);
+            holder.binding.workoutColorDot.setAlpha(0.3f); // Fade the dot
+            holder.binding.workoutCheckbox.setChecked(true);
+            holder.binding.workoutCheckbox.setEnabled(true);
+        } else {
+            // Normal state
+            holder.binding.getRoot().setCardBackgroundColor(Color.WHITE);
+            holder.binding.workoutTitle.setTextColor(Color.BLACK);
+            holder.binding.workoutColorDot.setAlpha(1.0f);
+            holder.binding.workoutCheckbox.setChecked(false);
+            holder.binding.workoutCheckbox.setEnabled(true);
+        }
     }
 
     @Override
