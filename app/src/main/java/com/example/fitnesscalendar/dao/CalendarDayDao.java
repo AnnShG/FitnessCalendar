@@ -119,4 +119,15 @@ public interface CalendarDayDao {
             "WHERE workout_id = :workoutId " +
             "AND calendar_day_id IN (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId)")
     void deleteWorkoutPlanLinks(long userId, long workoutId);
+
+    /**
+     * Retrieves unique workouts that are assigned to a specific day.
+     * Used to populate the daily workout item cards
+     */
+    @Transaction
+    @Query("SELECT cd.date, w.colour, w.workout_id, w.title FROM calendar_days cd " +
+            "INNER JOIN calendar_day_workout_cross_ref ref ON cd.calendar_day_id = ref.calendar_day_id " +
+            "INNER JOIN workouts w ON ref.workout_id = w.workout_id " +
+            "WHERE cd.user_id = :userId AND cd.date = :epochDay")
+    LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay);
 }
