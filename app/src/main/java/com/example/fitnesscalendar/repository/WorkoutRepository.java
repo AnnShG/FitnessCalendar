@@ -151,4 +151,8 @@ public class WorkoutRepository {
         });
     }
 
+    public LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay) {
+        return calendarDao.getWorkoutsForSpecificDay(userId, epochDay);
+    }
+
 }
