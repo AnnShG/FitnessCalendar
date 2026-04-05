@@ -14,4 +14,6 @@ public class DateColourResult {
 
     @ColumnInfo(name = "workout_id") // to ensure the user cannot attach the same workout to the same day twice
     public Long workoutId;
+    @ColumnInfo(name = "is_completed")
+    public boolean isCompleted;
 }
