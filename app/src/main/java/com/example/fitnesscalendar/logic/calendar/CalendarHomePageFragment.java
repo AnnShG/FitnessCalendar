@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -35,6 +36,7 @@ import lombok.NonNull;
  */
 public class CalendarHomePageFragment extends Fragment implements CalendarAdapter.OnItemListener {
     private CalendarHomePageBinding binding;
+    private BottomSheetBehavior<View> bottomSheetBehavior;
     private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
     private CalendarAdapter adapter;
     CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
@@ -134,7 +136,30 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 });
             }
         });
+        /**
+         * Initializing the BottomSheetBehavior from the included layout
+         * 1st dailyPlanWindow is the ID from the <include>
+         * 2nd dailyPlanWindow is the root ID inside plan_daily.xml
+         */
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.dailyPlanWindow.dailyPlanWindow);
 
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // by default it is hidden
+
+        // // Set up the callback to show the Bottom Navigation Bar again when the window is closed
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED) { // collapsed - the user hided it
+                    if (getActivity() != null) {
+                        View navBar = getActivity().findViewById(R.id.bottom_navigation);
+                        if (navBar != null) navBar.setVisibility(View.VISIBLE);
+                    }
+                    adapter.setHighlightedDates(new HashSet<>(), calendarManager);
+                }
+            }
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+        });
 
         binding.calendarPrevButton.setOnClickListener(v -> {
             calendarManager.goToPrevMonth();
@@ -157,16 +182,24 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     /**
      * Called when a specific date is tapped on the grid.
      */
-
     @Override
     public void onItemClick(int position, String dayText) {
-        if (!dayText.isEmpty()) {
-            // 1. Show the sheet
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        if (dayText != null && !dayText.isEmpty()) {
+            // hide the Activity's Bottom Navigation Bar immediately
+            if (getActivity() != null) {
+                View navBar = getActivity().findViewById(R.id.bottom_navigation);
+                if (navBar != null) navBar.setVisibility(View.GONE);
+            }
 
-            // 2. Hide the Activity's Bottom Navigation Bar
-            View navBar = getActivity().findViewById(R.id.bottom_navigation); // Use your actual Nav ID
-            if (navBar != null) navBar.setVisibility(View.GONE);
+            // .post() ensures the layout has updated before expanding the window
+            binding.dailyPlanWindow.dailyPlanWindow.post(() -> {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            });
+
+            // highlight selected day
+            Set<Long> highlights = new HashSet<>();
+            highlights.add(calendarManager.getEpochDayForDay(dayText));
+            adapter.setHighlightedDates(highlights, calendarManager);
         }
     }
 
