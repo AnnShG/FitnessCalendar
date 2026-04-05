@@ -130,4 +130,14 @@ public interface CalendarDayDao {
             "INNER JOIN workouts w ON ref.workout_id = w.workout_id " +
             "WHERE cd.user_id = :userId AND cd.date = :epochDay")
     LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay);
+
+    @Query("DELETE FROM calendar_day_workout_cross_ref " +
+            "WHERE workout_id = :workoutId " +
+            "AND calendar_day_id = (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId AND date = :epochDay)")
+    void deleteSpecificWorkoutPlan(long userId, long workoutId, long epochDay);
+
+    @Query("UPDATE calendar_day_workout_cross_ref SET is_completed = :completed " +
+            "WHERE workout_id = :workoutId AND calendar_day_id = " +
+            "(SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId AND date = :epochDay)")
+    void updateWorkoutCompletion(long userId, long workoutId, long epochDay, boolean completed);
 }

@@ -95,4 +95,13 @@ public class WorkoutViewModel extends AndroidViewModel {
     public LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay) {
         return workoutRepository.getWorkoutsForSpecificDay(userId, epochDay);
     }
+
+    public void deleteSpecificWorkoutPlan(long userId, long workoutId, long epochDay) {
+        workoutRepository.deleteSpecificWorkoutPlan(userId, workoutId, epochDay);
+    }
+
+    public void updateWorkoutCompletion(long userId, long workoutId, long epochDay, boolean completed) {
+        workoutRepository.updateWorkoutCompletion(userId, workoutId, epochDay, completed);
+    }
+
 }

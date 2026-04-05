@@ -155,4 +155,16 @@ public class WorkoutRepository {
         return calendarDao.getWorkoutsForSpecificDay(userId, epochDay);
     }
 
+    public void deleteSpecificWorkoutPlan(long userId, long workoutId, long epochDay) {
+        databaseExecutor.execute(() -> {
+            calendarDao.deleteSpecificWorkoutPlan(userId, workoutId, epochDay);
+        });
+    }
+
+    public void updateWorkoutCompletion(long userId, long workoutId, long epochDay, boolean completed) {
+        databaseExecutor.execute(() -> {
+            calendarDao.updateWorkoutCompletion(userId, workoutId, epochDay, completed);
+        });
+    }
+
 }
