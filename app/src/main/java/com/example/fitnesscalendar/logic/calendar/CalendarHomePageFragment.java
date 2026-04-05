@@ -15,6 +15,7 @@ import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -134,6 +135,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             }
         });
 
+
         binding.calendarPrevButton.setOnClickListener(v -> {
             calendarManager.goToPrevMonth();
             updateUI();
@@ -155,11 +157,16 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     /**
      * Called when a specific date is tapped on the grid.
      */
+
     @Override
     public void onItemClick(int position, String dayText) {
-        if (dayText != null && !dayText.isEmpty()) {
-            String message = "Selected Date: " + dayText + " " + calendarManager.getHeaderString();
-            android.widget.Toast.makeText(requireContext(), message, android.widget.Toast.LENGTH_SHORT).show();
+        if (!dayText.isEmpty()) {
+            // 1. Show the sheet
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            // 2. Hide the Activity's Bottom Navigation Bar
+            View navBar = getActivity().findViewById(R.id.bottom_navigation); // Use your actual Nav ID
+            if (navBar != null) navBar.setVisibility(View.GONE);
         }
     }
 
@@ -185,6 +192,8 @@ private void updateUI() {
 
         binding.legendContainer.addView(view);
     }
+
+
 
     @Override
     public void onDestroyView() {
