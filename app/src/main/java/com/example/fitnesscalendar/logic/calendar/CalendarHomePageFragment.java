@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -39,6 +40,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
     private CalendarAdapter adapter;
+    private DailyWorkoutAdapter dailyAdapter;
     CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
 
     @Override
@@ -148,7 +150,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         // // Set up the callback to show the Bottom Navigation Bar again when the window is closed
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            public void onStateChanged(@NonNull View bottomSheet, int newState) { // must be initialised
                 if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED) { // collapsed - the user hided it
                     if (getActivity() != null) {
                         View navBar = getActivity().findViewById(R.id.bottom_navigation);
@@ -158,7 +160,17 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 }
             }
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {} // must be initialised
+        });
+
+        dailyAdapter = new DailyWorkoutAdapter(new DailyWorkoutAdapter.OnDailyTaskActionListener() {
+            @Override    public void onDeleteTask(DateColourResult item) {
+                // workoutViewModel.removeWorkoutFromDate(userId, item.workoutId, item.date);
+            }
+
+            @Override
+            public void onToggleCompletion(DateColourResult item, boolean isCompleted) {
+            }
         });
 
         binding.calendarPrevButton.setOnClickListener(v -> {
