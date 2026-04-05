@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,6 +19,7 @@ import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import java.io.FileDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,6 +43,9 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
     private CalendarAdapter adapter;
     private DailyWorkoutAdapter dailyAdapter;
+    private WorkoutViewModel workoutViewModel;
+    private long currentUserId = -1;
+    private long selectedEpochDay = -1; // Stores the date clicked by the user
     CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
 
     @Override
@@ -104,16 +109,16 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         adapter = new CalendarAdapter(daysList, this);
         binding.calendarRecyclerView.setAdapter(adapter);
 
-        WorkoutViewModel workoutViewModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
+        this.workoutViewModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
 
         // Fetches the logged-in user
         workoutViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null) {
-                long userId = userWithGoals.user.id;
+                this.currentUserId = userWithGoals.user.id;
 
                 // Once the user is known, observes the workout "Dots" from the DB
                 // Automatically updates the main calendar dots whenever the DB changes
-                workoutViewModel.getWorkoutDotsForUser(userId).observe(getViewLifecycleOwner(), plans -> {
+                workoutViewModel.getWorkoutDotsForUser(currentUserId).observe(getViewLifecycleOwner(), plans -> {
                     if (plans != null && adapter != null) {
                         adapter.setPlannedWorkouts(plans);
                         adapter.setHighlightedDates(new HashSet<>(), calendarManager);
@@ -121,7 +126,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 });
 
                 // Used GridLayout without adapter to demonstrate the legend under the calendar
-                workoutViewModel.getUniquePlannedWorkouts(userId).observe(getViewLifecycleOwner(), list -> {
+                workoutViewModel.getUniquePlannedWorkouts(currentUserId).observe(getViewLifecycleOwner(), list -> {
                     if (list != null) {
                         // group workouts by color
                         Map<Integer, List<String>> grouped = new HashMap<>(); // key - colour, value - list of titles
@@ -163,6 +168,36 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {} // must be initialised
         });
 
+        // handle "Attach Workout" button click in the sliding window
+        binding.dailyPlanWindow.btnAttachWorkoutDaily.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_CalendarHomePage_to_WorkoutSelectScreen);
+        });
+
+//      Listen for the result coming back from WorkoutSelectFragment
+        getParentFragmentManager().setFragmentResultListener("workout_selection", getViewLifecycleOwner(), (requestKey, bundle) -> {
+            long workoutId = bundle.getLong("workoutId");
+
+            if (currentUserId != -1 && selectedEpochDay != -1) {
+
+                // VALIDATION CHECK - Reuse adapter logic to check if workout exists on THIS specific day
+                if (adapter != null && adapter.isWorkoutAlreadyPlanned(selectedEpochDay, workoutId)) {
+                    Toast.makeText(getContext(),
+                            "This workout is already scheduled for this day",
+                            Toast.LENGTH_SHORT).show();
+                    return; // don't save to DB
+                }
+                // Reuse existing ViewModel method to save to DB
+                // the single date is wrapped in a Set to match the method params
+                Set<Long> dateSet = new HashSet<>();
+                dateSet.add(selectedEpochDay);
+
+                workoutViewModel.attachWorkoutToDates(currentUserId, workoutId, dateSet);
+
+                Toast.makeText(getContext(), "Workout attached successfully!", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        dailyAdapter initialization
         dailyAdapter = new DailyWorkoutAdapter(new DailyWorkoutAdapter.OnDailyTaskActionListener() {
             @Override    public void onDeleteTask(DateColourResult item) {
                 // workoutViewModel.removeWorkoutFromDate(userId, item.workoutId, item.date);
@@ -172,6 +207,11 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             public void onToggleCompletion(DateColourResult item, boolean isCompleted) {
             }
         });
+
+        // Initialize the RecyclerView
+        binding.dailyPlanWindow.dailyWorkoutsRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+        binding.dailyPlanWindow.dailyWorkoutsRecyclerView.setAdapter(dailyAdapter);
+
 
         binding.calendarPrevButton.setOnClickListener(v -> {
             calendarManager.goToPrevMonth();
@@ -197,6 +237,8 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     @Override
     public void onItemClick(int position, String dayText) {
         if (dayText != null && !dayText.isEmpty()) {
+            this.selectedEpochDay = calendarManager.getEpochDayForDay(dayText);
+
             // hide the Activity's Bottom Navigation Bar immediately
             if (getActivity() != null) {
                 View navBar = getActivity().findViewById(R.id.bottom_navigation);
@@ -206,6 +248,20 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             // .post() ensures the layout has updated before expanding the window
             binding.dailyPlanWindow.dailyPlanWindow.post(() -> {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            });
+
+            // observe workouts for the selected day
+            workoutViewModel.getWorkoutsForSpecificDay(currentUserId, selectedEpochDay).observe(getViewLifecycleOwner(), workouts -> {
+                if (workouts != null && !workouts.isEmpty()) {
+                    // If workouts exist, show the list and hide the "No plans" text
+                    dailyAdapter.setWorkouts(workouts);
+                    binding.dailyPlanWindow.dailyWorkoutsRecyclerView.setVisibility(View.VISIBLE);
+                    binding.dailyPlanWindow.noPlansText.setVisibility(View.GONE);
+                } else {
+                    // If day is empty, show the "No plans" text and hide the list
+                    binding.dailyPlanWindow.dailyWorkoutsRecyclerView.setVisibility(View.GONE);
+                    binding.dailyPlanWindow.noPlansText.setVisibility(View.VISIBLE);
+                }
             });
 
             // highlight selected day
