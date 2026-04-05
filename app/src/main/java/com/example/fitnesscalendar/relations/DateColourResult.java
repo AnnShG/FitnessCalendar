@@ -10,6 +10,7 @@ import androidx.room.ColumnInfo;
 public class DateColourResult {
     public Long date;
     public Integer colour;
+    public String title;
 
     @ColumnInfo(name = "workout_id") // to ensure the user cannot attach the same workout to the same day twice
     public Long workoutId;
