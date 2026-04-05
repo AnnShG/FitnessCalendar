@@ -66,6 +66,10 @@
         <action
             android:id="@+id/action_CalendarHomePage_to_PlanProgramScreen"
             app:destination="@+id/PlanProgramScreen" />
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_WorkoutSelectScreen"
+            app:destination="@+id/WorkoutSelectScreen" />
     </fragment>
 
     <fragment
