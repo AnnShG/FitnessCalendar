@@ -46,7 +46,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     // UI Optimization: A Map that groups workout colors by date for instant lookup during drawing
     private final Map<Long, List<Integer>> dayWorkoutsMap = new HashMap<>(); // 20554 (April 10) -> [Red, Blue]
-
+    private final Map<Long, List<Integer>> completedWorkoutsMap = new HashMap<>();
     public interface OnItemListener { // communicate click events back to the Fragment
         void onItemClick(int position, String dayText);
     }
@@ -69,6 +69,34 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         notifyDataSetChanged();
     }
 
+    /**
+     * Receives new data from the DB and pre-calculates the Colour Map.
+     */
+    public void setPlannedWorkouts(List<DateColourResult> plans) {
+        this.plannedWorkouts = plans;
+        dayWorkoutsMap.clear();
+        completedWorkoutsMap.clear();
+
+        for (DateColourResult plan : plans) {
+            if (plan.date == null) continue; // skip if date is null
+
+            if (plan.isCompleted) {
+                // add to Completion Circle Map
+                completedWorkoutsMap.computeIfAbsent(plan.date, k -> new ArrayList<>()).add(plan.colour);
+            } else {
+                // add to Active Dots Map (Only if NOT completed)
+                List<Integer> colours = dayWorkoutsMap.computeIfAbsent(plan.date, k -> new ArrayList<>());
+                if (colours.size() < 3) colours.add(plan.colour);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<DateColourResult> getPlannedWorkouts() {
+        return plannedWorkouts != null ? plannedWorkouts : new ArrayList<>();
+    }
+
+
     // create the grid cells for every number
     // TextViews are created programmatically to keep the layout lightweight
     @NonNull
@@ -88,33 +116,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return new CalendarViewHolder(dayText);
     }
 
-    /**
-     * Receives new data from the DB and pre-calculates the Colour Map.
-     */
-    public void setPlannedWorkouts(List<DateColourResult> plans) {
-        this.plannedWorkouts = plans;
 
-        dayWorkoutsMap.clear();
-        for (DateColourResult plan : plans) {
-            if (plan.date == null) continue; // skip if date is null
-            List<Integer> colours = dayWorkoutsMap.get(plan.date);
-
-            // If this date hasn't been seen yet, create a new list
-            if (colours == null) {
-                colours = new ArrayList<>();
-                dayWorkoutsMap.put(plan.date, colours);
-            }
-
-            if (colours.size() < 3) {
-                colours.add(plan.colour);
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public List<DateColourResult> getPlannedWorkouts() {
-        return plannedWorkouts != null ? plannedWorkouts : new ArrayList<>();
-    }
 
     // runs for every cell in the calendar
     @Override
@@ -144,12 +146,23 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         if (epochDay != null) {
             // multiple dots - max 3
-            List<Integer> colors = dayWorkoutsMap.get(epochDay);
-            if (colors != null && !colors.isEmpty()) {
+            List<Integer> colours = dayWorkoutsMap.get(epochDay);
+            if (colours != null && !colours.isEmpty()) {
                 // a custom horizontal bitmap of dots
-                Drawable dotsDrawable = drawDots(holder.itemView.getContext(), colors);
+                Drawable dotsDrawable = drawDots(holder.itemView.getContext(), colours);
                 holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(null, null, null, dotsDrawable);
                 holder.dayOfMonth.setCompoundDrawablePadding(6);
+            }
+
+            List<Integer> doneColours = completedWorkoutsMap.get(epochDay);
+            if (doneColours != null && !doneColours.isEmpty()) {
+                // We create a special Background that combines the circle segments
+                Drawable circleDrawable = drawCompletionCircle(holder.itemView.getContext(), doneColours);
+                holder.dayOfMonth.setBackground(circleDrawable);
+            } else if (highlightedDates != null && highlightedDates.contains(epochDay)) {
+                holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
+            } else {
+                holder.dayOfMonth.setBackground(null);
             }
 
             // draw grey circles
@@ -159,6 +172,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 holder.dayOfMonth.setBackground(null);
             }
         }
+
 
     }
 
@@ -181,6 +195,27 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             paint.setColor(colors.get(i));
             float x = dotRadius + (i * (dotRadius * 2 + spacing));
             canvas.drawCircle(x, dotRadius, dotRadius, paint);
+        }
+
+        return new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    private Drawable drawCompletionCircle(android.content.Context context, List<Integer> colors) {
+        int size = 120; // smaller than cell height
+        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(8f);
+
+        float startAngle = -90f; // Start at the top
+        float sweepAngle = 360f / colors.size();
+
+        android.graphics.RectF rect = new android.graphics.RectF(10, 10, size - 10, size - 10);
+
+        for (int color : colors) {
+            paint.setColor(color);
+            canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
+            startAngle += sweepAngle;
         }
 
         return new BitmapDrawable(context.getResources(), bitmap);
