@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dailyPlanSheet"
+    android:id="@+id/dailyPlanWindow"
     android:layout_width="match_parent"
     android:layout_height="350dp"
     android:background="@drawable/bottom_sheet_background"
@@ -25,34 +25,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/selectedDateFullText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/lexend_font"
-        android:textColor="@color/text_black_colour"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/sheetHandle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="04.April.2026" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyWorkoutsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/selectedDateFullText"
+        app:layout_constraintTop_toBottomOf="@id/sheetHandle"
         app:layout_constraintBottom_toTopOf="@id/btnAttachWorkoutDaily"/>
 
     <TextView
         android:id="@+id/noPlansText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No plans today yet..."
+        android:text="@string/plan_daily_no_plans_text"
         android:fontFamily="@font/lexend_font"
+        android:textSize="16sp"
+        android:alpha="0.6"
         app:layout_constraintTop_toTopOf="@id/dailyWorkoutsRecyclerView"
         app:layout_constraintBottom_toBottomOf="@id/dailyWorkoutsRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,12 +53,12 @@
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Attach Workout"
+        android:text="@string/plan_daily_attach_btn_text"
         android:textAllCaps="false"
         android:textColor="@color/text_black_colour"
         android:fontFamily="@font/lexend_font"
         android:textStyle="bold"
-        app:backgroundTint="@color/chip_selected_orange"
+        app:backgroundTint="@color/plan_daily_attach_btn_colour"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 

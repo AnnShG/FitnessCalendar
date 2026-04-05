@@ -39,6 +39,9 @@
     <color name="quote_window_bg_colour">#FFFFFF</color>
     <color name="quote_window_stroke_colour">#C5B9B9</color>
 
+<!--    Plan daily window-->
+    <color name="plan_daily_attach_btn_colour">#F05A09</color>
+
 <!--    Plus DropDown menu -->
     <color name="menu_text_colour">#1C1C1C</color>
     <color name="menu_bg_colour">#FFFFFF</color>

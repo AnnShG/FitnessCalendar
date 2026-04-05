@@ -77,6 +77,11 @@
 <!--    Calendar legend-->
     <string name="workout_title">Workout Title, Another</string>
 
+    <!--    Plan daily window-->
+    <string name="plan_daily_no_plans_text">No plans today yet...</string>
+    <string name="plan_daily_attach_btn_text">Attach Workout</string>
+
+
 
     <!--    Mindset window-->
     <string name="quote_author_text">Author</string>
