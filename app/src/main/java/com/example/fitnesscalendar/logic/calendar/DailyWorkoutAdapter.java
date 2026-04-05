@@ -28,6 +28,7 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
     public interface OnDailyTaskActionListener {
         void onDeleteTask(DateColourResult item);
         void onToggleCompletion(DateColourResult item, boolean isCompleted);
+        void onTitleClick(long workoutId);
     }
 
     public DailyWorkoutAdapter(OnDailyTaskActionListener listener) {
@@ -57,12 +58,14 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
             holder.binding.workoutColorDot.setBackgroundTintList(ColorStateList.valueOf(item.colour));
         }
 
+        holder.binding.workoutTitle.setOnClickListener(v -> {
+            if (listener != null) listener.onTitleClick(item.workoutId);
+        });
         holder.binding.btnDeleteDaily.setOnClickListener(v -> {
             if (listener != null) listener.onDeleteTask(item);
         });
-
         holder.binding.workoutCheckbox.setOnCheckedChangeListener(null); // prevent triggering during binding
-//         holder.binding.workoutCheckbox.setChecked(item.isCompleted); // Uncomment if you add isCompleted to DB
+//         holder.binding.workoutCheckbox.setChecked(item.isCompleted);
 
         holder.binding.workoutCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) listener.onToggleCompletion(item, isChecked);

@@ -19,7 +19,6 @@ import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-import java.io.FileDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     private CalendarHomePageBinding binding;
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
+    private final Set<Long> checkedWorkoutIds = new HashSet<>();
     private CalendarAdapter adapter;
     private DailyWorkoutAdapter dailyAdapter;
     private WorkoutViewModel workoutViewModel;
@@ -149,7 +149,6 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
          * 2nd dailyPlanWindow is the root ID inside plan_daily.xml
          */
         bottomSheetBehavior = BottomSheetBehavior.from(binding.dailyPlanWindow.dailyPlanWindow);
-
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN); // by default it is hidden
 
         // // Set up the callback to show the Bottom Navigation Bar again when the window is closed
@@ -199,12 +198,32 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
         });
 //        dailyAdapter initialization
         dailyAdapter = new DailyWorkoutAdapter(new DailyWorkoutAdapter.OnDailyTaskActionListener() {
-            @Override    public void onDeleteTask(DateColourResult item) {
-                // workoutViewModel.removeWorkoutFromDate(userId, item.workoutId, item.date);
+            @Override
+            public void onDeleteTask(DateColourResult item) {
+                // Remove workout from the specific day
+                if (currentUserId != -1) {
+                    workoutViewModel.deleteSpecificWorkoutPlan(currentUserId, item.workoutId, item.date);
+                    Toast.makeText(getContext(), "Workout removed from calendar", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onToggleCompletion(DateColourResult item, boolean isCompleted) {
+            public void onToggleCompletion(DateColourResult item, boolean isChecked) {
+                if (isChecked) {
+                    checkedWorkoutIds.add(item.workoutId);
+                } else {
+                    checkedWorkoutIds.remove(item.workoutId);
+                }
+                updateDailyActionButton();
+            }
+
+            @Override
+            public void onTitleClick(long workoutId) {
+                // go to Workout Detail screen
+                Bundle bundle = new Bundle();
+                bundle.putLong("workoutId", workoutId);
+                NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                        .navigate(R.id.action_CalendarHomePage_to_WorkoutDetail, bundle);
             }
         });
 
@@ -294,6 +313,25 @@ private void updateUI() {
         binding.legendContainer.addView(view);
     }
 
+    private void updateDailyActionButton() {
+        if (!checkedWorkoutIds.isEmpty()) {
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setText("Complete");
+
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setOnClickListener(v -> {
+                for (Long workoutId : checkedWorkoutIds) {
+                    workoutViewModel.updateWorkoutCompletion(currentUserId, workoutId, selectedEpochDay, true);
+                }
+                checkedWorkoutIds.clear();
+                Toast.makeText(getContext(), "Workouts marked as complete!", Toast.LENGTH_SHORT).show();
+                updateDailyActionButton(); // Reset button
+            });
+        } else {
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setText("Attach Workout");
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setOnClickListener(v -> {
+                NavHostFragment.findNavController(this).navigate(R.id.action_CalendarHomePage_to_WorkoutSelectScreen);
+            });
+        }
+    }
 
 
     @Override
