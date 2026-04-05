@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,12 +14,15 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import lombok.NonNull;
 
@@ -110,6 +114,23 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                         adapter.setHighlightedDates(new HashSet<>(), calendarManager);
                     }
                 });
+
+                // Used GridLayout without adapter to demonstrate the legend under the calendar
+                workoutViewModel.getUniquePlannedWorkouts(userId).observe(getViewLifecycleOwner(), list -> {
+                    if (list != null) {
+                        // group workouts by color
+                        Map<Integer, List<String>> grouped = new HashMap<>(); // key - colour, value - list of titles
+                        for (PlannedWorkoutInfo info : list) {
+                            grouped.computeIfAbsent(info.colour, k -> new ArrayList<>()).add(info.title); // if colour exists, add, else create
+                        }
+
+                        // clear and fill the container
+                        binding.legendContainer.removeAllViews();
+                        for (Map.Entry<Integer, List<String>> entry : grouped.entrySet()) {
+                            addLegendRow(entry.getKey(), String.join(", ", entry.getValue()));
+                        }
+                    }
+                });
             }
         });
 
@@ -150,6 +171,19 @@ private void updateUI() {
         binding.monthAndYear.setText(calendarManager.getHeaderString());
         List<String> days = calendarManager.getDaysOfMonthList();
         adapter.setDays(days);
+    }
+
+    // Helper method to create the small legend rows
+    private void addLegendRow(int color, String titles) {
+        View view = getLayoutInflater().inflate(R.layout.calendar_legend_item, binding.legendContainer, false);
+
+        View dot = view.findViewById(R.id.legendColorDot);
+        TextView tv = view.findViewById(R.id.legendWorkoutNames);
+
+        dot.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
+        tv.setText(titles);
+
+        binding.legendContainer.addView(view);
     }
 
     @Override
