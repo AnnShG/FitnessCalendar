@@ -1,10 +1,12 @@
 package com.example.fitnesscalendar.logic.calendar;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
@@ -43,6 +45,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
     // Data Management: Raw list of results from the database (Date + Colour + WorkoutID)
     private List<DateColourResult> plannedWorkouts = new ArrayList<>();
+
+    // store the generated Drawables which are drawn once for each unique combination of colors
+    private final Map<String, Drawable> circleCache = new HashMap<>();
 
     // UI Optimization: A Map that groups workout colors by date for instant lookup during drawing
     private final Map<Long, List<Integer>> dayWorkoutsMap = new HashMap<>(); // 20554 (April 10) -> [Red, Blue]
@@ -155,30 +160,46 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             }
 
             List<Integer> doneColours = completedWorkoutsMap.get(epochDay);
+            boolean isSelected = highlightedDates != null && highlightedDates.contains(epochDay);
+
+            Drawable completionDrawable = null;
             if (doneColours != null && !doneColours.isEmpty()) {
-                // We create a special Background that combines the circle segments
-                Drawable circleDrawable = drawCompletionCircle(holder.itemView.getContext(), doneColours);
-                holder.dayOfMonth.setBackground(circleDrawable);
-            } else if (highlightedDates != null && highlightedDates.contains(epochDay)) {
+                completionDrawable = getCachedCompletionCircle(holder.itemView.getContext(), doneColours);
+            }
+
+            if (isSelected && completionDrawable != null) {
+                // COMBO: The user has this day selected AND there are completed workouts
+                // Create a LayerDrawable to stack the grey selection circle under the completion segments
+                Drawable selectionCircle = androidx.core.content.ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.plan_selected_day_circle);
+                android.graphics.drawable.LayerDrawable layerDrawable = new android.graphics.drawable.LayerDrawable(new Drawable[]{selectionCircle, completionDrawable});
+                holder.dayOfMonth.setBackground(layerDrawable);
+            } else if (isSelected) {
+                // Only selected, no completions yet
                 holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
+            } else if (completionDrawable != null) {
+                // Not selected, but has completions
+                holder.dayOfMonth.setBackground(completionDrawable);
             } else {
+                // Default state: no background
                 holder.dayOfMonth.setBackground(null);
             }
 
-            // draw grey circles
-            if (highlightedDates != null && highlightedDates.contains(epochDay)) {
-                holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
-            } else {
-                holder.dayOfMonth.setBackground(null);
-            }
+//            if (isSelected) {
+//                holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
+//            } else if (doneColours != null && !doneColours.isEmpty()) {
+//                // If NOT selected, but has completed workouts, show the segmented circle
+//                Drawable circleDrawable = getCachedCompletionCircle(holder.itemView.getContext(), doneColours);
+//                holder.dayOfMonth.setBackground(circleDrawable);
+//            } else {
+//                // No selection and no completions
+//                holder.dayOfMonth.setBackground(null);
+//            }
         }
-
-
     }
 
     // using Android Canvas API
 //     generates a BitmapDrawable containing 1 to 3 colored dots side-by-side.
-    private Drawable drawDots(android.content.Context context, List<Integer> colors) {
+    private Drawable drawDots(Context context, List<Integer> colors) {
         int dotRadius = 8;
         int spacing = 6;
         int maxDots = Math.min(colors.size(), 3);
@@ -187,9 +208,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         int width = (dotRadius * 2 * maxDots) + (spacing * (maxDots - 1));
         int height = dotRadius * 2;
 
-        Bitmap bitmap = android.graphics.Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new android.graphics.Canvas(bitmap);
-        Paint paint = new android.graphics.Paint(Paint.ANTI_ALIAS_FLAG);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         for (int i = 0; i < maxDots; i++) {
             paint.setColor(colors.get(i));
@@ -200,25 +221,52 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return new BitmapDrawable(context.getResources(), bitmap);
     }
 
-    private Drawable drawCompletionCircle(android.content.Context context, List<Integer> colors) {
-        int size = 120; // smaller than cell height
-        Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);Canvas canvas = new Canvas(bitmap);
+    private Drawable drawCompletionCircle(android.content.Context context, List<Integer> colours) {
+        int bitmapSize = 120; // smaller than cell height
+        Bitmap bitmap = Bitmap.createBitmap(bitmapSize, bitmapSize, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(8f);
+        paint.setStrokeWidth(7f);
+        paint.setStrokeCap(Paint.Cap.ROUND);
 
+        float padding = 25f; // enlarge and diminish the circle
         float startAngle = -90f; // Start at the top
-        float sweepAngle = 360f / colors.size();
+        float baseSweep = 360f / colours.size(); // baseSweep is the total space (slice) allocated for one colour
 
-        android.graphics.RectF rect = new android.graphics.RectF(10, 10, size - 10, size - 10);
+        float gap = colours.size() > 1 ? 25f : 0f; // // Gap size in degrees between colours
+        float sweepAngle = baseSweep - gap;
 
-        for (int color : colors) {
+        android.graphics.RectF rect = new RectF(padding, padding, bitmapSize - padding, bitmapSize - padding);
+
+        for (int color : colours) {
             paint.setColor(color);
-            canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
-            startAngle += sweepAngle;
+
+            // Adjust startAngle to center the segment within its allocated space
+            float adjustedStart = startAngle + (gap / 2f);
+
+            canvas.drawArc(rect, adjustedStart, sweepAngle, false, paint);
+            startAngle += baseSweep; // Increment by baseSweep (full slice)
         }
 
         return new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    private Drawable getCachedCompletionCircle(Context context, List<Integer> colors) {
+        // creates a unique key based on the colors
+        StringBuilder keyBuilder = new StringBuilder();
+        for (int col : colors) keyBuilder.append(col).append("_");
+        String key = keyBuilder.toString();
+
+        if (circleCache.containsKey(key)) {
+            return circleCache.get(key);
+        }
+
+        // if not in cache, draw it
+        Drawable drawable = drawCompletionCircle(context, colors);
+        circleCache.put(key, drawable);
+        return drawable;
     }
 
     @Override
