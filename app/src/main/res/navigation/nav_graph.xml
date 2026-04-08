@@ -152,6 +152,10 @@
         <action
             android:id="@+id/action_NavigationProfile_to_WorkoutsList"
             app:destination="@id/WorkoutsList" />
+
+        <action
+            android:id="@+id/action_ProfileFragment_to_SurveyPage3"
+            app:destination="@id/SurveyPage3" />
     </fragment>
 
     <fragment
