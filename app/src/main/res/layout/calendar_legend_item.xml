@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:layout_columnWeight="1"
     android:orientation="horizontal"
     android:padding="4dp"
     android:gravity="center_vertical">
@@ -21,5 +22,5 @@
         android:textColor="@color/text_black_colour"
         android:text="@string/workout_title"
         android:ellipsize="end"
-        android:maxLines="1" />
+        android:maxLines="2" />
 </LinearLayout>
