@@ -66,6 +66,12 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
                     .navigate(R.id.action_ExerciseSelectScreen_to_ExerciseDetail, bundle);
         });
 
+        // check if exercises are already selected when the view is created/recreated
+        if (adapter != null) {
+            int initialCount = adapter.getSelectedExerciseIds().size();
+            updateSelectionButton(initialCount);
+        }
+
         binding.selectExerciseBtn.setOnClickListener(v -> {
             List<Long> selectedIds = adapter.getSelectedExerciseIds();
             // pass  IDs back to the AddWorkoutFragment via a SharedViewModel
