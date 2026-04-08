@@ -122,8 +122,8 @@
     <string name="workout_notes">Notes</string>
     <string name="workout_notes_description">Notes</string>
 
-    <string name="workout_colour_text">Colour</string>
-    <string name="workout_exercise_text">Exercises</string>
+    <string name="workout_colour_text">Colour *</string>
+    <string name="workout_exercise_text">Exercises *</string>
     <string name="workout_exercise_title_text">Title</string>
     <string name="workout_add_exercise_button">Add Exercise</string>
 
