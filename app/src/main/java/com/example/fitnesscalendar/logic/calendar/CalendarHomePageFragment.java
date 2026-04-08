@@ -38,15 +38,19 @@ import lombok.NonNull;
  */
 public class CalendarHomePageFragment extends Fragment implements CalendarAdapter.OnItemListener {
     private CalendarHomePageBinding binding;
-    private BottomSheetBehavior<View> bottomSheetBehavior;
-    private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
-    private final Set<Long> checkedWorkoutIds = new HashSet<>();
     private CalendarAdapter adapter;
     private DailyWorkoutAdapter dailyAdapter;
     private WorkoutViewModel workoutViewModel;
+    CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
+    private BottomSheetBehavior<View> bottomSheetBehavior;
+    private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
+    private final Set<Long> checkedWorkoutIds = new HashSet<>();
+    private final Set<Long> unCheckedWorkoutIds = new HashSet<>();
+    private final Set<Long> selectedDays = new HashSet<>();
     private long currentUserId = -1;
     private long selectedEpochDay = -1; // Stores the date clicked by the user
-    CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
+    private int selectedDayWorkoutCount = 0;
+
 
     @Override
     public View onCreateView(
@@ -121,7 +125,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 workoutViewModel.getWorkoutDotsForUser(currentUserId).observe(getViewLifecycleOwner(), plans -> {
                     if (plans != null && adapter != null) {
                         adapter.setPlannedWorkouts(plans);
-                        adapter.setHighlightedDates(new HashSet<>(), calendarManager);
+                        adapter.setHighlightedDates(selectedDays, calendarManager);
                     }
                 });
 
@@ -137,7 +141,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                         // clear and fill the container
                         binding.legendContainer.removeAllViews();
                         for (Map.Entry<Integer, List<String>> entry : grouped.entrySet()) {
-                            addLegendRow(entry.getKey(), String.join(", ", entry.getValue()));
+                            addLegendRow(entry.getKey(), String.join(" | ", entry.getValue()));
                         }
                     }
                 });
@@ -158,13 +162,22 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED) { // collapsed - the user hided it
                     if (getActivity() != null) {
                         View navBar = getActivity().findViewById(R.id.bottom_navigation);
-                        if (navBar != null) navBar.setVisibility(View.VISIBLE);
+                        if (navBar != null) {
+                            navBar.setVisibility(View.VISIBLE);
+                            navBar.setAlpha(1.0f);
+                        }
                     }
-                    adapter.setHighlightedDates(new HashSet<>(), calendarManager);
+                    // the grey circle should be visible after the workout was completed
+                    selectedDays.clear();
+                    adapter.setHighlightedDates(selectedDays, calendarManager);
+                    checkedWorkoutIds.clear();
+                    unCheckedWorkoutIds.clear();
+                    updateDailyActionButton();
                 }
             }
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {} // must be initialised
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            }
         });
 
         // handle "Attach Workout" button click in the sliding window
@@ -209,10 +222,20 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
 
             @Override
             public void onToggleCompletion(DateColourResult item, boolean isChecked) {
-                if (isChecked) {
-                    checkedWorkoutIds.add(item.workoutId);
+                if (item.isCompleted) {
+                    // If it was already completed in DB and user UNCHECKS it
+                    if (!isChecked) {
+                        unCheckedWorkoutIds.add(item.workoutId);
+                    } else {
+                        unCheckedWorkoutIds.remove(item.workoutId);
+                    }
                 } else {
-                    checkedWorkoutIds.remove(item.workoutId);
+                    // If it was NOT completed in DB and user CHECKS it
+                    if (isChecked) {
+                        checkedWorkoutIds.add(item.workoutId);
+                    } else {
+                        checkedWorkoutIds.remove(item.workoutId);
+                    }
                 }
                 updateDailyActionButton();
             }
@@ -265,12 +288,19 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             }
 
             // .post() ensures the layout has updated before expanding the window
-            binding.dailyPlanWindow.dailyPlanWindow.post(() -> {
+            binding.dailyPlanWindow.dailyPlanWindow.postDelayed(() -> {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            });
+            }, 50);
+
+            // grey circle should always be visible to user
+            selectedDays.clear();
+            selectedDays.add(selectedEpochDay);
+            adapter.setHighlightedDates(selectedDays, calendarManager);
 
             // observe workouts for the selected day
             workoutViewModel.getWorkoutsForSpecificDay(currentUserId, selectedEpochDay).observe(getViewLifecycleOwner(), workouts -> {
+                selectedDayWorkoutCount = (workouts != null) ? workouts.size() : 0;
+
                 if (workouts != null && !workouts.isEmpty()) {
                     // If workouts exist, show the list and hide the "No plans" text
                     dailyAdapter.setWorkouts(workouts);
@@ -281,12 +311,8 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                     binding.dailyPlanWindow.dailyWorkoutsRecyclerView.setVisibility(View.GONE);
                     binding.dailyPlanWindow.noPlansText.setVisibility(View.VISIBLE);
                 }
+                updateDailyActionButton();
             });
-
-            // highlight selected day
-            Set<Long> highlights = new HashSet<>();
-            highlights.add(calendarManager.getEpochDayForDay(dayText));
-            adapter.setHighlightedDates(highlights, calendarManager);
         }
     }
 
@@ -313,26 +339,57 @@ private void updateUI() {
         binding.legendContainer.addView(view);
     }
 
+    /**
+     * Dynamically updates the text and logic of the main action button in the sliding window.
+     * Transitions between:
+     * "Attach Workout" (Default)
+     * "Complete" (When new items are checked)
+     * "Update Status" (When existing items are unchecked or both actions are happening)
+     */
     private void updateDailyActionButton() {
-        if (!checkedWorkoutIds.isEmpty()) {
-            binding.dailyPlanWindow.btnAttachWorkoutDaily.setText("Complete");
+        boolean hasCompletions = !checkedWorkoutIds.isEmpty();
+        boolean hasUndos = !unCheckedWorkoutIds.isEmpty();
+
+        if (hasCompletions || hasUndos) {
+            // If both actions are happening
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setVisibility(View.VISIBLE);
+            String btnText = (hasCompletions && !hasUndos) ? "Complete" : "Update Status";
+            binding.dailyPlanWindow.btnAttachWorkoutDaily.setText(btnText);
 
             binding.dailyPlanWindow.btnAttachWorkoutDaily.setOnClickListener(v -> {
+                if (currentUserId == -1 || selectedEpochDay == -1) return;
+
+                // Process completions (true)
                 for (Long workoutId : checkedWorkoutIds) {
                     workoutViewModel.updateWorkoutCompletion(currentUserId, workoutId, selectedEpochDay, true);
                 }
+
+                for (Long id : unCheckedWorkoutIds) {
+                    workoutViewModel.updateWorkoutCompletion(currentUserId, id, selectedEpochDay, false);
+                }
+
+                // clear temporary tracking sets
                 checkedWorkoutIds.clear();
-                Toast.makeText(getContext(), "Workouts marked as complete!", Toast.LENGTH_SHORT).show();
-                updateDailyActionButton(); // Reset button
+                unCheckedWorkoutIds.clear();
+
+                Toast.makeText(getContext(), "Schedule updated!", Toast.LENGTH_SHORT).show();
+                updateDailyActionButton();
             });
         } else {
             binding.dailyPlanWindow.btnAttachWorkoutDaily.setText("Attach Workout");
             binding.dailyPlanWindow.btnAttachWorkoutDaily.setOnClickListener(v -> {
-                NavHostFragment.findNavController(this).navigate(R.id.action_CalendarHomePage_to_WorkoutSelectScreen);
+                if (selectedDayWorkoutCount >= 3) {
+                    Toast.makeText(getContext(),
+                            "Maximum of 3 workouts per day reached",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // Only navigate if the limit is not reached
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_CalendarHomePage_to_WorkoutSelectScreen);
+                }
             });
         }
     }
-
 
     @Override
     public void onDestroyView() {
