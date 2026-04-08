@@ -183,17 +183,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 // Default state: no background
                 holder.dayOfMonth.setBackground(null);
             }
-
-//            if (isSelected) {
-//                holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
-//            } else if (doneColours != null && !doneColours.isEmpty()) {
-//                // If NOT selected, but has completed workouts, show the segmented circle
-//                Drawable circleDrawable = getCachedCompletionCircle(holder.itemView.getContext(), doneColours);
-//                holder.dayOfMonth.setBackground(circleDrawable);
-//            } else {
-//                // No selection and no completions
-//                holder.dayOfMonth.setBackground(null);
-//            }
         }
     }
 
