@@ -78,15 +78,21 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
             holder.binding.workoutTitle.setTextColor(Color.GRAY);
             holder.binding.workoutColorDot.setAlpha(0.3f); // Fade the dot
             holder.binding.workoutCheckbox.setChecked(true);
-            holder.binding.workoutCheckbox.setEnabled(true);
         } else {
             // Normal state
             holder.binding.getRoot().setCardBackgroundColor(Color.WHITE);
             holder.binding.workoutTitle.setTextColor(Color.BLACK);
             holder.binding.workoutColorDot.setAlpha(1.0f);
             holder.binding.workoutCheckbox.setChecked(false);
-            holder.binding.workoutCheckbox.setEnabled(true);
         }
+
+        holder.binding.workoutCheckbox.setEnabled(true);
+
+        holder.binding.workoutCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (listener != null) {
+                listener.onToggleCompletion(item, isChecked);
+            }
+        });
     }
 
     @Override
