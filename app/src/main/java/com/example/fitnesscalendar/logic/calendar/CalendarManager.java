@@ -87,4 +87,25 @@ public class CalendarManager {
 
         return tempCal.getTimeInMillis() / (24 * 60 * 60 * 1000L); // (API 24) the number of days
     }
+
+    /**
+     * Returns the epochDay for the first and last day of the currently viewed month.
+     */
+    public long getStartOfMonthEpochDay() {
+        Calendar cal = (Calendar) currentDate.clone();
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis() / (24 * 60 * 60 * 1000L);
+    }
+    public long getEndOfMonthEpochDay() {
+        Calendar cal = (Calendar) currentDate.clone();
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        return cal.getTimeInMillis() / (24 * 60 * 60 * 1000L);
+    }
 }
