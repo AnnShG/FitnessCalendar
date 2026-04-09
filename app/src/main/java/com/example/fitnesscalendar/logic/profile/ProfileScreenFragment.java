@@ -75,13 +75,13 @@ public class ProfileScreenFragment extends Fragment {
 
         // Add an EditText to the dialog
         final EditText input = new EditText(requireContext());
-        input.setText(goal.getGoalText());
+        input.setText(goal.getGoalTitle());
         builder.setView(input);
 
         builder.setPositiveButton("Save", (dialog, which) -> {
             String newText = input.getText().toString().trim();
             if (!newText.isEmpty()) {
-                goal.setGoalText(newText);
+                goal.setGoalTitle(newText);
                 // 3. Tell ViewModel to save the change
                 viewModel.updateGoal(goal);
             }
