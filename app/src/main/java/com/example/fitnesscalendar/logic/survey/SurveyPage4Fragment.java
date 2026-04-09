@@ -32,11 +32,6 @@ public class SurveyPage4Fragment extends Fragment {
         // Get the SAME ViewModel used in all previous fragments
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class);
 
-//        binding.continueButton.setOnClickListener(v -> {
-//            // Call the method that handles validation, saving, and navigation
-//            saveSurveyAndFinish();
-//        });
-
         // Inside SurveyPage4Fragment.java
         binding.continueButton.setOnClickListener(v -> {
             // 1. Save data
