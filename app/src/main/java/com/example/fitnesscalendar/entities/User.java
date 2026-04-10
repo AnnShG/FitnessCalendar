@@ -29,4 +29,6 @@ public class User {
 
     @ColumnInfo(name = "gender")
     public String gender;
+
+    public Date createdAt = new Date();
 }

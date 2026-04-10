@@ -30,7 +30,7 @@ import com.example.fitnesscalendar.relations.*;
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
                 AiMessage.class
 },
-        version = 21,
+        version = 23,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -50,6 +50,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
     public abstract StepDao stepDao();
     public abstract WorkoutDao workoutDao();
+    public abstract AiDao aiDao();
 
     /**
      * Database Lifecycle Callback.

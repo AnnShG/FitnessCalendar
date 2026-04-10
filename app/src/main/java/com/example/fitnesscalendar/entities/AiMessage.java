@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 @Entity(tableName = "ai_messages")
 public class AiMessage {
     @PrimaryKey(autoGenerate = true)
