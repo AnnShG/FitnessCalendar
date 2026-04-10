@@ -281,11 +281,31 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return false;
     }
 
-    // Returns how many workout dots are currently on this day, to prevent of allowing adding the forth one
+    // Returns how many dots&completed workouts are currently on this day, to prevent of allowing adding the forth one
     public int getWorkoutsCountForDay(Long epochDay) {
         if (epochDay == null) return 0;
-        List<Integer> colours = dayWorkoutsMap.get(epochDay);
-        return (colours != null) ? colours.size() : 0;
+
+        List<Integer> activeDots = dayWorkoutsMap.get(epochDay);
+        int activeCount = (activeDots != null) ? activeDots.size() : 0;
+
+        List<Integer> completed = completedWorkoutsMap.get(epochDay);
+        int completedCount = (completed != null) ? completed.size() : 0;
+
+        return activeCount + completedCount;
+    }
+
+    /**
+     * Checks if a specific workout is marked as completed on a specific day.
+     */
+    public boolean isWorkoutCompleted(Long epochDay, long workoutId) {
+        if (plannedWorkouts == null || epochDay == null) return false;
+
+        for (DateColourResult plan : plannedWorkouts) {
+            if (epochDay.equals(plan.date) && plan.workoutId != null && plan.workoutId == workoutId) {
+                return plan.isCompleted; // Returns true if the database column ref.is_completed is true
+            }
+        }
+        return false;
     }
 
     /**
