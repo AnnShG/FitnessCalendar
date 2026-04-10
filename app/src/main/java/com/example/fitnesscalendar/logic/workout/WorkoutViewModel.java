@@ -88,8 +88,8 @@ public class WorkoutViewModel extends AndroidViewModel {
         workoutRepository.deleteWorkoutFromCalendar(userId, workoutId);
     }
 
-    public void updateWorkoutPlan(long userId, long workoutId, Set<Long> epochDays) {
-        workoutRepository.updateWorkoutPlan(userId, workoutId, epochDays);
+    public void updateWorkoutPlan(long userId, long workoutId, Set<Long> newEpochDays, Set<Long> completedDays) {
+        workoutRepository.updateWorkoutPlan(userId, workoutId, newEpochDays, completedDays);
     }
 
     public LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay) {
