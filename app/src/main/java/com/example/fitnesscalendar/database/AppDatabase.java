@@ -26,8 +26,9 @@ import com.example.fitnesscalendar.relations.*;
 @Database(
         entities= {
                 User.class, CalendarDay.class, Quote.class, Exercise.class, Workout.class,
-                Category.class, Activity.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
-                ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class
+                Category.class, Step.class, Goal.class,  UserWorkoutCrossRef.class,
+                ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
+                AiMessage.class
 },
         version = 21,
         exportSchema = false
@@ -49,7 +50,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
     public abstract StepDao stepDao();
     public abstract WorkoutDao workoutDao();
-    public abstract ActivityDao activityDao();
 
     /**
      * Database Lifecycle Callback.
