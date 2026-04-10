@@ -16,7 +16,6 @@ import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
 import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.DateColourResult;
-import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.lang.reflect.Field;
