@@ -115,6 +115,8 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
 
         this.workoutViewModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
 
+        setupAiCardObserver();
+
         // Fetches the logged-in user
         workoutViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null) {
@@ -123,12 +125,16 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 // Once the user is known, observes the workout "Dots" from the DB
                 // Automatically updates the main calendar dots whenever the DB changes
                 workoutViewModel.getWorkoutDotsForUser(currentUserId).observe(getViewLifecycleOwner(), plans -> {
-                    if (plans != null && adapter != null) {
+                    if (plans != null) {
                         this.allUserPlans = plans;
-                        adapter.setPlannedWorkouts(plans);
-                        adapter.setHighlightedDates(selectedDays, calendarManager);
+                        workoutViewModel.refreshAiInsight(userWithGoals, plans);
 
-                        refreshMonthDetails();
+                        if (adapter != null) {
+                            adapter.setPlannedWorkouts(plans);
+                            adapter.setHighlightedDates(selectedDays, calendarManager);
+
+                            refreshMonthDetails();
+                        }
                     }
                 });
 
@@ -432,6 +438,13 @@ private void updateUI() {
                 addLegendRow(entry.getKey(), String.join("  |  ", uniqueTitles));
             }
         }
+    }
+
+    // represents the result
+    private void setupAiCardObserver() {
+        workoutViewModel.getAiAdvice().observe(getViewLifecycleOwner(), advice -> {
+            binding.aiCard.aiSuggestionText.setText(advice);
+        });
     }
 
     @Override
