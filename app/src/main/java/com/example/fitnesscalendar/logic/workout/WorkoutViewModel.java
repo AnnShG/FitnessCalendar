@@ -1,7 +1,6 @@
 package com.example.fitnesscalendar.logic.workout;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
