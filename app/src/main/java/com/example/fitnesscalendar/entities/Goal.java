@@ -28,8 +28,11 @@ public class Goal {
     @ColumnInfo(name = "user_id")
     public long userId;
 
-    @ColumnInfo(name = "goal_text")
-    public String goalText;
+    @ColumnInfo(name = "goal_title")
+    public String goalTitle;
+
+    @ColumnInfo(name = "goal_description")
+    public String goalDescription;
 
     @ColumnInfo(name = "is_custom")
     public boolean isCustom;

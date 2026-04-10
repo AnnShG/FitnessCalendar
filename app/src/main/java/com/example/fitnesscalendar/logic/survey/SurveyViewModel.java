@@ -66,7 +66,7 @@ public class SurveyViewModel extends AndroidViewModel {
         if (this.getSelectedGoals() != null) {
             for (String goalText : this.getSelectedGoals()) {
                 Goal goalEntry = new Goal();
-                goalEntry.setGoalText(goalText);
+                goalEntry.setGoalTitle(goalText);
                 goalEntry.setCustom(false);
                 goalEntities.add(goalEntry);
             }
@@ -74,7 +74,7 @@ public class SurveyViewModel extends AndroidViewModel {
 
         if (this.getCustomGoal() != null && !this.getCustomGoal().isEmpty()) {
             Goal customEntry = new Goal();
-            customEntry.setGoalText(this.getCustomGoal());
+            customEntry.setGoalTitle(this.getCustomGoal());
             customEntry.setCustom(true); // Mark as custom for the Profile logic
             goalEntities.add(customEntry);
         }

@@ -1,10 +1,12 @@
 package com.example.fitnesscalendar.logic.calendar;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
@@ -44,9 +46,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     // Data Management: Raw list of results from the database (Date + Colour + WorkoutID)
     private List<DateColourResult> plannedWorkouts = new ArrayList<>();
 
+    // store the generated Drawables which are drawn once for each unique combination of colors
+    private final Map<String, Drawable> circleCache = new HashMap<>();
+
     // UI Optimization: A Map that groups workout colors by date for instant lookup during drawing
     private final Map<Long, List<Integer>> dayWorkoutsMap = new HashMap<>(); // 20554 (April 10) -> [Red, Blue]
-
+    private final Map<Long, List<Integer>> completedWorkoutsMap = new HashMap<>();
     public interface OnItemListener { // communicate click events back to the Fragment
         void onItemClick(int position, String dayText);
     }
@@ -69,6 +74,34 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         notifyDataSetChanged();
     }
 
+    /**
+     * Receives new data from the DB and pre-calculates the Colour Map.
+     */
+    public void setPlannedWorkouts(List<DateColourResult> plans) {
+        this.plannedWorkouts = plans;
+        dayWorkoutsMap.clear();
+        completedWorkoutsMap.clear();
+
+        for (DateColourResult plan : plans) {
+            if (plan.date == null) continue; // skip if date is null
+
+            if (plan.isCompleted) {
+                // add to Completion Circle Map
+                completedWorkoutsMap.computeIfAbsent(plan.date, k -> new ArrayList<>()).add(plan.colour);
+            } else {
+                // add to Active Dots Map (Only if NOT completed)
+                List<Integer> colours = dayWorkoutsMap.computeIfAbsent(plan.date, k -> new ArrayList<>());
+                if (colours.size() < 3) colours.add(plan.colour);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public List<DateColourResult> getPlannedWorkouts() {
+        return plannedWorkouts != null ? plannedWorkouts : new ArrayList<>();
+    }
+
+
     // create the grid cells for every number
     // TextViews are created programmatically to keep the layout lightweight
     @NonNull
@@ -88,33 +121,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return new CalendarViewHolder(dayText);
     }
 
-    /**
-     * Receives new data from the DB and pre-calculates the Colour Map.
-     */
-    public void setPlannedWorkouts(List<DateColourResult> plans) {
-        this.plannedWorkouts = plans;
 
-        dayWorkoutsMap.clear();
-        for (DateColourResult plan : plans) {
-            if (plan.date == null) continue; // skip if date is null
-            List<Integer> colours = dayWorkoutsMap.get(plan.date);
-
-            // If this date hasn't been seen yet, create a new list
-            if (colours == null) {
-                colours = new ArrayList<>();
-                dayWorkoutsMap.put(plan.date, colours);
-            }
-
-            if (colours.size() < 3) {
-                colours.add(plan.colour);
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    public List<DateColourResult> getPlannedWorkouts() {
-        return plannedWorkouts != null ? plannedWorkouts : new ArrayList<>();
-    }
 
     // runs for every cell in the calendar
     @Override
@@ -144,27 +151,44 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
 
         if (epochDay != null) {
             // multiple dots - max 3
-            List<Integer> colors = dayWorkoutsMap.get(epochDay);
-            if (colors != null && !colors.isEmpty()) {
+            List<Integer> colours = dayWorkoutsMap.get(epochDay);
+            if (colours != null && !colours.isEmpty()) {
                 // a custom horizontal bitmap of dots
-                Drawable dotsDrawable = drawDots(holder.itemView.getContext(), colors);
+                Drawable dotsDrawable = drawDots(holder.itemView.getContext(), colours);
                 holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(null, null, null, dotsDrawable);
                 holder.dayOfMonth.setCompoundDrawablePadding(6);
             }
 
-            // draw grey circles
-            if (highlightedDates != null && highlightedDates.contains(epochDay)) {
+            List<Integer> doneColours = completedWorkoutsMap.get(epochDay);
+            boolean isSelected = highlightedDates != null && highlightedDates.contains(epochDay);
+
+            Drawable completionDrawable = null;
+            if (doneColours != null && !doneColours.isEmpty()) {
+                completionDrawable = getCachedCompletionCircle(holder.itemView.getContext(), doneColours);
+            }
+
+            if (isSelected && completionDrawable != null) {
+                // COMBO: The user has this day selected AND there are completed workouts
+                // Create a LayerDrawable to stack the grey selection circle under the completion segments
+                Drawable selectionCircle = androidx.core.content.ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.plan_selected_day_circle);
+                android.graphics.drawable.LayerDrawable layerDrawable = new android.graphics.drawable.LayerDrawable(new Drawable[]{selectionCircle, completionDrawable});
+                holder.dayOfMonth.setBackground(layerDrawable);
+            } else if (isSelected) {
+                // Only selected, no completions yet
                 holder.dayOfMonth.setBackgroundResource(R.drawable.plan_selected_day_circle);
+            } else if (completionDrawable != null) {
+                // Not selected, but has completions
+                holder.dayOfMonth.setBackground(completionDrawable);
             } else {
+                // Default state: no background
                 holder.dayOfMonth.setBackground(null);
             }
         }
-
     }
 
     // using Android Canvas API
 //     generates a BitmapDrawable containing 1 to 3 colored dots side-by-side.
-    private Drawable drawDots(android.content.Context context, List<Integer> colors) {
+    private Drawable drawDots(Context context, List<Integer> colors) {
         int dotRadius = 8;
         int spacing = 6;
         int maxDots = Math.min(colors.size(), 3);
@@ -173,9 +197,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         int width = (dotRadius * 2 * maxDots) + (spacing * (maxDots - 1));
         int height = dotRadius * 2;
 
-        Bitmap bitmap = android.graphics.Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new android.graphics.Canvas(bitmap);
-        Paint paint = new android.graphics.Paint(Paint.ANTI_ALIAS_FLAG);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         for (int i = 0; i < maxDots; i++) {
             paint.setColor(colors.get(i));
@@ -184,6 +208,54 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         }
 
         return new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    private Drawable drawCompletionCircle(android.content.Context context, List<Integer> colours) {
+        int bitmapSize = 120; // smaller than cell height
+        Bitmap bitmap = Bitmap.createBitmap(bitmapSize, bitmapSize, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(7f);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+        float padding = 25f; // enlarge and diminish the circle
+        float startAngle = -90f; // Start at the top
+        float baseSweep = 360f / colours.size(); // baseSweep is the total space (slice) allocated for one colour
+
+        float gap = colours.size() > 1 ? 25f : 0f; // // Gap size in degrees between colours
+        float sweepAngle = baseSweep - gap;
+
+        android.graphics.RectF rect = new RectF(padding, padding, bitmapSize - padding, bitmapSize - padding);
+
+        for (int color : colours) {
+            paint.setColor(color);
+
+            // Adjust startAngle to center the segment within its allocated space
+            float adjustedStart = startAngle + (gap / 2f);
+
+            canvas.drawArc(rect, adjustedStart, sweepAngle, false, paint);
+            startAngle += baseSweep; // Increment by baseSweep (full slice)
+        }
+
+        return new BitmapDrawable(context.getResources(), bitmap);
+    }
+
+    private Drawable getCachedCompletionCircle(Context context, List<Integer> colors) {
+        // creates a unique key based on the colors
+        StringBuilder keyBuilder = new StringBuilder();
+        for (int col : colors) keyBuilder.append(col).append("_");
+        String key = keyBuilder.toString();
+
+        if (circleCache.containsKey(key)) {
+            return circleCache.get(key);
+        }
+
+        // if not in cache, draw it
+        Drawable drawable = drawCompletionCircle(context, colors);
+        circleCache.put(key, drawable);
+        return drawable;
     }
 
     @Override
@@ -209,11 +281,31 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         return false;
     }
 
-    // Returns how many workout dots are currently on this day, to prevent of allowing adding the forth one
+    // Returns how many dots&completed workouts are currently on this day, to prevent of allowing adding the forth one
     public int getWorkoutsCountForDay(Long epochDay) {
         if (epochDay == null) return 0;
-        List<Integer> colours = dayWorkoutsMap.get(epochDay);
-        return (colours != null) ? colours.size() : 0;
+
+        List<Integer> activeDots = dayWorkoutsMap.get(epochDay);
+        int activeCount = (activeDots != null) ? activeDots.size() : 0;
+
+        List<Integer> completed = completedWorkoutsMap.get(epochDay);
+        int completedCount = (completed != null) ? completed.size() : 0;
+
+        return activeCount + completedCount;
+    }
+
+    /**
+     * Checks if a specific workout is marked as completed on a specific day.
+     */
+    public boolean isWorkoutCompleted(Long epochDay, long workoutId) {
+        if (plannedWorkouts == null || epochDay == null) return false;
+
+        for (DateColourResult plan : plannedWorkouts) {
+            if (epochDay.equals(plan.date) && plan.workoutId != null && plan.workoutId == workoutId) {
+                return plan.isCompleted; // Returns true if the database column ref.is_completed is true
+            }
+        }
+        return false;
     }
 
     /**

@@ -43,8 +43,8 @@ public class PlanProgramFragment extends Fragment {
     private WorkoutViewModel workoutViewModel;
     private final CalendarManager manager = new CalendarManager();
     private final Set<Long> highlightedDates = new HashSet<>(); // Temporarily stores selected epochDay IDs (Grey circles)
+    private final Set<Long> completedDatesForThisWorkout = new HashSet<>();
     private final List<String> daysList = new ArrayList<>(); // takes a list of numbers/dates 1,2,3,4
-
     private long currentSelectedWorkoutId = -1;
     private long currentUserId = -1;
     private boolean isWorkoutSelected = false; // Prevents calendar clicks if no workout is selected
@@ -76,18 +76,30 @@ public class PlanProgramFragment extends Fragment {
                     // Duplicate check
                     // If not in Edit Mode, block selecting a day that already has this workout
                     if (!isEditMode && adapter.isWorkoutAlreadyPlanned(epochDay, currentSelectedWorkoutId)) {
-                        Toast.makeText(getContext(), "This workout is already scheduled for this day", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "This workout is already planned for this day", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     // Max limit check (3 Workouts)
                     // During the selection process, the workout cannot be attached if the limit reached
                     if (!highlightedDates.contains(epochDay)) {
-                        int currentDotsOnDay = adapter.getWorkoutsCountForDay(epochDay);
+                        int totalWorkouts = adapter.getWorkoutsCountForDay(epochDay);
 
-                        if (currentDotsOnDay >= 3) {
+                        if (totalWorkouts >= 3) {
                             Toast.makeText(getContext(), "Maximum of 3 workouts per day reached", Toast.LENGTH_SHORT).show();
-                            return; // EXIT: Do not allow selection
+                            return;
+                        }
+                    }
+
+                    if (isEditMode && highlightedDates.contains(epochDay)) {
+                        if (adapter.isWorkoutCompleted(epochDay, currentSelectedWorkoutId)) {
+                            Toast.makeText(getContext(), "Completed workouts cannot be removed from the plan", Toast.LENGTH_SHORT).show();
+                            return; //do not allow unselecting this date
+                        }
+
+                        if (completedDatesForThisWorkout.contains(epochDay)) {
+                            Toast.makeText(getContext(), "Completed workouts cannot be removed", Toast.LENGTH_SHORT).show();
+                            return; // BLOCK THE CLICK
                         }
                     }
 
@@ -183,15 +195,15 @@ public class PlanProgramFragment extends Fragment {
         // Commits the temporary 'highlightedDates' to the permanent database
         binding.btnApply.setOnClickListener(v -> {
             if (currentUserId != -1 && currentSelectedWorkoutId != -1 && !highlightedDates.isEmpty()) {
-                Set<Long> datesToSave = new HashSet<>(highlightedDates);
+//                Set<Long> datesToSave = new HashSet<>(highlightedDates);
 
                 if (isEditMode) {
                     // Update logic: Deletes old links for this workout and inserts the new set
-                    workoutViewModel.updateWorkoutPlan(currentUserId, currentSelectedWorkoutId, datesToSave);
+                    workoutViewModel.updateWorkoutPlan(currentUserId, currentSelectedWorkoutId, highlightedDates, completedDatesForThisWorkout);
                     Toast.makeText(getContext(), "Schedule updated!", Toast.LENGTH_SHORT).show();
                 } else {
                     // Attach logic: simple insert for a new plan
-                    workoutViewModel.attachWorkoutToDates(currentUserId, currentSelectedWorkoutId, datesToSave);
+                    workoutViewModel.attachWorkoutToDates(currentUserId, currentSelectedWorkoutId, highlightedDates);
                     Toast.makeText(getContext(), "Workout successfully attached!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -231,18 +243,22 @@ public class PlanProgramFragment extends Fragment {
         this.isEditMode = true;
         this.currentSelectedWorkoutId = info.workout_id;
         this.isWorkoutSelected = true;
+        completedDatesForThisWorkout.clear();
+        highlightedDates.clear();
 
         binding.selectedWorkoutCard.setVisibility(View.VISIBLE);
         binding.selectedWorkoutTitle.setText("Editing: " + info.title);
         binding.workoutCircle.setBackgroundTintList(ColorStateList.valueOf(info.colour));
-
         binding.btnAttachWorkout.setVisibility(View.GONE);
 
         // adapter's current plans is checked to find where the workout is
-        highlightedDates.clear();
+
         for (DateColourResult plan : adapter.getPlannedWorkouts()) {
             if (plan.workoutId != null && plan.workoutId == info.workout_id) {
                 highlightedDates.add(plan.date);
+                if (plan.isCompleted) {
+                    completedDatesForThisWorkout.add(plan.date);
+                }
             }
         }
         adapter.setHighlightedDates(highlightedDates, manager);

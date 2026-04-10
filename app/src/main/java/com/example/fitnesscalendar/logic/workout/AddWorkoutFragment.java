@@ -34,7 +34,7 @@ public class AddWorkoutFragment extends Fragment {
     private ExerciseViewModel exerciseViewModel;
     private Long currentUserId;
     private final List<Long> selectedExerciseIdList = new ArrayList<>();
-    private int selectedWorkoutColor = 0xFFFF5722;
+    private Integer selectedWorkoutColor = null;
     private long existingWorkoutId = -1; // the workout exists for updating and deleting? -1 it is not
 
 
@@ -62,19 +62,26 @@ public class AddWorkoutFragment extends Fragment {
             }
         });
 
+        setupColourSelection();
+
+        if (selectedWorkoutColor != null) {
+            View savedView = getColorViewByValue(selectedWorkoutColor);
+            if (savedView != null) {
+                selectColour(selectedWorkoutColor, savedView);
+            }
+        }
+
         // Fragment to fragment communication (exercise selection)
         getParentFragmentManager().setFragmentResultListener("exercise_selection", // registers a listener for a result with the key "exercise_selection"
                 getViewLifecycleOwner(), // Ties the listener to the fragment’s view lifecycle
                 (requestKey, bundle) -> {
-            long[] selectedIds = bundle.getLongArray("selected_ids");
-            if (selectedIds != null) {
-                selectedExerciseIdList.clear();
-                binding.exercisesContainer.removeAllViews();
-                loadSelectedExercisesIntoUI(selectedIds);
-            }
-        });
-
-        setupColourSelection();
+                    long[] selectedIds = bundle.getLongArray("selected_ids");
+                    if (selectedIds != null) {
+                        selectedExerciseIdList.clear();
+                        binding.exercisesContainer.removeAllViews();
+                        loadSelectedExercisesIntoUI(selectedIds);
+                    }
+                });
 
         // edit mode screen opened?
         if (getArguments() != null) {
@@ -91,21 +98,21 @@ public class AddWorkoutFragment extends Fragment {
 
             workoutViewModel.getFullWorkoutById(existingWorkoutId)
                     .observe(getViewLifecycleOwner(), record -> {
-                if (record != null) {
-                    prefillForm(record);
-                }
-            });
+                        if (record != null) {
+                            prefillForm(record);
+                        }
+                    });
         }
 
-            binding.addExerciseButton.setOnClickListener(v -> {
-                Bundle bundle = new Bundle();
-                // Convert List<Long> to long[] to send in bundle
-                long[] existing = selectedExerciseIdList.stream().mapToLong(l -> l).toArray();
-                bundle.putLongArray("existing_ids", existing);
+        binding.addExerciseButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            // Convert List<Long> to long[] to send in bundle
+            long[] existing = selectedExerciseIdList.stream().mapToLong(l -> l).toArray();
+            bundle.putLongArray("existing_ids", existing);
 
             Navigation.findNavController(view)
                     .navigate(R.id.action_AddWorkoutScreen_to_ExerciseSelectScreen, bundle);
-             });
+        });
 
         binding.saveWorkoutButton.setOnClickListener(v -> {
             onSaveButtonClicked();
@@ -126,6 +133,17 @@ public class AddWorkoutFragment extends Fragment {
         binding.colorDarkBlue.setOnClickListener(v -> selectColour(0xFF3F51B5, v));
         binding.colorGrey.setOnClickListener(v -> selectColour(0xFF888588, v));
         binding.colorYellow.setOnClickListener(v -> selectColour(0xFFF2D607, v));
+    }
+
+    private View getColorViewByValue(int color) {
+        if (color == 0xFF4CAF50) return binding.colorGreen;
+        if (color == 0xFF2196F3) return binding.colorBlue;
+        if (color == 0xFF9C27B0) return binding.colorPurple;
+        if (color == 0xFFF44336) return binding.colorRed;
+        if (color == 0xFF3F51B5) return binding.colorDarkBlue;
+        if (color == 0xFF888588) return binding.colorGrey;
+        if (color == 0xFFF2D607) return binding.colorYellow;
+        return null;
     }
 
     private void selectColour(int color, View view) {
@@ -199,13 +217,33 @@ public class AddWorkoutFragment extends Fragment {
                     .into(img);
         }
 
+//        deleteBtn.setOnClickListener(v -> {
+//            binding.exercisesContainer.removeView(rowView);
+//
+//            Long idToRemove = record.exercise.getExerciseId(); // remove by value
+//            selectedExerciseIdList.remove(idToRemove);
+//
+//            recalculateIndices(); //  update 1, 2, 3... labels
+//        });
+
         deleteBtn.setOnClickListener(v -> {
-            binding.exercisesContainer.removeView(rowView);
+            // 1. Start the animation
+            rowView.animate()
+                    .translationX(rowView.getWidth()) // Slide out to the right
+                    .alpha(0f)                        // Fade out
+                    .setDuration(300)                 // 300 milliseconds
+                    .withEndAction(() -> {            // Run this when animation finishes
+                        // 2. Actually remove from UI
+                        binding.exercisesContainer.removeView(rowView);
 
-            Long idToRemove = record.exercise.getExerciseId(); // remove by value
-            selectedExerciseIdList.remove(idToRemove);
+                        // 3. Remove from data list
+                        Long idToRemove = record.exercise.getExerciseId();
+                        selectedExerciseIdList.remove(idToRemove);
 
-            recalculateIndices(); //  update 1, 2, 3... labels
+                        // 4. Update the numbers (1, 2, 3...)
+                        recalculateIndices();
+                    })
+                    .start();
         });
 
         binding.exercisesContainer.addView(rowView);
@@ -235,7 +273,10 @@ public class AddWorkoutFragment extends Fragment {
         workout.setDescription(Description);
         workout.setNote(note);
 
-        workout.setColour(selectedWorkoutColor);
+        if (selectedWorkoutColor == null) {
+            Toast.makeText(getContext(), "Please select a workout colour", Toast.LENGTH_SHORT).show();
+            return; // stop execution if no color is picked
+        }
 
         if (selectedExerciseIdList.isEmpty()) {
             Toast.makeText(getContext(), "Please add at least one exercise to this workout", Toast.LENGTH_SHORT).show();
@@ -269,20 +310,10 @@ public class AddWorkoutFragment extends Fragment {
         binding.workoutNotesInput.setText(record.workout.getNote());
 
         if (record.workout.getColour() != null) {
-            int savedColor = record.workout.getColour();
-            setupColourSelection();
-
-            View colorView = null;
-            if (savedColor == 0xFF4CAF50) colorView = binding.colorGreen;
-            else if (savedColor == 0xFF2196F3) colorView = binding.colorBlue;
-            else if (savedColor == 0xFF9C27B0) colorView = binding.colorPurple;
-            else if (savedColor == 0xFFF44336) colorView = binding.colorRed;
-            else if (savedColor == 0xFF3F51B5) colorView = binding.colorDarkBlue;
-            else if (savedColor == 0xFF888588) colorView = binding.colorGrey;
-            else if (savedColor == 0xFFF2D607) colorView = binding.colorYellow;
-
+            this.selectedWorkoutColor = record.workout.getColour();
+            View colorView = getColorViewByValue(selectedWorkoutColor);
             if (colorView != null) {
-                selectColour(savedColor, colorView);
+                selectColour(selectedWorkoutColor, colorView);
             }
         }
 

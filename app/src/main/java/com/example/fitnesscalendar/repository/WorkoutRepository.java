@@ -15,6 +15,7 @@ import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -134,20 +135,47 @@ public class WorkoutRepository {
 
     /**
      * Syncs a workout schedule during Edit Mode - select/unselect operations.
+     * Respects the completion status of existing workouts.
      */
-    public void updateWorkoutPlan(long userId, long workoutId, Set<Long> epochDays) {
+    public void updateWorkoutPlan(long userId, long workoutId, Set<Long> newEpochDays, Set<Long> completedDays) {
+        // create copies of the sets on the calling thread (UI thread).
+        final Set<Long> daysToSave = new HashSet<>(newEpochDays);
+        final Set<Long> completedSnapshot = (completedDays != null)
+                ? new HashSet<>(completedDays)
+                : new HashSet<>();
+
         databaseExecutor.execute(() -> {
-            // Delete all existing schedule links for this specific workout and user
+            // remove all existing schedule links for this specific workout
             calendarDao.deleteWorkoutPlanLinks(userId, workoutId);
 
-            // Insert the new set of dates (in the UI)
-            for (Long epochDay : epochDays) {
-                long dayId = calendarDao.getOrCreateDayId(userId, epochDay);
+            //  re-insert the new set of dates using the stable copies
+            for (Long day : daysToSave) {
                 CalendarDayWorkoutCrossRef ref = new CalendarDayWorkoutCrossRef();
-                ref.calendarDayId = dayId;
                 ref.workoutId = workoutId;
+                ref.calendarDayId = calendarDao.getOrCreateDayId(userId, day);
+
+                // If this date was in  completed snapshot, keep 'is_completed' true
+                ref.isCompleted = completedSnapshot.contains(day);
+
                 calendarDao.insertCalendarDayWorkoutCrossRef(ref);
             }
+        });
+    }
+
+
+    public LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay) {
+        return calendarDao.getWorkoutsForSpecificDay(userId, epochDay);
+    }
+
+    public void deleteSpecificWorkoutPlan(long userId, long workoutId, long epochDay) {
+        databaseExecutor.execute(() -> {
+            calendarDao.deleteSpecificWorkoutPlan(userId, workoutId, epochDay);
+        });
+    }
+
+    public void updateWorkoutCompletion(long userId, long workoutId, long epochDay, boolean completed) {
+        databaseExecutor.execute(() -> {
+            calendarDao.updateWorkoutCompletion(userId, workoutId, epochDay, completed);
         });
     }
 

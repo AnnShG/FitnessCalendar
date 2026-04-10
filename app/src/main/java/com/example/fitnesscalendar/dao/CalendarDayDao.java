@@ -79,7 +79,7 @@ public interface CalendarDayDao {
      * Used to draw the colored dots on the calendar grid.
      */
     @Transaction
-    @Query("SELECT cd.date, w.colour, w.workout_id FROM calendar_days cd " +
+    @Query("SELECT cd.date, w.colour, w.workout_id, w.title, ref.is_completed FROM calendar_days cd " +
             "INNER JOIN calendar_day_workout_cross_ref ref ON cd.calendar_day_id = ref.calendar_day_id " +
             "INNER JOIN workouts w ON ref.workout_id = w.workout_id " +
             "WHERE cd.user_id = :userId")
@@ -119,4 +119,25 @@ public interface CalendarDayDao {
             "WHERE workout_id = :workoutId " +
             "AND calendar_day_id IN (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId)")
     void deleteWorkoutPlanLinks(long userId, long workoutId);
+
+    /**
+     * Retrieves unique workouts that are assigned to a specific day.
+     * Used to populate the daily workout item cards
+     */
+    @Transaction
+    @Query("SELECT cd.date, w.colour, w.workout_id, w.title, ref.is_completed FROM calendar_days cd " +
+            "INNER JOIN calendar_day_workout_cross_ref ref ON cd.calendar_day_id = ref.calendar_day_id " +
+            "INNER JOIN workouts w ON ref.workout_id = w.workout_id " +
+            "WHERE cd.user_id = :userId AND cd.date = :epochDay")
+    LiveData<List<DateColourResult>> getWorkoutsForSpecificDay(long userId, long epochDay);
+
+    @Query("DELETE FROM calendar_day_workout_cross_ref " +
+            "WHERE workout_id = :workoutId " +
+            "AND calendar_day_id = (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId AND date = :epochDay)")
+    void deleteSpecificWorkoutPlan(long userId, long workoutId, long epochDay);
+
+    @Query("UPDATE calendar_day_workout_cross_ref SET is_completed = :completed " +
+            "WHERE workout_id = :workoutId AND calendar_day_id = " +
+            "(SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId AND date = :epochDay)")
+    void updateWorkoutCompletion(long userId, long workoutId, long epochDay, boolean completed);
 }

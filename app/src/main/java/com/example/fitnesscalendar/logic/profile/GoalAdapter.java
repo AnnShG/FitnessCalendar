@@ -47,7 +47,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
     // Fills the frames (rows) with the goal
     public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
         Goal currentGoal = goals.get(position);
-        holder.binding.goalText.setText(currentGoal.getGoalText());
+        holder.binding.goalText.setText(currentGoal.getGoalTitle());
 
         // Visibility logic
         holder.binding.editGoalButton.setVisibility(currentGoal.isCustom() ? View.VISIBLE : View.GONE);
