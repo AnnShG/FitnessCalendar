@@ -44,6 +44,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
     CalendarManager calendarManager = new CalendarManager(); // handles  all date calcs and format.
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private final List<String> daysList = new ArrayList<>(); //  Holds the current month's day strings 1,2,3,4
+    private List<DateColourResult> allUserPlans = new ArrayList<>();
     private final Set<Long> checkedWorkoutIds = new HashSet<>();
     private final Set<Long> unCheckedWorkoutIds = new HashSet<>();
     private final Set<Long> selectedDays = new HashSet<>();
@@ -124,27 +125,30 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                 // Automatically updates the main calendar dots whenever the DB changes
                 workoutViewModel.getWorkoutDotsForUser(currentUserId).observe(getViewLifecycleOwner(), plans -> {
                     if (plans != null && adapter != null) {
+                        this.allUserPlans = plans;
                         adapter.setPlannedWorkouts(plans);
                         adapter.setHighlightedDates(selectedDays, calendarManager);
+
+                        refreshMonthDetails();
                     }
                 });
 
                 // Used GridLayout without adapter to demonstrate the legend under the calendar
-                workoutViewModel.getUniquePlannedWorkouts(currentUserId).observe(getViewLifecycleOwner(), list -> {
-                    if (list != null) {
-                        // group workouts by color
-                        Map<Integer, List<String>> grouped = new HashMap<>(); // key - colour, value - list of titles
-                        for (PlannedWorkoutInfo info : list) {
-                            grouped.computeIfAbsent(info.colour, k -> new ArrayList<>()).add(info.title); // if colour exists, add, else create
-                        }
-
-                        // clear and fill the container
-                        binding.legendContainer.removeAllViews();
-                        for (Map.Entry<Integer, List<String>> entry : grouped.entrySet()) {
-                            addLegendRow(entry.getKey(), String.join(" | ", entry.getValue()));
-                        }
-                    }
-                });
+//                workoutViewModel.getUniquePlannedWorkouts(currentUserId).observe(getViewLifecycleOwner(), list -> {
+//                    if (list != null) {
+//                        // group workouts by color
+//                        Map<Integer, List<String>> grouped = new HashMap<>(); // key - colour, value - list of titles
+//                        for (PlannedWorkoutInfo info : list) {
+//                            grouped.computeIfAbsent(info.colour, k -> new ArrayList<>()).add(info.title); // if colour exists, add, else create
+//                        }
+//
+//                        // clear and fill the container
+//                        binding.legendContainer.removeAllViews();
+//                        for (Map.Entry<Integer, List<String>> entry : grouped.entrySet()) {
+//                            addLegendRow(entry.getKey(), String.join(" | ", entry.getValue()));
+//                        }
+//                    }
+//                });
             }
         });
         /**
@@ -324,6 +328,8 @@ private void updateUI() {
         binding.monthAndYear.setText(calendarManager.getHeaderString());
         List<String> days = calendarManager.getDaysOfMonthList();
         adapter.setDays(days);
+
+        refreshMonthDetails(); // Trigger recalculation for the new month
     }
 
     // Helper method to create the small legend rows
@@ -388,6 +394,44 @@ private void updateUI() {
                             .navigate(R.id.action_CalendarHomePage_to_WorkoutSelectScreen);
                 }
             });
+        }
+    }
+
+    private void refreshMonthDetails() {
+        if (allUserPlans == null || binding == null) return;
+
+        long start = calendarManager.getStartOfMonthEpochDay();
+        long end = calendarManager.getEndOfMonthEpochDay();
+
+        Set<Long> completedDaysCounter = new HashSet<>();
+
+        Map<Integer, List<String>> monthWorkoutsLegend = new HashMap<>();
+
+        for (DateColourResult plan : allUserPlans) {
+            // process data that falls within the viewed month
+            if (plan.date >= start && plan.date <= end) {
+
+                if (plan.isCompleted) {
+                    completedDaysCounter.add(plan.date);
+                }
+
+                // collect workout titles for the legend (planned OR completed)
+                monthWorkoutsLegend.computeIfAbsent(plan.colour, k -> new ArrayList<>()).add(plan.title);
+            }
+        }
+
+        binding.trainingDaysCount.setText(String.valueOf(completedDaysCounter.size()));
+
+        binding.legendContainer.removeAllViews();
+        if (monthWorkoutsLegend.isEmpty()) {
+            binding.legendContainer.setVisibility(View.GONE);
+        } else {
+            binding.legendContainer.setVisibility(View.VISIBLE);
+            for (Map.Entry<Integer, List<String>> entry : monthWorkoutsLegend.entrySet()) {
+                // unique titles only
+                List<String> uniqueTitles = new ArrayList<>(new HashSet<>(entry.getValue()));
+                addLegendRow(entry.getKey(), String.join("  |  ", uniqueTitles));
+            }
         }
     }
 
