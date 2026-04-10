@@ -1,17 +1,28 @@
 package com.example.fitnesscalendar.logic.workout;
 
 import android.app.Application;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.example.fitnesscalendar.database.AppDatabase;
+import com.example.fitnesscalendar.entities.AiMessage;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.example.fitnesscalendar.relations.UserWithGoals;
+import com.example.fitnesscalendar.repository.AiRepository;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.repository.WorkoutRepository;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.vertexai.type.GenerateContentResponse;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,20 +32,30 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * WorkoutViewModel serves as the architectural bridge between the UI (Fragments) and the Data Layer (Repositories)
+ * WorkoutViewModel serves as the bridge between the UI (Fragments) and the Data Layer (Repositories)
  * It manages the UI's data state and coordinates operations across both Workout and User repositories.
  */
 public class WorkoutViewModel extends AndroidViewModel {
 
     private final WorkoutRepository workoutRepository;
     private final UserRepository userRepository;
+    private final AiRepository aiRepository;
 
-
+    private final MutableLiveData<String> aiAdvice = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isAiLoading = new MutableLiveData<>(false);
     public WorkoutViewModel(@NotNull Application app) {
         super(app);
         // Initializing repositories to handle database operations
         workoutRepository = new WorkoutRepository(app);
         userRepository = new UserRepository(app);
+        aiRepository = new AiRepository();
+    }
+
+    public LiveData<String> getAiAdvice() {
+        return aiAdvice;
+    }
+    public LiveData<Boolean> getIsAiLoading() {
+        return isAiLoading;
     }
 
     public LiveData<UserWithGoals> getLoggedInUser() {
@@ -104,4 +125,57 @@ public class WorkoutViewModel extends AndroidViewModel {
         workoutRepository.updateWorkoutCompletion(userId, workoutId, epochDay, completed);
     }
 
+    // requests DB data, sends to repo, and returns the response
+    public void refreshAiInsight(UserWithGoals userWithGoals, List<DateColourResult> history) {
+        // new user?
+//        long registrationDate = userWithGoals.user.createdAt.getTime();
+//        long fourteenDaysInMillis = 14L * 24 * 60 * 60 * 1000;
+
+//        if ((System.currentTimeMillis() - registrationDate) < fourteenDaysInMillis) {
+//            aiAdvice.postValue("Learning your fitness habits. Personalized insights will appear here after 14 days of activity logging.");
+//            return;
+//        }
+
+        // after 14 days - request the advice
+        isAiLoading.setValue(true);
+
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // getting chat history from DB
+            List<AiMessage> chatHistory = workoutRepository.getAiChatHistory();
+
+            String lastAdvice = "";
+            for (int i = chatHistory.size() - 1; i >= 0; i--) {
+                if ("model".equals(chatHistory.get(i).getRole())) {
+                    lastAdvice = chatHistory.get(i).getContent();
+                    break;
+                }
+            }
+
+            String prompt = aiRepository.buildPrompt(userWithGoals, history, lastAdvice);
+
+            // save user request in local DB
+            workoutRepository.saveAiMessage(new AiMessage("user", prompt));
+
+            // Gemini request
+            ListenableFuture<GenerateContentResponse> future = aiRepository.getAdvice(prompt, chatHistory);
+
+            Futures.addCallback(future, new FutureCallback<>() {
+                @Override
+                public void onSuccess(GenerateContentResponse result) {
+                    isAiLoading.postValue(false);
+                    String text = result.getText();
+                    aiAdvice.postValue(text);
+
+                    // saving the AI response to DB
+                    workoutRepository.saveAiMessage(new AiMessage("model", text));
+                }
+
+                @Override
+                public void onFailure(@NonNull Throwable t) {
+                    isAiLoading.postValue(false);
+                    aiAdvice.postValue("I'm having trouble connecting right now. Let's try again tomorrow!");
+                }
+            }, ContextCompat.getMainExecutor(getApplication()));
+    });
+    }
 }

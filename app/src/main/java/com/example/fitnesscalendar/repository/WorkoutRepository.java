@@ -4,9 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.fitnesscalendar.dao.AiDao;
 import com.example.fitnesscalendar.dao.CalendarDayDao;
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
+import com.example.fitnesscalendar.entities.AiMessage;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
 import com.example.fitnesscalendar.relations.DateColourResult;
@@ -27,7 +29,7 @@ public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
     private final CalendarDayDao calendarDao;
-
+    public AiDao aiDao;
 
     // A dedicated thread pool for database operations to prevent blocking the UI
     public static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(2);
@@ -36,6 +38,7 @@ public class WorkoutRepository {
         AppDatabase db = AppDatabase.getDatabase(app);
         workoutDao = db.workoutDao();
         calendarDao = db.calendarDayDao();
+        aiDao = db.aiDao();
     }
 
     /**
@@ -177,6 +180,14 @@ public class WorkoutRepository {
         databaseExecutor.execute(() -> {
             calendarDao.updateWorkoutCompletion(userId, workoutId, epochDay, completed);
         });
+    }
+
+    // receives the chat history from the DB
+    public List<AiMessage> getAiChatHistory() {
+        return aiDao.getChatHistory();
+    }
+    public void saveAiMessage(AiMessage message) {
+        AppDatabase.databaseWriteExecutor.execute(() -> aiDao.insert(message));
     }
 
 }
