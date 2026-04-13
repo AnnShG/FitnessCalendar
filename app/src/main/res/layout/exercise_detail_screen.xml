@@ -87,7 +87,7 @@
             app:layout_constraintTop_toBottomOf="@id/mainExerciseImage" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/categoryChipGroup"
+            android:id="@+id/primaryCategoryChipGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
@@ -109,7 +109,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryChipGroup" />
+            app:layout_constraintTop_toBottomOf="@id/primaryCategoryChipGroup" />
 
         <TextView
             android:id="@+id/exerciseDescriptionText"
