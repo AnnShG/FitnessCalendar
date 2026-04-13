@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -70,10 +71,30 @@ public class WorkoutsListFragment extends Fragment {
 
                 workoutViewModel.getFullWorkoutRecords(userId).observe(getViewLifecycleOwner(), list -> {
                     if (list != null && binding != null) {
-                        workoutAdapter.setWorkouts(list);
+                        workoutAdapter.setAllWorkouts(list);
                         binding.filteredWorkouts.setText(list.size() + " Workouts Found");
                     }
                 });
+            }
+        });
+
+        binding.searchWorkoutField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { // handling enter on keyboard
+                if (workoutAdapter != null) {
+                    workoutAdapter.filter(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) { // real-time filtering
+                if (workoutAdapter != null && binding != null) {
+                    workoutAdapter.filter(newText);
+
+                    binding.filteredWorkouts.setText(workoutAdapter.getItemCount() + " Workouts Found");
+                }
+                return true;
             }
         });
     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -75,10 +76,30 @@ public class ExercisesListFragment extends Fragment {
         // Observe the Data - when it changes - the block runs
         exerciseViewModel.getAllFullExerciseRecords().observe(getViewLifecycleOwner(), exercises -> {
             if (exercises != null  && binding != null) {
-                adapter.setExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
+                adapter.setAllExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
 
                 String countText = exercises.size() + " Exercises Found";
                 binding.filteredExercises.setText(countText);
+            }
+        });
+
+        binding.searchExerciseField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { // handling enter on keyboard
+                if (adapter != null) {
+                    adapter.filter(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) { // real-time filtering
+                if (adapter != null) {
+                    adapter.filter(newText);
+
+                    binding.filteredExercises.setText(adapter.getItemCount() + " Exercises Found");
+                }
+                return false;
             }
         });
 
@@ -89,6 +110,7 @@ public class ExercisesListFragment extends Fragment {
             );
         }
     }
+
 
     @Override
     public void onDestroyView() {

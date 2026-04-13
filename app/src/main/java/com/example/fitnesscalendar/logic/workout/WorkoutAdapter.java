@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.WorkoutsListItemGridBinding;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +24,8 @@ import java.util.Objects;
  * WorkoutAdapter handles the display of workout cards in a list: browse and selection modes
  */
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
-    private List<FullWorkoutRecord> workouts = new ArrayList<>(); // The data source
+    private List<FullWorkoutRecord> allWorkouts = new ArrayList<>(); // The data source
+    private List<FullWorkoutRecord> displayedWorkouts = new ArrayList<>(); // current filtered list
     private Long selectedWorkoutId = null; // Tracks selected workout ID
 
     private boolean isSelectionMode = false;
@@ -45,8 +48,9 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
     }
 
     // Updates the dataset and refreshes the entire list
-    public void setWorkouts(List<FullWorkoutRecord> workouts) {
-        this.workouts = workouts;
+    public void setAllWorkouts(List<FullWorkoutRecord> list) {
+        this.allWorkouts = new ArrayList<>(list);
+        this.displayedWorkouts = new ArrayList<>(list);
         notifyDataSetChanged();
     }
 
@@ -60,7 +64,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
     public Workout getSelectedWorkout() {
         if (selectedWorkoutId == null) return null;
 
-        for (FullWorkoutRecord record : workouts) {
+        for (FullWorkoutRecord record : allWorkouts) {
             if (record.workout.getWorkoutId().equals(selectedWorkoutId)) {
                 return record.workout;
             }
@@ -79,7 +83,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
     // binds the workout data to the UI and applies conditional styling based on selection state
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FullWorkoutRecord record = workouts.get(position);
+        FullWorkoutRecord record = displayedWorkouts.get(position);
+//        FullWorkoutRecord record = allWorkouts.get(position);
         long id = record.workout.getWorkoutId();
 
         // extract the Workout entity from the record
@@ -141,7 +146,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return workouts.size();
+        return displayedWorkouts.size();
     }
 
     // Pre-selects specific workouts.
@@ -155,6 +160,23 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
                 selectionListener.onSelectionChanged(1);
             }
         }
+    }
+
+    public void filter(String query) {
+        List<FullWorkoutRecord> filteredList = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            filteredList = allWorkouts;
+        } else {
+            String lowerCaseQuery = query.toLowerCase().trim();
+            for (FullWorkoutRecord record : allWorkouts) {
+                if (record.workout.getTitle().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(record);
+                }
+            }
+        }
+        this.displayedWorkouts = filteredList;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
