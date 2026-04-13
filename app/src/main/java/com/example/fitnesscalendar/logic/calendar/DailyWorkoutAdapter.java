@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitnesscalendar.databinding.DailyWorkoutItemBinding;
 import com.example.fitnesscalendar.relations.DateColourResult;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,34 +66,38 @@ public class DailyWorkoutAdapter extends RecyclerView.Adapter<DailyWorkoutAdapte
         holder.binding.btnDeleteDaily.setOnClickListener(v -> {
             if (listener != null) listener.onDeleteTask(item);
         });
-        holder.binding.workoutCheckbox.setOnCheckedChangeListener(null); // prevent triggering during binding
-//         holder.binding.workoutCheckbox.setChecked(item.isCompleted);
 
-        holder.binding.workoutCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (listener != null) listener.onToggleCompletion(item, isChecked);
-        });
+        // Reset listener to null before setting checked state to avoid unwanted triggers
+        holder.binding.workoutCheckbox.setOnCheckedChangeListener(null);
+        holder.binding.workoutCheckbox.setChecked(item.isCompleted);
 
-        if (item.isCompleted) {
-            // Grey out the card
-            holder.binding.getRoot().setCardBackgroundColor(Color.parseColor("#F5F5F5"));
-            holder.binding.workoutTitle.setTextColor(Color.GRAY);
-            holder.binding.workoutColorDot.setAlpha(0.3f); // Fade the dot
-            holder.binding.workoutCheckbox.setChecked(true);
+        // --- restriction to complete future workouts ---
+        long todayEpoch = LocalDate.now().toEpochDay();
+        boolean isFuture = item.date > todayEpoch;
+
+        if (isFuture) {
+            holder.binding.workoutCheckbox.setEnabled(false);
+            holder.binding.workoutCheckbox.setAlpha(0.5f); // Visual cue that it's disabled
         } else {
-            // Normal state
-            holder.binding.getRoot().setCardBackgroundColor(Color.WHITE);
-            holder.binding.workoutTitle.setTextColor(Color.BLACK);
-            holder.binding.workoutColorDot.setAlpha(1.0f);
-            holder.binding.workoutCheckbox.setChecked(false);
+            holder.binding.workoutCheckbox.setEnabled(true);
+            holder.binding.workoutCheckbox.setAlpha(1.0f);
         }
-
-        holder.binding.workoutCheckbox.setEnabled(true);
 
         holder.binding.workoutCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (listener != null) {
                 listener.onToggleCompletion(item, isChecked);
             }
         });
+
+        if (item.isCompleted) {
+            holder.binding.getRoot().setCardBackgroundColor(Color.parseColor("#F5F5F5"));
+            holder.binding.workoutTitle.setTextColor(Color.GRAY);
+            holder.binding.workoutColorDot.setAlpha(0.3f);
+        } else {
+            holder.binding.getRoot().setCardBackgroundColor(Color.WHITE);
+            holder.binding.workoutTitle.setTextColor(Color.BLACK);
+            holder.binding.workoutColorDot.setAlpha(1.0f);
+        }
     }
 
     @Override
