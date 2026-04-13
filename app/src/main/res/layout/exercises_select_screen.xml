@@ -44,7 +44,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginStart="@dimen/margin_left"
         android:gravity="center_vertical"
         android:paddingHorizontal="16dp"
         android:layout_marginTop="20dp"
@@ -64,8 +63,7 @@
             android:id="@+id/filterSelectedExerciseBtn"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginEnd="@dimen/margin_left"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="35dp"
 
             app:srcCompat="@drawable/ic_filter"
             android:foreground="?attr/selectableItemBackground"
