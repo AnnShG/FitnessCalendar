@@ -150,11 +150,13 @@
     <string name="exercises_list_title">All Exercises</string>
     <string name="exercises_filtered_text">Filtered by: </string>
     <string name="exercises_filter_icon_description">Filter</string>
+    <string name="exercises_search_hint">Search exercises...</string>
 
     <!--    Exercise select screen -->
     <string name="exercises_select_title">Select Exercises</string>
     <string name="exercises_select_filtered_text">Filtered by: </string>
     <string name="exercises_select_filter_icon_description">Filter</string>
+    <string name="exercise_select_search_hint">Search exercises...</string>
 
     <string name="select_exercise">Select</string>
     <string name="cancel_exercise_selecting">Cancel</string>
@@ -178,12 +180,15 @@
     <string name="workout_filter_icon_description">Filter</string>
     <string name="workout_title_text">Full Body Strength</string>
     <string name="workout_title_description">A high-intensity workout focusing on all major muscle groups.</string>
+    <string name="workout_search_hint">Search workouts...</string>
+
 
     <!--    Workout select screen -->
     <string name="workouts_select_title">Select Workouts</string>
     <string name="workouts_select_filtered_text">Filtered by: </string>
     <string name="workouts_select_filter_icon_description">Filter</string>
     <string name="workout_select_filter_icon_description">Filter</string>
+    <string name="workout_select_search_hint">Search workouts...</string>
 
     <string name="select_workout">Select</string>
     <string name="cancel_workout_selecting">Cancel</string>

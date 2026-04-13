@@ -55,7 +55,9 @@
             app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchWorkoutsField"
+                android:id="@+id/searchWorkoutField"
+                app:queryHint="@string/workout_search_hint"
+                app:iconifiedByDefault="false"
                 android:layout_width="300dp"
                 android:layout_height="50dp" />
 

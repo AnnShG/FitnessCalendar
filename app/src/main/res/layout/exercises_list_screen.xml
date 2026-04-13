@@ -55,6 +55,8 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchExerciseField"
+                app:queryHint="@string/exercises_search_hint"
+                app:iconifiedByDefault="false"
                 android:layout_width="300dp"
                 android:layout_height="50dp" />
 
