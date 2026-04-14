@@ -89,6 +89,13 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             }
         });
 
+        binding.filterWorkoutsButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("filter_type", "workout");
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_WorkoutSelectScreen_to_FilterScreen, bundle);
+        });
+
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(WorkoutSelectFragment.this)
                         .navigateUp()

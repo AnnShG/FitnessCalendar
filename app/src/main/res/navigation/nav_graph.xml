@@ -110,6 +110,10 @@
             android:id="@+id/action_ExerciseSelectScreen_to_ExerciseDetail"
             app:destination="@+id/ExerciseDetail" />
 
+        <action
+            android:id="@+id/action_ExerciseSelectScreen_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
+
     </fragment>
 
     <fragment
@@ -136,6 +140,9 @@
             android:id="@+id/action_WorkoutSelectScreen_to_WorkoutDetail"
             app:destination="@+id/WorkoutDetail" />
 
+        <action
+            android:id="@+id/action_WorkoutSelectScreen_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
     </fragment>
 
 
@@ -179,8 +186,6 @@
         android:label="Exercises Filter"
         tools:layout="@layout/filter_screen">
     </fragment>
-
-
 
     <fragment
         android:id="@+id/ExerciseDetail"
