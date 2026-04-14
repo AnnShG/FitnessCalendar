@@ -25,5 +25,5 @@ public class Category {
     public String name;
 
     @ColumnInfo(name = "category_group")
-    private String categoryGroup;
+    public String categoryGroup;
 }

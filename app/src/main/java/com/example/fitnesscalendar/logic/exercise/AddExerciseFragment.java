@@ -2,6 +2,8 @@ package com.example.fitnesscalendar.logic.exercise;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +29,7 @@ import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,15 +73,6 @@ public class AddExerciseFragment extends Fragment {
 
         binding.addStepButton.setOnClickListener(v -> addNewStep());
 
-        // listener - observes the list of categories from the VM, and display them
-//        exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
-//            if (categories != null) {
-//                renderCategories(categories);
-//            }  else {
-//                android.util.Log.d("CHIP_DEBUG", "Categories list is NULL");
-//            }
-//        });
-
         exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), categories -> {
             if (categories != null) {
                 renderCategories(categories);
@@ -92,6 +87,19 @@ public class AddExerciseFragment extends Fragment {
                         }
                     });
                 }
+            }
+        });
+
+        // expand-collapse logic
+        binding.advHeader.setOnClickListener(v -> {
+            boolean isVisible = binding.advExerciseMuscleChipGroup.getVisibility() == View.VISIBLE;
+
+            if (isVisible) {
+                binding.advExerciseMuscleChipGroup.setVisibility(View.GONE);
+                binding.proArrow.setImageResource(R.drawable.ic_arrow_down);
+            } else {
+                binding.advExerciseMuscleChipGroup.setVisibility(View.VISIBLE);
+                binding.proArrow.setImageResource(R.drawable.ic_arrow_up);
             }
         });
 
@@ -132,48 +140,79 @@ public class AddExerciseFragment extends Fragment {
     }
 
     private void renderCategories(List<Category> categories) {
-        binding.categoryChipGroup.removeAllViews(); // no duplicates
+        binding.typeChipGroup.removeAllViews();
+        binding.basicExerciseCategoryChipGroup.removeAllViews();
+        binding.advExerciseMuscleChipGroup.removeAllViews(); // no duplicates
 
         for (Category category : categories) {
-            // create the Chip programmatically
-            Chip chip = new Chip(requireContext());
-            chip.setText(category.getName());
+            int bgColour, strokeColour;
+            String group = category.getCategoryGroup();
 
-            // store the ID from the database in the View's tag
-            chip.setTag(category.getId());
+            switch (group) {
+                case "TYPE":
+                    bgColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_type_bg_colour);
+                    strokeColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_type_stroke_colour);
+                    binding.typeChipGroup.addView(createStyledChip(category, bgColour, strokeColour));
+                    break;
+                case "BASIC":
+                    bgColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_basic_bg_colour);
+                    strokeColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_basic_stroke_colour);
+                    binding.basicExerciseCategoryChipGroup.addView(createStyledChip(category, bgColour, strokeColour));
+                    break;
+                case "ADVANCED":
+                    bgColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_adv_bg_colour);
+                    strokeColour = ContextCompat.getColor(requireContext(), R.color.exercise_chip_adv_stroke_colour);
+                    binding.advExerciseMuscleChipGroup.addView(createStyledChip(category, bgColour, strokeColour));
+                    break;
+            }
 
-            chip.setCheckable(true);
-            chip.setClickable(true);
-            chip.setChipStrokeWidth(2f);
-            chip.setChipStrokeColorResource(R.color.button_stroke_colour);
-            chip.setChipBackgroundColorResource(android.R.color.transparent);
-            chip.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.lexend_font));
-
-            chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    chip.setChipStrokeColor(ColorStateList.valueOf(getResources().getColor(R.color.chip_selected_orange, null)));
-                    chip.setTextColor(getResources().getColor(R.color.chip_selected_orange, null));
-                    chip.setChipStrokeWidth(4f);
-                } else {
-                    chip.setChipStrokeColor(ColorStateList.valueOf(getResources().getColor(R.color.button_stroke_colour, null)));
-                    chip.setTextColor(getResources().getColor(R.color.text_black_colour, null));
-                    chip.setChipStrokeWidth(2f);
-                }
-            });
-
-            binding.categoryChipGroup.addView(chip);
         }
+    }
+
+    private Chip createStyledChip(Category category, int bgColour, int strokeColour) {
+        // create the Chip programmatically
+        Chip chip = new Chip(requireContext());
+        chip.setText(category.getName());
+        chip.setTag(category.getId()); // store the ID from the database in the View's tag
+        chip.setCheckable(true);
+        chip.setClickable(true);
+
+        // default appearance
+        chip.setChipBackgroundColor(ColorStateList.valueOf(bgColour));
+        chip.setChipStrokeColor(ColorStateList.valueOf(strokeColour));
+        chip.setChipStrokeWidth(4f);
+//        chip.setChipBackgroundColorResource(android.R.color.transparent);
+        chip.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.lexend_font));
+//        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_colour));
+
+        chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.exercise_selected_category_stroke_colour)));
+                chip.setChipStrokeWidth(6f);
+            } else {
+                chip.setChipStrokeColor(ColorStateList.valueOf(strokeColour));
+                chip.setChipStrokeWidth(4f);
+            }
+        });
+        return chip;
     }
 
     private List<Long> getSelectedCategoryIds() {
         List<Long> selectedIds = new ArrayList<>();
+        ChipGroup[] groups = {
+                binding.typeChipGroup,
+                binding.basicExerciseCategoryChipGroup,
+                binding.advExerciseMuscleChipGroup
+        };
 
-        for (int i = 0; i < binding.categoryChipGroup.getChildCount(); i++) {
-            Chip chip = (Chip) binding.categoryChipGroup.getChildAt(i);
-            if (chip.isChecked()) {
-                // retrieve the ID directly from the tag
-                Long dbId = (Long) chip.getTag();
-                selectedIds.add(dbId);
+        for (ChipGroup group : groups) {
+            for (int i = 0; i < group.getChildCount(); i++) {
+                Chip chip = (Chip) group.getChildAt(i);
+                if (chip.isChecked()) {
+                    // retrieve the ID directly from the tag
+                    Long dbId = (Long) chip.getTag();
+                    selectedIds.add(dbId);
+                }
             }
         }
         return selectedIds;
@@ -202,6 +241,7 @@ public class AddExerciseFragment extends Fragment {
         String title = binding.exerciseNameInput.getText().toString();
         if (title.isEmpty()) {
             Toast.makeText(getContext(), "Please enter an exercise title", Toast.LENGTH_SHORT).show();
+            binding.exerciseNameInput.setTextColor(Color.RED);
             return;
         }
 
@@ -235,8 +275,9 @@ public class AddExerciseFragment extends Fragment {
 
         List<Long> selectedCategoryIds = getSelectedCategoryIds();
         if (selectedCategoryIds.isEmpty()) {
-            Toast.makeText(getContext(), "Please select at least one category", Toast.LENGTH_SHORT).show();
-//            binding.exerciseCategoryLabel.setTextColor(Color.RED);
+            Toast.makeText(getContext(), "Please select at least one type or muscle group", Toast.LENGTH_SHORT).show();
+            binding.exerciseTypeLabel.setTextColor(Color.RED);
+            binding.exerciseBasicMuscleCategoryLabel.setTextColor(Color.RED);
             return;
         }
 
@@ -258,7 +299,7 @@ public class AddExerciseFragment extends Fragment {
 
         if (record.exercise.getMediaUri() != null && !record.exercise.getMediaUri().isEmpty()) {
             this.selectedMediaUri = record.exercise.getMediaUri();
-            binding.exerciseMediaView.setImageURI(android.net.Uri.parse(selectedMediaUri));
+            binding.exerciseMediaView.setImageURI(Uri.parse(selectedMediaUri));
         }
 
         binding.stepsContainer.removeAllViews();
@@ -286,12 +327,18 @@ public class AddExerciseFragment extends Fragment {
     }
 
     private void selectChipsByIds(List<Long> targetIds) {
-        for (int i = 0; i < binding.categoryChipGroup.getChildCount(); i++) {
-            Chip chip = (Chip) binding.categoryChipGroup.getChildAt(i);
-            Long chipId = (Long) chip.getTag();
+        ChipGroup[] groups = {
+                binding.typeChipGroup,
+                binding.basicExerciseCategoryChipGroup,
+                binding.advExerciseMuscleChipGroup
+        };
 
-            if (targetIds.contains(chipId)) {
-                chip.setChecked(true);
+        for (ChipGroup group : groups) {
+            for (int i = 0; i < group.getChildCount(); i++) {
+                Chip chip = (Chip) group.getChildAt(i);
+                if (targetIds.contains((Long) chip.getTag())) {
+                    chip.setChecked(true);
+                }
             }
         }
     }

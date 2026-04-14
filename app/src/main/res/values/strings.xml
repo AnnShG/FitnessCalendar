@@ -114,7 +114,7 @@
     <string name="exercise_notes_hint">Any additional notes or tips</string>
     <string name="exercise_basic_muscle_group_label">Primary Muscle Group *</string>
     <string name="exercise_type_label">Exercise Type</string>
-    <string name="exercise_detail_muscle_group_label">Advanced Muscle Groups (Optional) *</string>
+    <string name="exercise_detail_muscle_group_label">Advanced Muscle Groups *</string>
 
     <string name="save_exercise">Save</string>
     <string name="cancel_exercise">Cancel</string>

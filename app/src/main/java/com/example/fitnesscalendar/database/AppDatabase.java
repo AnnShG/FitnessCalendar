@@ -30,7 +30,7 @@ import com.example.fitnesscalendar.relations.*;
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
                 AiMessage.class
 },
-        version = 23,
+        version = 24,
         exportSchema = false
 )
 @TypeConverters({Converters.class})

@@ -1,5 +1,9 @@
 package com.example.fitnesscalendar.logic.exercise;
 
+import static androidx.core.content.ContextCompat.getColor;
+
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -74,26 +80,36 @@ public class ExerciseDetailFragment extends Fragment {
                     .into(binding.mainExerciseImage);
         }
 
-        binding.categoryChipGroup.removeAllViews();
+        binding.primaryCategoryChipGroup.removeAllViews();
+
         if (record.categories != null && !record.categories.isEmpty()) {
             for (Category category : record.categories) {
-                Chip chip = new Chip(requireContext());
-                chip.setText(category.getName());
+                int bgColour, strokeColour;
+                String group = category.getCategoryGroup();
 
-                chip.setCheckable(false);
-                chip.setClickable(false);
-                chip.setChipStrokeWidth(2f);
-                chip.setChipStrokeColorResource(R.color.button_stroke_colour);
-                chip.setChipBackgroundColorResource(android.R.color.transparent);
-                chip.setTextColor(getResources().getColor(R.color.text_black_colour, null));
+                // Match colors to groups
+                switch (group != null ? group : "") {
+                    case "TYPE":
+                        bgColour = getColor(requireContext(), R.color.exercise_chip_type_bg_colour);
+                        strokeColour = getColor(requireContext(), R.color.exercise_chip_type_stroke_colour);
+                        break;
+                    case "BASIC":
+                        bgColour = getColor(requireContext(), R.color.exercise_chip_basic_bg_colour);
+                        strokeColour = getColor(requireContext(), R.color.exercise_chip_basic_stroke_colour);
+                        break;
+                    case "ADVANCED":
+                        bgColour = getColor(requireContext(), R.color.exercise_chip_adv_bg_colour);
+                        strokeColour = getColor(requireContext(), R.color.exercise_chip_adv_stroke_colour);
+                        break;
+                    default:
+                        bgColour = Color.LTGRAY;
+                        strokeColour = Color.GRAY;
+                        break;
+                }
 
-                binding.categoryChipGroup.addView(chip);
+                binding.primaryCategoryChipGroup.addView(createDetailChip(category, bgColour, strokeColour));
             }
         }
-
-//        binding.editExerciseButton.setOnClickListener(v -> {
-//            // Logic to navigate to AddExerciseFragment with the ID for editing
-//        });
 
         binding.stepsContainer.removeAllViews();
         if (record.steps != null) {
@@ -129,6 +145,24 @@ public class ExerciseDetailFragment extends Fragment {
             binding.exerciseNotesText.setVisibility(View.VISIBLE);
             binding.exerciseNotesText.setText(notes);
         }
+    }
+
+    private Chip createDetailChip(Category category, int bgColour, int strokeColour) {
+        Chip chip = new Chip(requireContext());
+        chip.setText(category.getName());
+
+        chip.setCheckable(false);
+        chip.setClickable(false);
+        chip.setFocusable(false);
+
+        chip.setChipBackgroundColor(ColorStateList.valueOf(bgColour));
+        chip.setChipStrokeColor(ColorStateList.valueOf(strokeColour));
+        chip.setChipStrokeWidth(4f);
+
+        chip.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.lexend_font));
+        chip.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_colour));
+
+        return chip;
     }
 
     @Override
