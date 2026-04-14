@@ -22,9 +22,8 @@ import java.util.Set;
 
 // managing a list of items - helps RecyclerView to draw the items of the list - takes data raw from DB and translates it
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
-    private List<FullExerciseRecord> exercises = new ArrayList<>(); // data source
+    private List<FullExerciseRecord> displayedExercises = new ArrayList<>(); // current filtered list
     private final Set<Long> selectedIds = new HashSet<>(); // contains selected unique! ids on selection list
-
     private boolean isSelectionMode = false; // switch between simple list and selection list
 
     // listeners - how the Fragment talks to adapter
@@ -45,8 +44,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     public void setOnSelectionChangedListener(OnSelectionChangedListener listener) {
         this.selectionListener = listener;
     }
-    public void setExercises(List<FullExerciseRecord> exercises) {
-        this.exercises = exercises;
+    public void setAllExercises(List<FullExerciseRecord> newList) {
+        this.displayedExercises = newList;
         notifyDataSetChanged();
     }
     public void setSelectionMode(boolean mode) {
@@ -70,7 +69,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
     // runs for every row that appears on the screen
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FullExerciseRecord record = exercises.get(position);
+//        FullExerciseRecord record = allExercises.get(position);
+        FullExerciseRecord record = displayedExercises.get(position);
         long id = record.exercise.getExerciseId();
         String imageUri = record.exercise.getMediaUri();
 
@@ -128,7 +128,7 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return exercises.size();
+        return displayedExercises.size();
     }
 
     public void setSelectedIds(List<Long> existingIds) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -229,23 +230,55 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/exerciseCategoryLabel"
+            android:id="@+id/exerciseTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/exercise_type_label"
+            android:fontFamily="@font/lexend_font"
+            android:textSize="18sp"
+            android:textColor="@color/text_black_colour"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutNotes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <HorizontalScrollView
+            android:id="@+id/typeScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/exerciseTypeLabel">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/typeChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:singleLine="true"
+                app:chipSpacingHorizontal="8dp" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/exerciseBasicMuscleCategoryLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
 
-            android:text="@string/exercise_category"
+            android:text="@string/exercise_basic_muscle_group_label"
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textStyle="normal"
             android:textColor="@color/text_black_colour"
 
-            app:layout_constraintTop_toBottomOf="@id/textInputLayoutNotes"
+            app:layout_constraintTop_toBottomOf="@id/typeScrollView"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/categoryChipGroup"
+            android:id="@+id/basicExerciseCategoryChipGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -255,7 +288,55 @@
             app:chipSpacingVertical="8dp"
             app:singleSelection="false"
 
-            app:layout_constraintTop_toBottomOf="@id/exerciseCategoryLabel"
+            app:layout_constraintTop_toBottomOf="@id/exerciseBasicMuscleCategoryLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/advHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F8F4FF"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_left"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="14dp"
+            app:layout_constraintTop_toBottomOf="@id/basicExerciseCategoryChipGroup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/exerciseAdvMuscleCategoryLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/exercise_detail_muscle_group_label"
+                android:fontFamily="@font/lexend_font"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/text_black_colour" />
+
+            <ImageView
+                android:id="@+id/proArrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_arrow_down" />
+        </LinearLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/advExerciseMuscleChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="16dp"
+
+            android:visibility="gone"
+            app:chipSpacingHorizontal="8dp"
+            app:chipSpacingVertical="8dp"
+
+            app:layout_constraintTop_toBottomOf="@id/advHeader"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -275,8 +356,9 @@
             android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/exercise_save_text_colour"
 
-            app:layout_constraintTop_toBottomOf="@id/categoryChipGroup"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/advExerciseMuscleChipGroup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelExerciseButton"

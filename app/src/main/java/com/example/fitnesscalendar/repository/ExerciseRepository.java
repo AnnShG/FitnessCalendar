@@ -132,4 +132,16 @@ public class ExerciseRepository {
         });
     }
 
+    public LiveData<List<FullExerciseRecord>> getExercisesFilteredAndSearched(List<Long> categoryIds, String query) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return exerciseDao.getExercisesBySearchOnly(query);
+        } else {
+            return exerciseDao.getExercisesFilteredAndSearched(categoryIds, query);
+        }
+    }
+
+    public LiveData<List<FullExerciseRecord>> getAllFullExercises() {
+        return exerciseDao.getFullExerciseRecords();
+    }
+
 }

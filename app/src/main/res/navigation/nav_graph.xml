@@ -110,6 +110,10 @@
             android:id="@+id/action_ExerciseSelectScreen_to_ExerciseDetail"
             app:destination="@+id/ExerciseDetail" />
 
+        <action
+            android:id="@+id/action_ExerciseSelectScreen_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
+
     </fragment>
 
     <fragment
@@ -136,6 +140,9 @@
             android:id="@+id/action_WorkoutSelectScreen_to_WorkoutDetail"
             app:destination="@+id/WorkoutDetail" />
 
+        <action
+            android:id="@+id/action_WorkoutSelectScreen_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
     </fragment>
 
 
@@ -167,6 +174,17 @@
         <action
             android:id="@+id/action_ExercisesList_to_ExerciseDetail"
             app:destination="@id/ExerciseDetail" />
+
+        <action
+            android:id="@+id/action_ExercisesList_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/FilterScreen"
+        android:name="com.example.fitnesscalendar.logic.filter.FilterScreenFragment"
+        android:label="Exercises Filter"
+        tools:layout="@layout/filter_screen">
     </fragment>
 
     <fragment
@@ -192,6 +210,10 @@
         <action
             android:id="@+id/action_WorkoutsList_to_WorkoutsDetail"
             app:destination="@id/WorkoutDetail" />
+
+        <action
+            android:id="@+id/action_WorkoutsList_to_FilterScreen"
+            app:destination="@id/FilterScreen" />
     </fragment>
 
     <fragment

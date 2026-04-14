@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor // required by Room
-@AllArgsConstructor // for constructor with 2 fields
+@AllArgsConstructor
 @Entity(
         tableName = "categories",
         indices = {@Index(value = {"name"}, unique = true)}
@@ -23,4 +23,7 @@ public class Category {
 
     @ColumnInfo(name = "name")
     public String name;
+
+    @ColumnInfo(name = "category_group")
+    public String categoryGroup;
 }

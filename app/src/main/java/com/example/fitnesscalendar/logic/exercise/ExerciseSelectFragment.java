@@ -85,6 +85,13 @@ public class ExerciseSelectFragment extends ExercisesListFragment {
             NavHostFragment.findNavController(this).navigateUp();
         });
 
+        binding.filterExerciseBtn.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("filter_type", "exercise");
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_ExerciseSelectScreen_to_FilterScreen, bundle);
+        });
+
         binding.backButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(ExerciseSelectFragment.this)
                         .navigateUp()

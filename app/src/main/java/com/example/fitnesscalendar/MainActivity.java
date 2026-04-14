@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
 import androidx.navigation.fragment.NavHostFragment;
@@ -12,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fitnesscalendar.databinding.ActivityMainBinding;
+import com.example.fitnesscalendar.logic.filter.FilterViewModel;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        FilterViewModel filterViewModel = new ViewModelProvider(this).get(FilterViewModel.class);
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -53,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     navController.popBackStack(R.id.NavigationProfile, false);
                 }
             });
-
-            bottomNav.setOnItemReselectedListener(item -> {
-                if (item.getItemId() == R.id.CalendarHomePage) {
-                    navController.popBackStack(R.id.CalendarHomePage, false);
-                }
-            });
+//
+//            bottomNav.setOnItemReselectedListener(item -> {
+//                if (item.getItemId() == R.id.CalendarHomePage) {
+//                    navController.popBackStack(R.id.CalendarHomePage, false);
+//                }
+//            });
 
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
@@ -69,6 +74,31 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     bottomNav.setVisibility(View.GONE);
                 }
+
+                if (id != R.id.ExercisesList && id != R.id.ExerciseDetail &&
+                        id != R.id.FilterScreen && id != R.id.ExerciseSelectScreen) {
+                    filterViewModel.setExerciseFilters(new java.util.ArrayList<>());
+                }
+
+                if (id != R.id.WorkoutsList && id != R.id.WorkoutDetail && id != R.id.FilterScreen) {
+                    filterViewModel.setWorkoutFilters(new java.util.ArrayList<>());
+                }
+
+//                bottomNav.setOnItemReselectedListener(item -> {
+//                    if (item.getItemId() == R.id.CalendarHomePage) {
+//                        navController.popBackStack(R.id.CalendarHomePage, false);
+//                    }
+//                });
+
+                bottomNav.setOnItemReselectedListener(item -> {
+                    int itemId = item.getItemId();
+                    if (itemId == R.id.NavigationProfile) {
+                        navController.popBackStack(R.id.NavigationProfile, false);
+                    } else if (itemId == R.id.CalendarHomePage) {
+                        navController.popBackStack(R.id.CalendarHomePage, false);
+                    }
+                });
+
             });
         }
     }

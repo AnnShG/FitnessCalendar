@@ -30,7 +30,7 @@ import com.example.fitnesscalendar.relations.*;
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
                 AiMessage.class
 },
-        version = 23,
+        version = 24,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -109,20 +109,18 @@ public abstract class AppDatabase extends RoomDatabase {
     private static List<Category> getPredefinedCategories() {
         List<Category> categories = new ArrayList<>();
 
-        // Define names in a simple array.
-        // You can easily insert a new name anywhere in this list.
-        String[] names = {
-                "Neck", "Arms", "Shoulders", "Chest", "Back", "Abs", "Glutes", "Legs", "Stretching",
-                "Cardio", "Full Body", "Biceps", "Triceps", "Forearms", "Side Delts",
-                "Front Delts", "Rear Delts", "Upper Chest", "Middle Chest", "Lower Chest",
-                "Upper Back", "Lower Back", "Upper Abs", "Lower Abs", "Obliques",
+        String[] types = {"Strength", "Cardio", "Bodyweight", "Stretching"};
+        for (String s : types) categories.add(new Category(null, s, "TYPE"));
+
+        String[] primaryGroups = {"Neck", "Shoulders", "Arms", "Chest", "Back", "Abs", "Glutes", "Legs", "Full Body"};
+        for (String s : primaryGroups) categories.add(new Category(null, s, "BASIC"));
+
+        String[] advancedGroups = {
+                "Biceps", "Triceps", "Forearms", "Side Delts", "Front Delts", "Rear Delts", "Upper Chest",
+                "Middle Chest", "Lower Chest", "Upper Back", "Lower Back", "Upper Abs", "Lower Abs", "Obliques",
                 "Quadriceps", "Hamstrings", "Adductors", "Abductors", "Calves"
         };
-
-        for (String name : names) {
-            // the null is passed for the ID so Room auto-generates it
-            categories.add(new Category(null, name));
-        }
+        for (String s : advancedGroups) categories.add(new Category(null, s, "ADVANCED"));
         return categories;
     }
 }
