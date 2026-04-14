@@ -150,13 +150,13 @@
 
     <!--    Exercise list screen -->
     <string name="exercises_list_title">All Exercises</string>
-    <string name="exercises_filtered_text">Filtered by: </string>
+    <string name="exercises_filtered_text">Count</string>
     <string name="exercises_filter_icon_description">Filter</string>
     <string name="exercises_search_hint">Search exercises...</string>
 
     <!--    Exercise select screen -->
     <string name="exercises_select_title">Select Exercises</string>
-    <string name="exercises_select_filtered_text">Filtered by: </string>
+    <string name="exercises_select_filtered_text">Count</string>
     <string name="exercises_select_filter_icon_description">Filter</string>
     <string name="exercise_select_search_hint">Search exercises...</string>
 
@@ -178,7 +178,7 @@
 
     <!--    Workout list screen -->
     <string name="workout_list_title">All Workouts</string>
-    <string name="workout_filtered_text">Filtered by: </string>
+    <string name="workout_filtered_text">Count</string>
     <string name="workout_filter_icon_description">Filter</string>
     <string name="workout_title_text">Full Body Strength</string>
     <string name="workout_title_description">A high-intensity workout focusing on all major muscle groups.</string>
@@ -227,4 +227,6 @@
 <!--    Goal item -->
     <string name="goal_item_title">Goal Title</string>
     <string name="goal_item_description">And see what the discipline can create</string>
+    <!--Filter screeen-->
+    <string name="filter_screen_title">Filter</string>
 </resources>

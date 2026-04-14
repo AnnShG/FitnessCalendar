@@ -72,7 +72,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/filteredWorkouts"
+            android:id="@+id/filteredCountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -87,18 +87,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/headerContainer" />
 
+    <LinearLayout
+        android:id="@+id/filterChipsContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/filteredCountText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/selectedFilterChips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/workoutsRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="15dp"
             android:paddingHorizontal="8dp"
             android:paddingBottom="10dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filteredWorkouts"
+            app:layout_constraintTop_toBottomOf="@id/filterChipsContainer"
             tools:listitem="@layout/workouts_list_item_grid" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
