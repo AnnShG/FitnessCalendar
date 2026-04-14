@@ -69,7 +69,14 @@ public interface ExerciseDao {
     @Query("DELETE FROM exercise_category_cross_ref WHERE exercise_id = :exerciseId")
     void deleteCategoryCrossRefsByExerciseId(long exerciseId);
 
-//    @Transaction
-//    @Query("SELECT * FROM exercises")
-//    public LiveData<List<ExercisesWithCategory>> getExercisesWithCategories();
+    @Transaction
+    @Query("SELECT DISTINCT e.* FROM exercises e " +
+            "INNER JOIN exercise_category_cross_ref ec ON e.exercise_id = ec.exercise_id " +
+            "WHERE (:searchQuery IS NULL OR e.title LIKE '%' || :searchQuery || '%') " +
+            "AND ec.category_id IN (:categoryIds)")
+    LiveData<List<FullExerciseRecord>> getExercisesFilteredAndSearched(List<Long> categoryIds, String searchQuery);
+
+    @Transaction
+    @Query("SELECT * FROM exercises WHERE :searchQuery IS NULL OR title LIKE '%' || :searchQuery || '%'")
+    LiveData<List<FullExerciseRecord>> getExercisesBySearchOnly(String searchQuery);
 }

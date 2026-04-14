@@ -1,5 +1,6 @@
 package com.example.fitnesscalendar.logic.exercise;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,6 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ExercisesListScreenBinding;
+import com.example.fitnesscalendar.entities.Category;
+import com.example.fitnesscalendar.logic.filter.FilterViewModel;
+import com.example.fitnesscalendar.logic.utils.CategoryStyleHelper;
+import com.google.android.material.chip.Chip;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.NonNull;
 
@@ -23,8 +32,9 @@ public class ExercisesListFragment extends Fragment {
     protected ExercisesListScreenBinding binding;
     protected ExerciseAdapter adapter;
     protected ExerciseViewModel exerciseViewModel;
-//    private Long currentUserId;
+    protected FilterViewModel filterViewModel;
     protected View root;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Only inflate the default parent binding if the child hasn't set 'root' yet
@@ -34,7 +44,7 @@ public class ExercisesListFragment extends Fragment {
             root = binding.getRoot();
         } else {
             // If root was already set (e.g., by a child fragment),
-            // we need to re-bind it so 'binding' isn't null
+            // re-bind it so 'binding' isn't null
             binding = ExercisesListScreenBinding.bind(root);
         }
         return root;
@@ -44,12 +54,75 @@ public class ExercisesListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (adapter == null) {
-            adapter = new ExerciseAdapter();
-        }
+        filterViewModel = new ViewModelProvider(requireActivity()).get(FilterViewModel.class);
+        exerciseViewModel = new ViewModelProvider(this).get(ExerciseViewModel.class);
 
-        exerciseViewModel = new ViewModelProvider(requireActivity()).get(ExerciseViewModel.class);
+        setupRecyclerView(view);
 
+        // connection FilterViewModel -> ExerciseViewModel
+        filterViewModel.getExerciseFilters().observe(getViewLifecycleOwner(), ids -> {
+            if (ids != null) {
+                exerciseViewModel.setFilters(ids);
+            }
+        });
+
+        // Observe the Data - when it changes - the block runs
+        exerciseViewModel.filteredExercises.observe(getViewLifecycleOwner(), exercises -> {
+            if (exercises != null  && binding != null) {
+                adapter.setAllExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
+
+                String countText = exercises.size() + " Exercises Found";
+                binding.filteredCountText.setText(countText);
+            }  else {
+                binding.filteredCountText.setText("0 Exercises Found");
+            }
+        });
+
+        binding.searchExerciseField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { // handling enter on keyboard
+                exerciseViewModel.setSearchQuery(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) { // real-time filtering
+                exerciseViewModel.setSearchQuery(newText);
+                binding.filteredCountText.setText(adapter.getItemCount() + " Exercises Found");
+                return false;
+            }
+        });
+
+        // categories chips
+        exerciseViewModel.getAllCategories().observe(getViewLifecycleOwner(), allCategories -> {
+            if (allCategories != null) {
+                exerciseViewModel.getFilterIds().observe(getViewLifecycleOwner(), selectedIds -> {
+                    if (selectedIds != null) {
+                        renderFilterChips(selectedIds, allCategories);
+                    }
+                });
+            }
+        });
+
+//        View backBtn = view.findViewById(R.id.backButton);
+//        if (backBtn != null) {
+//            backBtn.setOnClickListener(v ->
+//                    NavHostFragment.findNavController(this).navigateUp()
+//            );
+//        }
+        binding.backButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(this).navigateUp());
+
+        binding.filterExerciseBtn.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("filter_type", "exercise");
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_ExercisesList_to_FilterScreen, bundle);
+        });
+    }
+
+    private void setupRecyclerView(View view) {
+        if (adapter == null) adapter = new ExerciseAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.exercisesRecyclerView);
         if (recyclerView != null) {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -65,52 +138,36 @@ public class ExercisesListFragment extends Fragment {
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ExercisesList_to_ExerciseDetail, bundle); // take bundle (envelope) with ex id
         });
-//
-//        if (binding != null) {
-//            binding.exercisesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//            binding.exercisesRecyclerView.setAdapter(adapter);
-//            binding.exercisesRecyclerView.setNestedScrollingEnabled(false); // prevents list scrolling from stuck
-//
-//        }
-
-        // Observe the Data - when it changes - the block runs
-        exerciseViewModel.getAllFullExerciseRecords().observe(getViewLifecycleOwner(), exercises -> {
-            if (exercises != null  && binding != null) {
-                adapter.setAllExercises(exercises); //redrawing the screen to refresh the list of the exes on the screen
-
-                String countText = exercises.size() + " Exercises Found";
-                binding.filteredExercises.setText(countText);
-            }
-        });
-
-        binding.searchExerciseField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) { // handling enter on keyboard
-                if (adapter != null) {
-                    adapter.filter(query);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) { // real-time filtering
-                if (adapter != null) {
-                    adapter.filter(newText);
-
-                    binding.filteredExercises.setText(adapter.getItemCount() + " Exercises Found");
-                }
-                return false;
-            }
-        });
-
-        View backBtn = view.findViewById(R.id.backButton);
-        if (backBtn != null) {
-            backBtn.setOnClickListener(v ->
-                    NavHostFragment.findNavController(this).navigateUp()
-            );
-        }
     }
 
+    private void renderFilterChips(List<Long> selectedIds, List<Category> allCategories) {
+        binding.selectedFilterChips.removeAllViews();
+
+        for (Long id : selectedIds) {
+            for (Category cat : allCategories) {
+                if (cat.getId().equals(id)) {
+                    Chip chip = new Chip(requireContext());
+                    chip.setText(cat.getName());
+                    chip.setCloseIconVisible(true);
+
+                    // utils helper method
+                    CategoryStyleHelper.CategoryStyle style = CategoryStyleHelper.getStyleForGroup(cat.getCategoryGroup());
+                    chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), style.backgroundColor)));
+                    chip.setChipStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), style.strokeColor)));
+                    chip.setChipStrokeWidth(2f);
+
+                    chip.setOnCloseIconClickListener(v -> {
+                        List<Long> newList = new ArrayList<>(selectedIds);
+                        newList.remove(id);
+                        filterViewModel.setExerciseFilters(newList);
+                    });
+
+                    binding.selectedFilterChips.addView(chip);
+                    break;
+                }
+            }
+        }
+    }
 
     @Override
     public void onDestroyView() {

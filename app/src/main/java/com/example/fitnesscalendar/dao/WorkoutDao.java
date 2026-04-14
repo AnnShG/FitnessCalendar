@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
@@ -42,8 +43,20 @@ public interface WorkoutDao {
     @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :workoutId")
     void deleteExercisesForWorkout(long workoutId);
 
+    @Transaction
+    @Query("SELECT DISTINCT w.* FROM workouts w " +
+            "INNER JOIN workout_exercise_cross_ref we ON w.workout_id = we.workout_id " +
+            "INNER JOIN exercise_category_cross_ref ec ON we.exercise_id = ec.exercise_id " +
+            "WHERE w.owner_id = :userId " +
+            "AND (:searchQuery IS NULL OR w.title LIKE '%' || :searchQuery || '%') " +
+            "AND ec.category_id IN (:categoryIds)")
+    LiveData<List<FullWorkoutRecord>> getWorkoutsFiltered(long userId, List<Long> categoryIds, String searchQuery);
 
-//    @Transaction
-//    @Query("SELECT * FROM workouts WHERE workoutId = :workoutId")
-//    public WorkoutWithExercises getWorkoutWithExercises(long workoutId);
+    @Transaction
+    @Query("SELECT * FROM workouts WHERE owner_id = :userId " +
+            "AND (:searchQuery IS NULL OR title LIKE '%' || :searchQuery || '%')")
+    LiveData<List<FullWorkoutRecord>> getWorkoutsBySearchOnly(long userId, String searchQuery);
+
+    @Query("SELECT * FROM categories ORDER BY category_group ASC")
+    LiveData<List<Category>> getAllCategories();
 }

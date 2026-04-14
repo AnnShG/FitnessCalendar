@@ -9,6 +9,7 @@ import com.example.fitnesscalendar.dao.CalendarDayDao;
 import com.example.fitnesscalendar.dao.WorkoutDao;
 import com.example.fitnesscalendar.database.AppDatabase;
 import com.example.fitnesscalendar.entities.AiMessage;
+import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.CalendarDayWorkoutCrossRef;
 import com.example.fitnesscalendar.relations.DateColourResult;
@@ -188,6 +189,18 @@ public class WorkoutRepository {
     }
     public void saveAiMessage(AiMessage message) {
         AppDatabase.databaseWriteExecutor.execute(() -> aiDao.insert(message));
+    }
+
+    public LiveData<List<FullWorkoutRecord>> getWorkoutsFilteredAndSearched(long userId, List<Long> categoryIds, String query) {
+        if (categoryIds == null || categoryIds.isEmpty()) {
+            return workoutDao.getWorkoutsBySearchOnly(userId, query);
+        } else {
+            return workoutDao.getWorkoutsFiltered(userId, categoryIds, query);
+        }
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
+        return workoutDao.getAllCategories();
     }
 
 }

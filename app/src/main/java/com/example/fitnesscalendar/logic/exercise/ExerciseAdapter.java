@@ -22,7 +22,6 @@ import java.util.Set;
 
 // managing a list of items - helps RecyclerView to draw the items of the list - takes data raw from DB and translates it
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHolder> {
-    private List<FullExerciseRecord> allExercises = new ArrayList<>(); // data source
     private List<FullExerciseRecord> displayedExercises = new ArrayList<>(); // current filtered list
     private final Set<Long> selectedIds = new HashSet<>(); // contains selected unique! ids on selection list
     private boolean isSelectionMode = false; // switch between simple list and selection list
@@ -46,7 +45,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         this.selectionListener = listener;
     }
     public void setAllExercises(List<FullExerciseRecord> newList) {
-        this.allExercises = new ArrayList<>(newList);
         this.displayedExercises = newList;
         notifyDataSetChanged();
     }
@@ -144,22 +142,6 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
                 selectionListener.onSelectionChanged(selectedIds.size());
             }
         }
-    }
-
-    public void filter(String query) {
-        List<FullExerciseRecord> filteredList = new ArrayList<>();
-        if (query.isEmpty()) { // nothing in search bar
-            filteredList = allExercises;
-        } else {
-            String filterPattern = query.toLowerCase().trim();
-            for (FullExerciseRecord item : allExercises) {
-                if (item.exercise.getTitle().toLowerCase().contains(filterPattern)) {
-                    filteredList.add(item);
-                }
-            }
-        }
-        this.displayedExercises = filteredList;
-        notifyDataSetChanged();
     }
 
     // holds the references to the views for one row
