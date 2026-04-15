@@ -102,16 +102,21 @@
 <!--    Add exercise screen-->
     <string name="add_exercise_title">Add Exercise</string>
     <string name="add_exercise_media_description">New exercise image</string>
+
     <string name="exercise_title">Title *</string>
     <string name="exercise_title_hint">Enter exercise title (e.g. Push-up)</string>
+
     <string name="exercise_description">Description</string>
     <string name="exercise_description_hint">Briefly describe the exercise</string>
+
     <string name="exercise_steps">Steps</string>
     <string name="add_exercise_steps">Add a step</string>
     <string name="add_exercise_steps_hint">Describe the step&#8230;</string>
+
     <string name="exercise_notes">Notes</string>
     <string name="exercise_notes_description">Exercise Notes</string>
     <string name="exercise_notes_hint">Any additional notes or tips</string>
+
     <string name="exercise_basic_muscle_group_label">Primary Muscle Group *</string>
     <string name="exercise_type_label">Exercise Type</string>
     <string name="exercise_detail_muscle_group_label">Advanced Muscle Groups *</string>
@@ -122,10 +127,13 @@
 <!--    Add workout screen-->
     <string name="add_workout_title">Add Workout</string>
     <string name="workout_title_label">Title *</string>
-    <string name="workout_title_hint">Title</string>
+    <string name="workout_title_hint">Enter workout title (e.g. Full Body Workout)</string>
+
     <string name="workout_description">Description</string>
+    <string name="workout_description_hint">Briefly describe the workout</string>
+
     <string name="workout_notes">Notes</string>
-    <string name="workout_notes_description">Notes</string>
+    <string name="workout_notes_hint">Any additional notes or tips</string>
 
     <string name="workout_colour_text">Colour *</string>
     <string name="workout_exercise_text">Exercises *</string>

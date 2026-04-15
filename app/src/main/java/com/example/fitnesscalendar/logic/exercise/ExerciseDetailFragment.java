@@ -111,8 +111,14 @@ public class ExerciseDetailFragment extends Fragment {
             }
         }
 
-        binding.stepsContainer.removeAllViews();
-        if (record.steps != null) {
+        if (record.steps == null || record.steps.isEmpty()) {
+            binding.stepsTitle.setVisibility(View.GONE);
+            binding.stepsContainer.setVisibility(View.GONE);
+        } else {
+            binding.stepsTitle.setVisibility(View.VISIBLE);
+            binding.stepsContainer.setVisibility(View.VISIBLE);
+
+            binding.stepsContainer.removeAllViews();
             for (int i = 0; i < record.steps.size(); i++) {
                 View stepRow = getLayoutInflater().inflate(R.layout.existing_item_step_row, binding.stepsContainer, false);
 

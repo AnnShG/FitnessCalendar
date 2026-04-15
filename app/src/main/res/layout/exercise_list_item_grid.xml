@@ -18,9 +18,11 @@
             android:id="@+id/exerciseImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
+
             android:scaleType="fitCenter"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/sample_exercise" />
@@ -28,7 +30,9 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
+
             android:background="@drawable/gradient_bottom_shadow"
+
             app:layout_constraintBottom_toBottomOf="@id/exerciseImage"
             app:layout_constraintEnd_toEndOf="@id/exerciseImage"
             app:layout_constraintStart_toStartOf="@id/exerciseImage"
@@ -39,10 +43,12 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_margin="8dp"
+
             android:background="@drawable/circle_white_for_eye"
             app:srcCompat="@drawable/ic_eye"
             android:visibility="visible"
             app:tint="@color/exercises_detail_black_colour"
+
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -85,7 +85,7 @@ public class WorkoutDetailFragment extends Fragment {
     }
 
     private void bindWorkoutData(FullWorkoutRecord record) {
-        binding.addWorkoutTitle.setText(record.workout.getTitle());
+        binding.detailWorkoutTitle.setText(record.workout.getTitle());
 
         String countText = record.exercises.size() + " " +
                 (record.exercises.size() == 1 ? "Exercise" : "Exercises");

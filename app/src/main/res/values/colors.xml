@@ -44,6 +44,8 @@
 
 <!--    Daily workout item-->
     <color name="daily_workout_item_colour">#F05A09</color>
+    <color name="daily_workout_delete_colour">#F05A09</color>
+    <color name="daily_workout_checkbox_colour">#F05A09</color>
 
 
 <!--    Plus DropDown menu -->
@@ -57,6 +59,8 @@
     <color name="add_exercise_step_text_colour">#F05A09</color>
     <color name="step_number_circle_bg_colour">#F6E5DC</color>
     <color name="step_number_circle_text_colour">#F05A09</color>
+
+    <color name="step_plus_icon_colour">#F05A09</color>
 
     <color name="exercise_selected_category_stroke_colour">#F05A09</color>
 
