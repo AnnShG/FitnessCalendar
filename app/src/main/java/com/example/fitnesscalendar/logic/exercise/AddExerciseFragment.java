@@ -27,6 +27,7 @@ import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
+import com.example.fitnesscalendar.logic.workout.AddWorkoutFragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -118,6 +119,11 @@ public class AddExerciseFragment extends Fragment {
 
             binding.deleteExerciseButton.setOnClickListener(v -> showDeleteConfirmation(editingId));
         }
+
+        binding.backButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(AddExerciseFragment.this)
+                        .navigateUp()
+        );
 
         binding.saveExerciseButton.setOnClickListener(v -> onSaveButtonClicked());
 

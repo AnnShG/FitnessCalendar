@@ -19,14 +19,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.04" />
+            app:layout_constraintGuide_percent="@dimen/guideline_left_percent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
+            app:layout_constraintGuide_percent="@dimen/guideline_right_percent" />
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="45dp"
+
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_button"
+            android:padding="4dp"
+            android:src="@drawable/ic_arrow_back"
+            android:elevation="10dp"
+            android:foreground="?attr/selectableItemBackground"
+
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_black_colour" />
 
         <TextView
             android:id="@+id/addExerciseTitle"
@@ -34,40 +51,44 @@
             android:layout_height="wrap_content"
 
             android:text="@string/add_exercise_title"
-            android:layout_marginTop="45dp"
             android:fontFamily="@font/lexend_font"
             android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="@color/text_black_colour"
 
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/backButton" />
 
         <ImageView
             android:id="@+id/deleteExerciseButton"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_marginTop="30dp"
+
             android:visibility="gone"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+
+            app:srcCompat="@drawable/ic_delete_bin"
+            app:tint="@color/workout_left_side_control_icons_colour"
 
             app:layout_constraintEnd_toEndOf="@id/guidelineRight"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_bin"
-            app:tint="@color/workout_left_side_control_icons_colour" />
+            app:layout_constraintBottom_toBottomOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="@id/backButton" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/exerciseMediaView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="16dp"
 
             android:adjustViewBounds="true"
             android:maxHeight="300dp"
             android:minHeight="200dp"
             android:scaleType="fitCenter"
+            android:elevation="6dp"
 
             android:clickable="true"
             android:focusable="true"
@@ -80,8 +101,8 @@
             app:shapeAppearanceOverlay="@style/RoundedCorners"
 
             app:layout_constraintTop_toBottomOf="@id/addExerciseTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
             android:src="@drawable/ic_add_photo" />
 
 
@@ -106,12 +127,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
             app:errorEnabled="true"
 
             app:layout_constraintTop_toBottomOf="@id/exerciseTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exerciseNameInput"
@@ -125,7 +145,6 @@
             android:id="@+id/exerciseDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_left"
 
             android:text="@string/exercise_description"
             android:layout_marginTop="24dp"
@@ -135,7 +154,7 @@
             android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutTitle"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutDescription"
@@ -143,11 +162,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
 
             app:layout_constraintTop_toBottomOf="@id/exerciseDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exerciseDescriptionInput"
@@ -161,7 +179,6 @@
             android:id="@+id/exerciseSteps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_left"
 
             android:text="@string/exercise_steps"
             android:layout_marginTop="24dp"
@@ -171,7 +188,7 @@
             android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutDescription"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"/>
 
         <LinearLayout
             android:id="@+id/stepsContainer"
@@ -188,27 +205,27 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addStepButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:text="@string/add_exercise_steps"
             android:textAllCaps="false"
             android:textColor="@color/add_exercise_step_text_colour"
             android:textStyle="bold"
+            android:foreground="?attr/selectableItemBackground"
 
             app:icon="@drawable/ic_add_circle"
-            app:iconTint="@color/dumbbell_colour"
+            app:iconTint="@color/step_plus_icon_colour"
 
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/stepsContainer"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
 
         <TextView
             android:id="@+id/exerciseNotesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_left"
 
             android:text="@string/exercise_notes"
             android:layout_marginTop="24dp"
@@ -218,7 +235,7 @@
             android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/addStepButton"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutNotes"
@@ -226,12 +243,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
             android:contentDescription="@string/exercise_notes_description"
 
             app:layout_constraintTop_toBottomOf="@id/exerciseNotesText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/exerciseNotesInput"
@@ -246,13 +262,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginStart="16dp"
             android:text="@string/exercise_type_label"
             android:fontFamily="@font/lexend_font"
             android:textSize="18sp"
             android:textColor="@color/text_black_colour"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutNotes"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"/>
 
         <HorizontalScrollView
             android:id="@+id/typeScrollView"
@@ -278,7 +293,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginStart="16dp"
 
             android:text="@string/exercise_basic_muscle_group_label"
             android:fontFamily="@font/lexend_font"
@@ -287,36 +301,34 @@
             android:textColor="@color/text_black_colour"
 
             app:layout_constraintTop_toBottomOf="@id/typeScrollView"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"/>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/basicExerciseCategoryChipGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginHorizontal="16dp"
 
             app:chipSpacingHorizontal="8dp"
             app:chipSpacingVertical="8dp"
             app:singleSelection="false"
 
             app:layout_constraintTop_toBottomOf="@id/exerciseBasicMuscleCategoryLabel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight" />
 
         <LinearLayout
             android:id="@+id/advHeader"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#F8F4FF"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_left"
-            android:paddingHorizontal="16dp"
+            android:foreground="?attr/selectableItemBackground"
+
             android:paddingVertical="14dp"
             app:layout_constraintTop_toBottomOf="@id/basicExerciseCategoryChipGroup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight">
 
             <TextView
                 android:id="@+id/exerciseAdvMuscleCategoryLabel"
@@ -349,15 +361,14 @@
             app:chipSpacingVertical="8dp"
 
             app:layout_constraintTop_toBottomOf="@id/advHeader"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveExerciseButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_margin="32dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
 
             android:text="@string/save_exercise"
             android:textStyle="bold"
@@ -365,16 +376,17 @@
             android:fontFamily="@font/lexend_font"
             app:cornerRadius="13dp"
             app:backgroundTint="@color/exercise_save_button_background_colour"
-            android:foreground="?attr/selectableItemBackground"
             android:textColor="@color/exercise_save_text_colour"
+            android:elevation="6dp"
+            android:foreground="?attr/selectableItemBackground"
 
             app:layout_constraintTop_toBottomOf="@id/advExerciseMuscleChipGroup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelExerciseButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:text="@string/cancel_exercise"
@@ -388,8 +400,8 @@
 
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintTop_toBottomOf="@id/saveExerciseButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

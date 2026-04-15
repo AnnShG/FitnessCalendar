@@ -21,51 +21,30 @@
     tools:context=".logic.calendar.CalendarHomePageFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_top"
+        android:id="@+id/guidelineLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.01" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_left_percent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_stats"
+        android:id="@+id/guidelineRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.01" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_right_percent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/mindsetButton"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/lexend_font"
-        android:textColor="@color/mindset_button_text_colour"
-        android:text="@string/mindset_button_text"
-
-        app:cornerRadius="8dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/mindset_button_stroke_colour"
-        app:backgroundTint="@color/mindset_button_fill_colour"
-        android:foreground="?attr/selectableItemBackground"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_top"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="@dimen/margin_left" />
 
     <LinearLayout
-        android:id="@+id/training_stats_container"
+        android:id="@+id/trainingStatsContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_stats">
+        app:layout_constraintTop_toTopOf="parent">
 
     <TextView
         android:id="@+id/calendar_title"
@@ -73,19 +52,13 @@
         android:layout_height="wrap_content"
 
         android:text="@string/calendar_title_text"
-        android:layout_marginTop="120dp"
         android:fontFamily="@font/lexend_font"
         android:textSize="16sp"
-        android:textStyle="normal"
-        android:textColor="@color/survey_text_black"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold"
+        android:textColor="@color/survey_text_black"/>
 
     <TextView
-        android:id="@+id/training_days_count"
+        android:id="@+id/trainingDaysCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -94,30 +67,59 @@
         android:textSize="32sp"
         android:textStyle="bold"
         android:textColor="@color/survey_text_black"
-        android:layout_marginTop="4dp" />
+
+        android:clickable="true"
+        android:focusable="true"
+
+        android:layout_marginTop="20dp"
+        android:foreground="?attr/selectableItemBackground"/>
 </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mindsetButton"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/lexend_font"
+        android:textColor="@color/mindset_button_text_colour"
+        android:text="@string/mindset_button_text"
+
+        app:cornerRadius="10dp"
+        app:strokeWidth="1dp"
+        app:layout_constraintVertical_bias="1.1"
+        app:strokeColor="@color/mindset_button_stroke_colour"
+        app:backgroundTint="@color/mindset_button_fill_colour"
+        android:foreground="?attr/selectableItemBackground"
+        android:elevation="10dp"
+
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/trainingStatsContainer"
+        app:layout_constraintBottom_toBottomOf="@id/trainingStatsContainer" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plusButton"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
 
-        app:fabCustomSize="48dp"
-        app:maxImageSize="44dp"
+        android:layout_marginEnd="25dp"
 
-        app:srcCompat="@drawable/custom_plus"
-        app:backgroundTint="@color/plus_button_background_colour"
-        app:tint="@color/plus_button_colour"
         android:contentDescription="@string/plus_button_description"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:foreground="?attr/selectableItemBackground"
+        app:backgroundTint="@color/plus_button_background_colour"
+        app:fabCustomSize="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/trainingStatsContainer"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
 
-        android:layout_marginTop="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toEndOf="@id/training_stats_container"
-        app:layout_constraintTop_toTopOf="@id/training_stats_container"
-        app:layout_constraintBottom_toBottomOf="@id/training_stats_container" />
+        app:layout_constraintTop_toTopOf="@id/trainingStatsContainer"
+        app:layout_constraintVertical_bias="1.0"
+        app:maxImageSize="44dp"
+        app:rippleColor="#40FFFFFF"
+        app:srcCompat="@drawable/custom_plus"
+        app:tint="@color/plus_button_colour" />
 
     <LinearLayout
         android:id="@+id/calendar_navigation"
@@ -128,7 +130,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/training_stats_container">
+        app:layout_constraintTop_toBottomOf="@id/trainingStatsContainer">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_prev_button"
@@ -225,6 +227,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:cardElevation="4dp"
+
         app:layout_constraintTop_toBottomOf="@id/legendContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Workout;
+import com.example.fitnesscalendar.logic.exercise.ExerciseDetailFragment;
 import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
@@ -89,7 +90,7 @@ public class AddWorkoutFragment extends Fragment {
         }
 
         if (existingWorkoutId != -1) { // 1 means it exists
-            binding.addWorkoutTitle.setText("Edit Workout");
+            binding.detailWorkoutTitle.setText("Edit Workout");
 
             binding.deleteWorkoutButton.setVisibility(View.VISIBLE);
             binding.deleteWorkoutButton.setOnClickListener(v -> {
@@ -103,6 +104,11 @@ public class AddWorkoutFragment extends Fragment {
                         }
                     });
         }
+
+        binding.backButton.setOnClickListener(v ->
+                NavHostFragment.findNavController(AddWorkoutFragment.this)
+                        .navigateUp()
+        );
 
         binding.addExerciseButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();

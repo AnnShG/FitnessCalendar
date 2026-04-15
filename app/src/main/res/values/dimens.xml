@@ -4,6 +4,9 @@
     <dimen name="margin_left">17.2dp</dimen>
     <dimen name="margin_right">17.2dp</dimen>
 
+    <item name="guideline_left_percent" format="float" type="dimen">0.04</item>
+    <item name="guideline_right_percent" format="float" type="dimen">0.96</item>
+
     <dimen name="min_button_width">150dp</dimen>
     <dimen name="max_button_width">320dp</dimen>
 
