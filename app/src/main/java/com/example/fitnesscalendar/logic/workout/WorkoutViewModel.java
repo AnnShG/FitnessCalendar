@@ -136,8 +136,12 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public void deleteWorkoutFromCalendar(long userId, long workoutId) {
-        workoutRepository.deleteWorkoutFromCalendar(userId, workoutId);
+        workoutRepository.deleteOnlyPlannedWorkoutsFromCalendar(userId, workoutId);
     }
+
+//    public void deleteOnlyPlannedWorkoutsFromCalendar(long userId, long workoutId) {
+//        workoutRepository.deleteOnlyPlannedWorkoutsFromCalendar(userId, workoutId);
+//    }
 
     public void updateWorkoutPlan(long userId, long workoutId, Set<Long> newEpochDays, Set<Long> completedDays) {
         workoutRepository.updateWorkoutPlan(userId, workoutId, newEpochDays, completedDays);

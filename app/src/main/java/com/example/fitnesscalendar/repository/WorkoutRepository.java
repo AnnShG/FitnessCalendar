@@ -131,9 +131,15 @@ public class WorkoutRepository {
         return calendarDao.getUniquePlannedWorkouts(userId);
     }
 
-    public void deleteWorkoutFromCalendar(long userId, long workoutId) {
+//    public void deleteWorkoutFromCalendar(long userId, long workoutId) {
+//        databaseExecutor.execute(() -> {
+//            calendarDao.deleteWorkoutFromCalendar(userId, workoutId);
+//        });
+//    }
+
+    public void deleteOnlyPlannedWorkoutsFromCalendar(long userId, long workoutId) {
         databaseExecutor.execute(() -> {
-            calendarDao.deleteWorkoutFromCalendar(userId, workoutId);
+            workoutDao.deleteOnlyPlannedWorkoutsFromCalendar(userId, workoutId);
         });
     }
 

@@ -106,10 +106,10 @@ public interface CalendarDayDao {
      * Completely removes a workout's plan from the calendar for a specific user.
      * Triggered when the user clicks the 'Bin' icon on a workout card.
      */
-    @Query("DELETE FROM calendar_day_workout_cross_ref " +
-            "WHERE workout_id = :workoutId " +
-            "AND calendar_day_id IN (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId)")
-    void deleteWorkoutFromCalendar(long userId, long workoutId);
+//    @Query("DELETE FROM calendar_day_workout_cross_ref " +
+//            "WHERE workout_id = :workoutId " +
+//            "AND calendar_day_id IN (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId)")
+//    void deleteWorkoutFromCalendar(long userId, long workoutId);
 
     /**
      * Clears all links for a specific workout before re-inserting new ones during Edit Mode.

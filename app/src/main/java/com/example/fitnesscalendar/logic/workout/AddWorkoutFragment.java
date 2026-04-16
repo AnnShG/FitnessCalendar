@@ -1,5 +1,6 @@
 package com.example.fitnesscalendar.logic.workout;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -168,10 +170,13 @@ public class AddWorkoutFragment extends Fragment {
 
         view.setAlpha(1.0f); // the one view (v) the user clicked
         if (view instanceof ShapeableImageView) {
-            ((ShapeableImageView) view).setStrokeWidth(6f);
-            ((ShapeableImageView) view).setStrokeColor(
-                    android.content.res.ColorStateList.valueOf(getResources().getColor(R.color.text_black_colour, null))
-            );
+            ShapeableImageView selectedView = (ShapeableImageView) view;
+
+            selectedView.setStrokeWidth(6f);
+
+            selectedView.setStrokeColor(ColorStateList.valueOf(
+                    ContextCompat.getColor(getContext(), R.color.workout_circle_indicator_choice_colour_stroke)
+            ));
         }
     }
 

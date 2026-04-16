@@ -143,7 +143,7 @@
     <string name="colour_picker_description">Colour Picker</string>
 
     <!--    Plan Program screen-->
-    <string name="plan_program_title">Your Program, Your Rules</string>
+    <string name="plan_program_title">Your Planning, Your Rules</string>
     <string name="plan_program_instruction_text">Attach workouts to specific days on the calendar</string>
     <string name="plan_program_apply_btn_text">Apply</string>
     <string name="plan_program_attach_btn_text">Attach Workout to Calendar</string>

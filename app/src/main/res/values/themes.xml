@@ -21,6 +21,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="SelectedCircleIndicatorShape">
+        <item name="cornerSize">50%</item>
+    </style>
+
     <style name="RoundedCorners" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>
