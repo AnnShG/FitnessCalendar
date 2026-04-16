@@ -57,7 +57,7 @@
         android:fontFamily="@font/lexend_font"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@color/survey_text_black"/>
+        android:textColor="#1A1A1A"/>
 
     <TextView
         android:id="@+id/trainingDaysCount"
