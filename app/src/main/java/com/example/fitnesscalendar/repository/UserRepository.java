@@ -61,4 +61,30 @@ public class UserRepository {
     public Executor getDatabaseExecutor() {
         return databaseExecutor;
     }
+
+
+    public void updateUserGoals(Long userId, List<String> goalTitles, String customGoalText) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            // dlete existing goals for this user
+            goalDao.deleteGoalsByUserId(userId);
+
+            // insert predefined goals
+            for (String title : goalTitles) {
+                Goal goal = new Goal();
+                goal.setUserId(userId);
+                goal.setGoalTitle(title);
+                goal.setCustom(false);
+                goalDao.insert(goal);
+            }
+
+            // insert custom goal if text is not empty
+            if (customGoalText != null && !customGoalText.isEmpty()) {
+                Goal custom = new Goal();
+                custom.setUserId(userId);
+                custom.setGoalTitle(customGoalText);
+                custom.setCustom(true);
+                goalDao.insert(custom);
+            }
+        });
+    }
 }

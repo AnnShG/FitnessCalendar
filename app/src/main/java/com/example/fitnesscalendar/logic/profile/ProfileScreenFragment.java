@@ -24,7 +24,7 @@ public class ProfileScreenFragment extends Fragment {
 
     private ProfileScreenBinding binding;
     private GoalAdapter goalAdapter;
-    private ProfileViewModel viewModel;
+    private UserViewModel viewModel;
 
     @Override
     public View onCreateView(
@@ -45,7 +45,7 @@ public class ProfileScreenFragment extends Fragment {
         binding.goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.goalsRecyclerView.setAdapter(goalAdapter);
 
-        viewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
+        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         viewModel.getProfileData().observe(getViewLifecycleOwner(), userWithGoals -> {
             if (userWithGoals != null && userWithGoals.user != null) {
@@ -55,6 +55,14 @@ public class ProfileScreenFragment extends Fragment {
                     goalAdapter.setGoals(userWithGoals.goals);
                 }
             }
+        });
+
+        binding.addGoalButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isEditMode", true);
+
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_ProfileFragment_to_SurveyPage3, bundle);
         });
 
         binding.allExercisesRow.setOnClickListener(v -> {

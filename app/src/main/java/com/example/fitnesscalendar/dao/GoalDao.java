@@ -27,5 +27,5 @@ public interface GoalDao {
 
     // Delete a specific goal by its ID
     @Query("DELETE FROM goals WHERE goal_id = :goalId")
-    void deleteGoalById(long goalId);
+    void deleteGoalsByUserId(long goalId);
 }

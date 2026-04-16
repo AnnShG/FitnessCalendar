@@ -12,12 +12,26 @@
     android:layout_height="wrap_content"
     android:paddingBottom="32dp">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_left_percent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="@dimen/guideline_right_percent" />
+
     <TextView
         android:id="@+id/userNameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="tryreye"
+        android:text="Name"
         android:layout_marginTop="45dp"
         android:fontFamily="@font/lexend_font"
         android:textSize="25sp"
@@ -25,7 +39,6 @@
         android:textColor="@color/text_black_colour"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +46,6 @@
         android:id="@+id/goals"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_left"
 
         android:text="@string/profile_my_goals"
         android:layout_marginTop="140dp"
@@ -42,7 +54,7 @@
         android:textStyle="bold"
         android:textColor="@color/text_black_colour"
 
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintTop_toBottomOf="@id/userNameTitle"/>
 
@@ -58,7 +70,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
 
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -69,12 +81,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginHorizontal="16dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintHeight_max="300dp"
         app:layout_constraintTop_toBottomOf="@id/goals"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         tools:listitem="@layout/item_goal" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -174,17 +185,16 @@
         android:id="@+id/settingsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
 
         android:text="@string/profile_settings"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/text_black_colour"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/allWorkoutsRow" />
+        app:layout_constraintTop_toBottomOf="@id/allWorkoutsRow"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

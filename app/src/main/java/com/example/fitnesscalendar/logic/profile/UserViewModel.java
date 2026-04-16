@@ -10,22 +10,32 @@ import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 
-public class ProfileViewModel extends AndroidViewModel {
+import java.util.List;
+
+public class UserViewModel extends AndroidViewModel {
 
     private final UserRepository repository;
 
-    public ProfileViewModel(@NonNull Application application) {
+    public UserViewModel(@NonNull Application application) {
         super(application);
-        // We initialize the repository here so it can talk to the Room DB
         this.repository = new UserRepository(application);
+    }
+
+    public LiveData<UserWithGoals> getLoggedInUser() {
+        return repository.getLatestUser();
     }
 
     public LiveData<UserWithGoals> getProfileData() {
         return repository.getLatestUser();
     }
 
-    // Inside ProfileViewModel.java
     public void updateGoal(Goal goal) {
         repository.updateGoal(goal);
+    }
+
+    public void updateUserGoals(Long userId, List<String> goalTitles, String customGoalText) {
+        if (userId != null) {
+            repository.updateUserGoals(userId, goalTitles, customGoalText);
+        }
     }
 }
