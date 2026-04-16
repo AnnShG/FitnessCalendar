@@ -55,7 +55,7 @@
 
         android:text="@string/calendar_title_text"
         android:fontFamily="@font/lexend_font"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/survey_text_black"/>
 
@@ -73,7 +73,7 @@
         android:clickable="true"
         android:focusable="true"
 
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:foreground="?attr/selectableItemBackground"/>
 </LinearLayout>
 
