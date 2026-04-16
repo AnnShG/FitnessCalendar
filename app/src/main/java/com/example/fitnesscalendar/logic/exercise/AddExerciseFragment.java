@@ -1,5 +1,7 @@
 package com.example.fitnesscalendar.logic.exercise;
 
+import static android.content.Context.INPUT_METHOD_SERVICE;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,7 @@ import com.example.fitnesscalendar.logic.workout.AddWorkoutFragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,16 +140,46 @@ public class AddExerciseFragment extends Fragment {
     }
 
     private void addNewStep() {
-        stepCount++;
-
+        // inflate the new row
         View stepView = getLayoutInflater().inflate(R.layout.new_item_step_row, binding.stepsContainer, false);
 
+        // set the step number
+        stepCount = binding.stepsContainer.getChildCount() + 1;
         TextView number = stepView.findViewById(R.id.stepNumber);
         number.setText(String.valueOf(stepCount));
+
+        TextInputEditText input = stepView.findViewById(R.id.stepInput);
+        input.requestFocus();
+
+        // a small delay to ensure the view is displayed before showing keyboard
+        input.postDelayed(() -> {
+            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }, 100);
+
+        ImageButton removeBtn = stepView.findViewById(R.id.removeStepButton);
+        removeBtn.setOnClickListener(v -> {
+            binding.stepsContainer.removeView(stepView);
+            recalculateStepNumbers();
+        });
 
         binding.stepsContainer.addView(stepView);
     }
 
+    /**
+     * Ensures that if step 2 is deleted, step 3 becomes step 2.
+     */
+    private void recalculateStepNumbers() {
+        int count = binding.stepsContainer.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View row = binding.stepsContainer.getChildAt(i);
+            TextView numText = row.findViewById(R.id.stepNumber);
+            numText.setText(String.valueOf(i + 1));
+        }
+        this.stepCount = count;
+    }
     private void renderCategories(List<Category> categories) {
         binding.typeChipGroup.removeAllViews();
         binding.basicExerciseCategoryChipGroup.removeAllViews();
