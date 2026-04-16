@@ -25,7 +25,15 @@
     <color name="chip_stroke_colour">#C5B9B9</color>
     <color name="chip_text_colour">#000000</color>
 
-<!--    Calendar home-page -->
+<!--    Navigation bottom bar -->
+    <color name="nav_bar_bg_colour">#FFF5F5</color>
+    <color name="nav_bar_icon_bg_colour">#99FFE2D2</color>
+    <color name="nav_bar_icon_checked_colour">#FF6D00</color>
+    <color name="nav_bar_icon_unchecked_colour">#1C1C1C</color>
+    <color name="nav_bar_stroke_colour">#C5B9B9</color>
+    <color name="nav_bar_shadow">#C5B9B9</color>
+
+    <!--    Calendar home-page -->
     <color name="home_page_background_colour">#FFFAFA</color>
     <color name="mindset_button_fill_colour">#F0ECF6</color>
     <color name="mindset_button_stroke_colour">#C0BABA</color>

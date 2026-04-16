@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -16,6 +17,8 @@ import com.example.fitnesscalendar.databinding.ActivityMainBinding;
 import com.example.fitnesscalendar.logic.filter.FilterViewModel;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -52,53 +55,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            // force "Reset" when clicking the profile icon again
-            bottomNav.setOnItemReselectedListener(item -> {
-                if (item.getItemId() == R.id.NavigationProfile) {
-                    navController.popBackStack(R.id.NavigationProfile, false);
+            // force "Reset" when clicking the graph icon again
+            bottomNav.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                if (navController.getCurrentDestination() != null && // check if current screen opened
+                        navController.getCurrentDestination().getId() == itemId) {
+                    return true;
                 }
+
+                NavOptions navOptions = new NavOptions.Builder() // always go to the root of the graph
+                        .setLaunchSingleTop(true)
+                        .setRestoreState(false) // prevents fragment recreation
+                        .setPopUpTo(navController.getGraph().getStartDestinationId(), false)
+                        .build();
+
+                navController.navigate(itemId, null, navOptions);
+                return true;
             });
-//
-//            bottomNav.setOnItemReselectedListener(item -> {
-//                if (item.getItemId() == R.id.CalendarHomePage) {
-//                    navController.popBackStack(R.id.CalendarHomePage, false);
-//                }
-//            });
+
+            bottomNav.setOnItemReselectedListener(item -> {
+                navController.popBackStack(item.getItemId(), false);
+            });
 
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
-                if (id == R.id.CalendarHomePage || id == R.id.NavigationProfile || id == R.id.NavigationGraphs ||
-                        id == R.id.ExercisesList || id == R.id.ExerciseDetail || id == R.id.WorkoutsList ||
-                        id == R.id.WorkoutDetail || id == R.id.PlanProgramScreen || id == R.id.ExerciseSelectScreen) {
-                    bottomNav.setVisibility(View.VISIBLE);
-                } else {
-                    bottomNav.setVisibility(View.GONE);
-                }
+
+                boolean isSurvey =
+                        id == R.id.SurveyPage1 || id == R.id.SurveyPage2 ||
+                        id == R.id.SurveyPage3 || id == R.id.SurveyPage4 ||
+                        id == R.id.FilterScreen;
+
+                bottomNav.setVisibility(isSurvey ? View.GONE : View.VISIBLE);
 
                 if (id != R.id.ExercisesList && id != R.id.ExerciseDetail &&
                         id != R.id.FilterScreen && id != R.id.ExerciseSelectScreen) {
-                    filterViewModel.setExerciseFilters(new java.util.ArrayList<>());
+                    filterViewModel.setExerciseFilters(new ArrayList<>());
                 }
 
-                if (id != R.id.WorkoutsList && id != R.id.WorkoutDetail && id != R.id.FilterScreen) {
-                    filterViewModel.setWorkoutFilters(new java.util.ArrayList<>());
+                if (id != R.id.WorkoutsList && id != R.id.WorkoutSelectScreen &&
+                        id != R.id.WorkoutDetail && id != R.id.FilterScreen) {
+                    filterViewModel.setWorkoutFilters(new ArrayList<>());
                 }
-
-//                bottomNav.setOnItemReselectedListener(item -> {
-//                    if (item.getItemId() == R.id.CalendarHomePage) {
-//                        navController.popBackStack(R.id.CalendarHomePage, false);
-//                    }
-//                });
-
-                bottomNav.setOnItemReselectedListener(item -> {
-                    int itemId = item.getItemId();
-                    if (itemId == R.id.NavigationProfile) {
-                        navController.popBackStack(R.id.NavigationProfile, false);
-                    } else if (itemId == R.id.CalendarHomePage) {
-                        navController.popBackStack(R.id.CalendarHomePage, false);
-                    }
-                });
-
             });
         }
     }

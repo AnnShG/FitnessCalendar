@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The Top Border Line -->
+    <item>
+        <shape>
+            <solid android:color="@color/nav_bar_stroke_colour" />
+        </shape>
+    </item>
+    <item android:top="1dp">
+        <shape>
+            <solid android:color="@color/home_page_background_colour" />
+        </shape>
+    </item>
+</layer-list>

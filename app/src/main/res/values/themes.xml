@@ -1,7 +1,12 @@
 <resources>
     <style name="Base.Theme.FitnessCalendar" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/lexend_font</item>
+    </style>
+
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/nav_bar_icon_bg_colour</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">32dp</item>
     </style>
 
     <style name="CalendarHeaderStyle">
