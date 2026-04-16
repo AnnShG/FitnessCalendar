@@ -43,6 +43,12 @@ public interface WorkoutDao {
     @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :workoutId")
     void deleteExercisesForWorkout(long workoutId);
 
+    @Query("DELETE FROM calendar_day_workout_cross_ref " +
+            "WHERE workout_id = :workoutId " +
+            "AND calendar_day_id IN (SELECT calendar_day_id FROM calendar_days WHERE user_id = :userId) " +
+            "AND is_completed = 0")
+    void deleteOnlyPlannedWorkoutsFromCalendar(long userId, long workoutId);
+
     @Transaction
     @Query("SELECT DISTINCT w.* FROM workouts w " +
             "INNER JOIN workout_exercise_cross_ref we ON w.workout_id = we.workout_id " +

@@ -195,7 +195,6 @@ public class PlanProgramFragment extends Fragment {
         // Commits the temporary 'highlightedDates' to the permanent database
         binding.btnApply.setOnClickListener(v -> {
             if (currentUserId != -1 && currentSelectedWorkoutId != -1 && !highlightedDates.isEmpty()) {
-//                Set<Long> datesToSave = new HashSet<>(highlightedDates);
 
                 if (isEditMode) {
                     // Update logic: Deletes old links for this workout and inserts the new set
