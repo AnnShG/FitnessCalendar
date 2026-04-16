@@ -80,7 +80,7 @@
     <!--    Plus drop-down menu-->
     <string name="menu_add_exercise">Add Exercise</string>
     <string name="menu_add_workout">Add Workout</string>
-    <string name="menu_plan_program">Plan Program</string>
+    <string name="menu_plan_program">Planning</string>
 
 <!--    Calendar legend-->
     <string name="workout_title">Workout Title, Another</string>
