@@ -38,8 +38,14 @@ public class AiRepository {
         ).getYears();
 
         String goals = user.goals.stream()
+                .filter(g -> !g.isCustom) // keep only predefined goals
                 .map(g -> g.goalTitle)
                 .collect(Collectors.joining(", "));
+
+        // in case the user has only custom goals
+        if (goals.isEmpty()) {
+            goals = "General Fitness Improvement";
+        }
 
         long completed = history.stream().filter(h -> h.isCompleted).count();
         long total = history.size();

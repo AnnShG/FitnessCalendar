@@ -1,4 +1,10 @@
 <resources>
+    <!-- Custom style for the DatePicker to force the Spinner look -->
+    <style name="Widget.App.DatePickerSpinner" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">
+        <item name="android:datePickerMode">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
     <style name="Base.Theme.FitnessCalendar" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/lexend_font</item>
     </style>

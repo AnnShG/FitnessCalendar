@@ -36,6 +36,11 @@
         <action
             android:id="@+id/action_SurveyPage3_to_SurveyPage4"
             app:destination="@id/SurveyPage4" />
+
+        <argument
+            android:name="isEditMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
     <fragment

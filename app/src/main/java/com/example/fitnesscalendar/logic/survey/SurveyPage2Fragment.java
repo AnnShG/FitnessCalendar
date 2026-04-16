@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -76,20 +77,25 @@ public class SurveyPage2Fragment extends Fragment {
 
         binding.userInputBirthDate.setOnClickListener(v -> {
             // Get current date for the picker default
-                    final Calendar c = Calendar.getInstance();
-                    int year = c.get(Calendar.YEAR);
-                    int month = c.get(Calendar.MONTH);
-                    int day = c.get(Calendar.DAY_OF_MONTH);
+            final Calendar c = Calendar.getInstance();
+            if (viewModel.getBirthDate() != null) {
+                c.setTime(viewModel.getBirthDate());
+            }
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create the DatePickerDialog with the Spinner theme
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     requireContext(),
-                    android.R.style.Theme_Holo_Light_Dialog_MinWidth, // This creates the 3-column scrollable look
+                    R.style.Widget_App_DatePickerSpinner, // This creates the 3-column scrollable look
                     (view1, selectedYear, selectedMonth, selectedDay) -> {
 
                         // Format the date for the UI
-                        String dateString = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                        String dateString = String.format(Locale.getDefault(), "%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
                         binding.userInputBirthDate.setText(dateString);
+//                        String dateString = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+//                        binding.userInputBirthDate.setText(dateString);
 
                         // Save to ViewModel as a Date object
                         Calendar selectedCal = Calendar.getInstance();
@@ -98,11 +104,13 @@ public class SurveyPage2Fragment extends Fragment {
                     },
                     year, month, day
             );
-            // Make the background transparent so it looks like a clean popup
-            if (datePickerDialog.getWindow() != null) {
-                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            }
 
+            // future dates are not allowed
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+            if (datePickerDialog.getWindow() != null) {
+                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
+            }
             datePickerDialog.show();
         });
 
@@ -154,8 +162,8 @@ public class SurveyPage2Fragment extends Fragment {
         viewModel.setGender(genderValue);
 
         // 2. Define colors
-        int orangeStroke = getResources().getColor(R.color.chip_selected_orange, null); // Make sure 'orange' is in colors.xml
-        int grayStroke = getResources().getColor(R.color.button_stroke_colour, null);
+        int orangeStroke = ContextCompat.getColor(requireContext(), R.color.chip_selected_orange);
+        int grayStroke = ContextCompat.getColor(requireContext(), R.color.button_stroke_colour);
 
         MaterialButton[] buttons = {binding.buttonMale, binding.buttonFemale, binding.buttonNoAnswer};
 
