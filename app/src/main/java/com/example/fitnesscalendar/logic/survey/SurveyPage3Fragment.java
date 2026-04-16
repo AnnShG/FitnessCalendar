@@ -43,6 +43,10 @@ public class SurveyPage3Fragment extends Fragment {
         binding.option5.setOnClickListener(v -> toggleGoalSelection(binding.option5, binding.circle5, "Recover after injury"));
         binding.option6.setOnClickListener(v -> toggleGoalSelection(binding.option6, binding.circle6, "Stay active"));
 
+// --- STATE RESTORATION ---
+        if (viewModel.getCustomGoal() != null) {
+            binding.userInputGoal.setText(viewModel.getCustomGoal());
+        }
 
         // Restoration logic: loop through the saved goals and highlight them
         for (String goal : viewModel.getSelectedGoals()) {
