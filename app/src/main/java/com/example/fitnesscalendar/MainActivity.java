@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             BottomNavigationView bottomNav = binding.bottomNavigation;
             NavigationUI.setupWithNavController(bottomNav, navController);
 
+
             repo.getDatabaseExecutor().execute(() -> {
                 if (repo.hasUser()) {
                     runOnUiThread(() -> {
@@ -54,16 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
             // force "Reset" when clicking the profile icon again
             bottomNav.setOnItemReselectedListener(item -> {
+                int itemId = item.getItemId();
                 if (item.getItemId() == R.id.NavigationProfile) {
                     navController.popBackStack(R.id.NavigationProfile, false);
+                } else if (itemId == R.id.CalendarHomePage) {
+                    navController.popBackStack(R.id.CalendarHomePage, false);
                 }
             });
-//
-//            bottomNav.setOnItemReselectedListener(item -> {
-//                if (item.getItemId() == R.id.CalendarHomePage) {
-//                    navController.popBackStack(R.id.CalendarHomePage, false);
-//                }
-//            });
 
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
@@ -83,12 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 if (id != R.id.WorkoutsList && id != R.id.WorkoutDetail && id != R.id.FilterScreen) {
                     filterViewModel.setWorkoutFilters(new java.util.ArrayList<>());
                 }
-
-//                bottomNav.setOnItemReselectedListener(item -> {
-//                    if (item.getItemId() == R.id.CalendarHomePage) {
-//                        navController.popBackStack(R.id.CalendarHomePage, false);
-//                    }
-//                });
 
                 bottomNav.setOnItemReselectedListener(item -> {
                     int itemId = item.getItemId();
