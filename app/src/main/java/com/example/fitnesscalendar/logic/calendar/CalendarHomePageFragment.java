@@ -137,23 +137,6 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
                         }
                     }
                 });
-
-                // Used GridLayout without adapter to demonstrate the legend under the calendar
-//                workoutViewModel.getUniquePlannedWorkouts(currentUserId).observe(getViewLifecycleOwner(), list -> {
-//                    if (list != null) {
-//                        // group workouts by color
-//                        Map<Integer, List<String>> grouped = new HashMap<>(); // key - colour, value - list of titles
-//                        for (PlannedWorkoutInfo info : list) {
-//                            grouped.computeIfAbsent(info.colour, k -> new ArrayList<>()).add(info.title); // if colour exists, add, else create
-//                        }
-//
-//                        // clear and fill the container
-//                        binding.legendContainer.removeAllViews();
-//                        for (Map.Entry<Integer, List<String>> entry : grouped.entrySet()) {
-//                            addLegendRow(entry.getKey(), String.join(" | ", entry.getValue()));
-//                        }
-//                    }
-//                });
             }
         });
         /**

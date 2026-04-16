@@ -59,7 +59,8 @@ public class CalendarManager {
 
         if (isSameMonth && isSameYear) {
             // If opened the current month, show the full date (e.g., 03 April 2026)
-            sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
+            sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
+//            sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
 
             // temporary calendar combines today's 'day' with the viewed month/year
             Calendar displayCal = (Calendar) currentDate.clone();
@@ -67,7 +68,8 @@ public class CalendarManager {
             return sdf.format(displayCal.getTime());
         } else {
             // If opened the past or future month, show only Month and Year (e.g., May 2026)
-            sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+            sdf = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+//            sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
             return sdf.format(currentDate.getTime());
         }
     }
