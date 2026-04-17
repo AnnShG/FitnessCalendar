@@ -61,7 +61,9 @@
             <TextView
                 style="@style/FilterLabelStyle"
                 android:text="Type"
-                android:layout_marginTop="0dp" /> <com.google.android.material.chip.ChipGroup
+                android:layout_marginTop="0dp" />
+
+            <com.google.android.material.chip.ChipGroup
             android:id="@+id/filterTypeGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

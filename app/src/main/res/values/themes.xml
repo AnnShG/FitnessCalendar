@@ -27,6 +27,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item android:chipBackgroundColor="@color/chip_background_selector" />
+        <item android:textColor="@color/chip_text_color" />
+        <item android:chipIconTint="@color/chip_text_color" />
+        <item android:fontFamily="@font/lexend_font" />
+    </style>
+
     <style name="SelectedCircleIndicatorShape">
         <item name="cornerSize">50%</item>
     </style>
