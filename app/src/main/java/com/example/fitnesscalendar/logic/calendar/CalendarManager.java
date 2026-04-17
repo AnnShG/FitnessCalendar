@@ -47,8 +47,11 @@ public class CalendarManager {
         currentDate.add(Calendar.MONTH, -1);
     }
 
-    public String getHeaderString() {
-
+    /**
+     * Returns the header string (e.g., "April 2026").
+     * If showToday is true, it includes the current day (e.g., "17 April 2026").
+     */
+    public String getHeaderString(boolean showToday) {
         Calendar today = Calendar.getInstance(); // Get the real-world today date
 
         // Compare the month and year of what is showed vs. today
@@ -57,7 +60,7 @@ public class CalendarManager {
 
         SimpleDateFormat sdf;
 
-        if (isSameMonth && isSameYear) {
+        if (showToday && isSameMonth && isSameYear) {
             // If opened the current month, show the full date (e.g., 03 April 2026)
             sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH);
 //            sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
@@ -74,12 +77,9 @@ public class CalendarManager {
         }
     }
 
-    /**
-     * Returns the raw Calendar instance for database queries
-     */
-//    public Calendar getCurrentCalendar() {
-//        return (Calendar) currentDate.clone();
-//    }
+    public String getHeaderString() {
+        return getHeaderString(true);
+    }
 
 //Returns the epochDay (Long) for a given day in the current month.
     public Long getEpochDayForDay(String dayText) { // param - the number from the calendar grid cell

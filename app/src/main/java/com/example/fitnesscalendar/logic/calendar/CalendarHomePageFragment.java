@@ -313,7 +313,7 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
      * Synchronizes the header text and the day grid with the CalendarManager.
      */
 private void updateUI() {
-        binding.monthAndYear.setText(calendarManager.getHeaderString());
+        binding.monthAndYear.setText(calendarManager.getHeaderString(true));
         List<String> days = calendarManager.getDaysOfMonthList();
         adapter.setDays(days);
 

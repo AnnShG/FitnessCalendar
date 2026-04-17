@@ -3,6 +3,7 @@ package com.example.fitnesscalendar.logic.filter;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +111,9 @@ public class FilterScreenFragment extends Fragment {
     }
 
     private Chip createFilterChip(Category category) {
-        Chip chip = new Chip(requireContext());
+//        Chip chip = new Chip(requireContext());
+        ContextThemeWrapper contextWrapper = new ContextThemeWrapper(requireContext(), R.style.CustomChipStyle);
+        Chip chip = new Chip(contextWrapper);
         chip.setText(category.getName());
         chip.setTag(category.getId());
         chip.setCheckable(true);

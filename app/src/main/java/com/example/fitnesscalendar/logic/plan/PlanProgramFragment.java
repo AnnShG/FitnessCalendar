@@ -265,7 +265,7 @@ public class PlanProgramFragment extends Fragment {
     }
 
     private void updateUI() {
-        binding.monthAndYear.setText(manager.getHeaderString());
+        binding.monthAndYear.setText(manager.getHeaderString(true));
         List<String> days = manager.getDaysOfMonthList();
         adapter.setDays(days);
     }

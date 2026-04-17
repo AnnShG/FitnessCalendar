@@ -209,4 +209,11 @@ public class WorkoutRepository {
         return workoutDao.getAllCategories();
     }
 
+    public LiveData<Integer> getTotalWorkoutsInMonth(long start, long end) {
+        return workoutDao.getTotalWorkoutsInMonth(start, end);
+    }
+    public LiveData<Integer> getCompletedWorkoutsInMonth(long start, long end) {
+        return workoutDao.getCompletedWorkoutsInMonth(start, end);
+    }
+
 }

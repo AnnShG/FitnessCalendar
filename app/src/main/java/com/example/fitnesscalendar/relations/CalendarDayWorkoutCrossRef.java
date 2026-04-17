@@ -32,8 +32,5 @@ public class CalendarDayWorkoutCrossRef {
     public long workoutId;
 
     @ColumnInfo(name = "is_completed")
-    public boolean isCompleted = false; // check specific workouts on a specific day
-
-//    @ColumnInfo(name = "scheduled_time")
-//    public String scheduledTime;
+    public boolean isCompleted = false;
 }

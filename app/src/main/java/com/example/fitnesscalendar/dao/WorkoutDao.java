@@ -22,7 +22,6 @@ public interface WorkoutDao {
     @Insert
     long insert(Workout workout);
 
-//    INSERT INTO workout_exercise_cross_ref (workout_id, exercise_id) VALUES (?, ?)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertWorkoutExerciseCrossRef(WorkoutExerciseCrossRef crossRef);
 
@@ -65,4 +64,21 @@ public interface WorkoutDao {
 
     @Query("SELECT * FROM categories ORDER BY category_group ASC")
     LiveData<List<Category>> getAllCategories();
+
+    /**
+     * Counts all workouts scheduled within a specific date range for a monthly view
+     * Joins with calendar_days to access the actual epoch date
+     */
+    @Query("SELECT COUNT(*) FROM calendar_day_workout_cross_ref ref " +
+            "INNER JOIN calendar_days d ON ref.calendar_day_id = d.calendar_day_id " +
+            "WHERE d.date >= :start AND d.date <= :end")
+    LiveData<Integer> getTotalWorkoutsInMonth(long start, long end);
+
+    /**
+     * Counts only completed workouts within a specific date range
+     */
+    @Query("SELECT COUNT(*) FROM calendar_day_workout_cross_ref ref " +
+            "INNER JOIN calendar_days d ON ref.calendar_day_id = d.calendar_day_id " +
+            "WHERE ref.is_completed = 1 AND d.date >= :start AND d.date <= :end")
+    LiveData<Integer> getCompletedWorkoutsInMonth(long start, long end);
 }
