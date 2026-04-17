@@ -232,6 +232,13 @@
     <string name="edit_icon_description">Edit your goal</string>
     <string name="my_goals_hint">My goals</string>
 
+    <!-- Graphs screen -->
+    <string name="graphs_title">Track Progress</string>
+    <string name="discipline_consistency_title">Discipline Consistency</string>
+    <string name="today_date">April 2026</string>
+    <string name="percentCompleted">65%</string>
+    <string name="graphSubtitle">You have completed 5 out of 8 workouts this month. Keep it up!</string>
+
 
     <string name="user_data_settings">My data</string>
 
