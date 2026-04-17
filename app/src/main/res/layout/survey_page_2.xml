@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
+    android:id="@+id/survey2Root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/survey_background_colour">
+    android:background="@color/survey_background_colour"
+    tools:context=".logic.survey.SurveyPage2Fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="24dp"
-        tools:context=".logic.survey.SurveyPage2Fragment">
+        android:paddingBottom="24dp">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"
@@ -33,6 +34,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="30dp"
+            android:visibility="visible"
 
             android:background="@android:color/transparent"
             android:contentDescription="@string/back_button"
@@ -58,8 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/backButton" />
 
-
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -78,6 +78,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
 
         android:text="@string/survey_age"
         android:textSize="@dimen/text_size"
