@@ -31,7 +31,9 @@
             android:backgroundTint="#F05A09"
             android:text="Apply"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_black"
             app:cornerRadius="12dp" />
 
         <TextView
@@ -42,6 +44,8 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="Cancel"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@color/text_black_colour" />
     </LinearLayout>
 

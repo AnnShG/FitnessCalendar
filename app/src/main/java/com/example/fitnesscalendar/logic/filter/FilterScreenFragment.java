@@ -117,7 +117,6 @@ public class FilterScreenFragment extends Fragment {
         chip.setText(category.getName());
         chip.setTag(category.getId());
         chip.setCheckable(true);
-        binding.filterTypeGroup.addView(chip);
 
         CategoryStyleHelper.CategoryStyle style = CategoryStyleHelper.getStyleForGroup(category.getCategoryGroup());
 

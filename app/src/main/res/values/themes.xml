@@ -28,10 +28,10 @@
     </style>
 
     <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-        <item android:chipBackgroundColor="@color/chip_background_selector" />
-        <item android:textColor="@color/chip_text_color" />
-        <item android:chipIconTint="@color/chip_text_color" />
-        <item android:fontFamily="@font/lexend_font" />
+        <item name="chipBackgroundColor">@color/chip_background_selector</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="chipIconTint">@color/chip_text_color</item>
+        <item name="android:fontFamily">@font/lexend_font</item>
     </style>
 
     <style name="SelectedCircleIndicatorShape">
