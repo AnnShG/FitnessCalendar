@@ -25,7 +25,10 @@ public interface GoalDao {
     @Query("SELECT * FROM goals WHERE user_id = :userId")
     List<Goal> getGoalsForUser(long userId);
 
-    // Delete a specific goal by its ID
-    @Query("DELETE FROM goals WHERE goal_id = :goalId")
-    void deleteGoalsByUserId(long goalId);
+    /**
+     * Deletes all goals associated with a specific user.
+     * used when updating the goals to ensure the old set is completely replaced.
+     */
+    @Query("DELETE FROM goals WHERE user_id = :userId")
+    void deleteGoalsByUserId(long userId);
 }

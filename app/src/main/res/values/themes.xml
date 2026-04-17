@@ -1,6 +1,6 @@
 <resources>
     <!-- Custom style for the DatePicker to force the Spinner look -->
-    <style name="Widget.App.DatePickerSpinner" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">
+    <style name="Widget.App.DatePickerSpinner" parent="android:Theme.Holo.Light.Dialog">
         <item name="android:datePickerMode">spinner</item>
         <item name="android:calendarViewShown">false</item>
     </style>
