@@ -36,14 +36,6 @@ public class SurveyViewModel extends AndroidViewModel {
     @Getter
     private String customGoal;
 
-    public void toggleGoal(String goals) {
-        if (selectedGoals.contains(goals)) {
-            selectedGoals.remove(goals); // If it's already there, take it out (unselect)
-        } else {
-            selectedGoals.add(goals); // If it's not there, add it (select)
-        }
-    }
-
     private final UserRepository repository;
 
     public SurveyViewModel(@NotNull Application app) {
@@ -51,18 +43,22 @@ public class SurveyViewModel extends AndroidViewModel {
         repository = new UserRepository(app);
     }
 
+    public void toggleGoal(String goals) {
+        if (selectedGoals.contains(goals)) {
+            selectedGoals.remove(goals);
+        } else {
+            selectedGoals.add(goals);
+        }
+    }
+
     public void saveUserProfileToDatabase() {
-        // 1. Create the User object
         User newUser = new User();
         newUser.setName(this.getName());
         newUser.setBirthDate(this.getBirthDate());
         newUser.setGender(this.getGender());
 
-
-        // 2. Prepare the List of Goal Entities from the selected Set
         ArrayList<Goal> goalEntities = new ArrayList<>();
 
-        // Convert the Set to an ArrayList for the Entity
         if (this.getSelectedGoals() != null) {
             for (String goalText : this.getSelectedGoals()) {
                 Goal goalEntry = new Goal();
@@ -75,12 +71,10 @@ public class SurveyViewModel extends AndroidViewModel {
         if (this.getCustomGoal() != null && !this.getCustomGoal().isEmpty()) {
             Goal customEntry = new Goal();
             customEntry.setGoalTitle(this.getCustomGoal());
-            customEntry.setCustom(true); // Mark as custom for the Profile logic
+            customEntry.setCustom(true);
             goalEntities.add(customEntry);
         }
-        // 2. Use the REPOSITORY (not database) to save
-        // The repository handles the background thread
+        
         repository.insertUserWithGoals(newUser, goalEntities);
     }
-
 }

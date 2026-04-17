@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.repository.UserRepository;
 import com.example.fitnesscalendar.relations.UserWithGoals;
+import com.example.fitnesscalendar.entities.User;
 
 import java.util.List;
 
@@ -29,8 +29,8 @@ public class UserViewModel extends AndroidViewModel {
         return repository.getLatestUser();
     }
 
-    public void updateGoal(Goal goal) {
-        repository.updateGoal(goal);
+    public void updateUser(User user) {
+        repository.updateUser(user);
     }
 
     public void updateUserGoals(Long userId, List<String> goalTitles, String customGoalText) {

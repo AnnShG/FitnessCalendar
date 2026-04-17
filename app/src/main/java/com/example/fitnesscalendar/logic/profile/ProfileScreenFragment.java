@@ -39,7 +39,7 @@ public class ProfileScreenFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        goalAdapter = new GoalAdapter(goal -> showEditDialog(goal));
+        goalAdapter = new GoalAdapter();
 
         // setup the RecyclerView
         binding.goalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -57,7 +57,7 @@ public class ProfileScreenFragment extends Fragment {
             }
         });
 
-        binding.addGoalButton.setOnClickListener(v -> {
+        binding.editGoalButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putBoolean("isEditMode", true);
 
@@ -75,28 +75,14 @@ public class ProfileScreenFragment extends Fragment {
                     .navigate(R.id.action_NavigationProfile_to_WorkoutsList);
         });
 
-    }
+        binding.userData.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isEditMode", true);
 
-    private void showEditDialog(Goal goal) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Edit Goal");
-
-        // Add an EditText to the dialog
-        final EditText input = new EditText(requireContext());
-        input.setText(goal.getGoalTitle());
-        builder.setView(input);
-
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String newText = input.getText().toString().trim();
-            if (!newText.isEmpty()) {
-                goal.setGoalTitle(newText);
-                // 3. Tell ViewModel to save the change
-                viewModel.updateGoal(goal);
-            }
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_ProfileFragment_to_SurveyPage2, bundle);
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
     }
 
     @Override

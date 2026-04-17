@@ -1,10 +1,12 @@
 package com.example.fitnesscalendar.logic.survey;
 
-import android.app.DatePickerDialog;
+import android.app.DatePickerDialog;import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -14,6 +16,8 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
+import com.example.fitnesscalendar.entities.User;
+import com.example.fitnesscalendar.logic.profile.UserViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +27,10 @@ import java.util.Locale;
 public class SurveyPage2Fragment extends Fragment {
 
     private SurveyPage2Binding binding;
-    private SurveyViewModel viewModel;
+    private SurveyViewModel surveyViewModel;
+    private UserViewModel userViewModel;
+    private boolean isEditMode = false;
+    private User currentUser;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,91 +42,114 @@ public class SurveyPage2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Access the shared ViewModel
-        viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class); // creates a new ViewModel if not created
+        // Access the shared ViewModels
+        surveyViewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+
+        if (getArguments() != null) {
+            isEditMode = getArguments().getBoolean("isEditMode", false);
+        }
+
+        if (isEditMode) {
+            // Apply edit mode changes
+            binding.survey2Root.setBackgroundColor(Color.parseColor("#FFFAFA"));
+            binding.textView.setText("Edit my data");
+            binding.continueButton.setText("Save");
+            binding.continueButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_colour));
+            binding.backButton.setVisibility(View.INVISIBLE);
+        }
 
         // --- GENDER SELECTION LOGIC ---
         binding.buttonMale.setOnClickListener(v -> handleGenderSelection(binding.buttonMale, "Male"));
         binding.buttonFemale.setOnClickListener(v -> handleGenderSelection(binding.buttonFemale, "Female"));
         binding.buttonNoAnswer.setOnClickListener(v -> handleGenderSelection(binding.buttonNoAnswer, "Prefer not to say"));
 
-        // --- STATE RESTORATION ---
-        // Pre-fill fields if the user is coming back from Page 3
-        if (viewModel.getName() != null) {
-            binding.userInputName.setText(viewModel.getName());
-        }
-
-        // Restore BirthDate
-        if (viewModel.getBirthDate() != null) {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            binding.userInputBirthDate.setText(format.format(viewModel.getBirthDate()));
-        }
-
-        // Restore Orange Highlight if gender was already selected
-        String savedGender = viewModel.getGender();
-        if (savedGender != null) {
-            switch (savedGender) {
-                case "Male":
-                    handleGenderSelection(binding.buttonMale, "Male");
-                    break;
-                case "Female":
-                    handleGenderSelection(binding.buttonFemale, "Female");
-                    break;
-                case "Prefer not to say":
-                    handleGenderSelection(binding.buttonNoAnswer, "Prefer not to say");
-                    break;
-            }
-        }
-
-        // 1. Make the field un-editable so the keyboard doesn't appear
-        binding.userInputBirthDate.setFocusable(false);
-        binding.userInputBirthDate.setClickable(true);
-
+        // Setup Date Picker
         binding.userInputBirthDate.setOnClickListener(v -> {
-            // Get current date for the picker default
             final Calendar c = Calendar.getInstance();
-            if (viewModel.getBirthDate() != null) {
-                c.setTime(viewModel.getBirthDate());
+            if (surveyViewModel.getBirthDate() != null) {
+                c.setTime(surveyViewModel.getBirthDate());
             }
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            // Create the DatePickerDialog with the Spinner theme
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     requireContext(),
-                    R.style.Widget_App_DatePickerSpinner, // This creates the 3-column scrollable look
+                    R.style.Widget_App_DatePickerSpinner,
                     (view1, selectedYear, selectedMonth, selectedDay) -> {
-
-                        // Format the date for the UI
                         String dateString = String.format(Locale.getDefault(), "%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
                         binding.userInputBirthDate.setText(dateString);
-//                        String dateString = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
-//                        binding.userInputBirthDate.setText(dateString);
 
-                        // Save to ViewModel as a Date object
                         Calendar selectedCal = Calendar.getInstance();
                         selectedCal.set(selectedYear, selectedMonth, selectedDay);
-                        viewModel.setBirthDate(selectedCal.getTime());
+                        surveyViewModel.setBirthDate(selectedCal.getTime());
                     },
                     year, month, day
             );
 
-            // future dates are not allowed
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
             if (datePickerDialog.getWindow() != null) {
-                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             }
             datePickerDialog.show();
         });
 
+        // --- STATE RESTORATION / PRE-FILLING ---
+        // if the ViewModel has no data yet, load it from the actual User Data
+        userViewModel.getLoggedInUser().observe(getViewLifecycleOwner(), userWithGoals -> {
+            if (userWithGoals != null && userWithGoals.user != null) {
+                this.currentUser = userWithGoals.user;
 
-        // --- NAVIGATION ---
+                if (isEditMode) {
+                    // Pre-fill the UI and ViewModel from DB if they haven't been modified yet
+                    if (surveyViewModel.getName() == null) {
+                        surveyViewModel.setName(currentUser.getName());
+                        binding.userInputName.setText(currentUser.getName());
+                    } else {
+                        binding.userInputName.setText(surveyViewModel.getName());
+                    }
+
+                    if (surveyViewModel.getBirthDate() == null) {
+                        surveyViewModel.setBirthDate(currentUser.getBirthDate());
+                    }
+
+                    if (surveyViewModel.getGender() == null) {
+                        surveyViewModel.setGender(currentUser.getGender());
+                    }
+
+                    // Update UI for date and gender
+                    if (surveyViewModel.getBirthDate() != null) {
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                        binding.userInputBirthDate.setText(format.format(surveyViewModel.getBirthDate()));
+                    }
+
+                    if (surveyViewModel.getGender() != null) {
+                        restoreGenderUI(surveyViewModel.getGender());
+                    }
+                }
+            }
+        });
+
+        // Regular onboarding pre-filling (if not in Edit Mode or if user already typed something)
+        if (!isEditMode) {
+            if (surveyViewModel.getName() != null) {
+                binding.userInputName.setText(surveyViewModel.getName());
+            }
+            if (surveyViewModel.getBirthDate() != null) {
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                binding.userInputBirthDate.setText(format.format(surveyViewModel.getBirthDate()));
+            }
+            if (surveyViewModel.getGender() != null) {
+                restoreGenderUI(surveyViewModel.getGender());
+            }
+        }
+
+        // --- NAVIGATION / SAVING ---
         binding.continueButton.setOnClickListener(v -> {
             boolean isValid = true;
 
-            // 1. Validate Capture Name from EditText
             String name = "";
             if (binding.userInputName.getText() != null) {
                 name = binding.userInputName.getText().toString().trim();
@@ -129,24 +159,27 @@ public class SurveyPage2Fragment extends Fragment {
                 binding.userInputName.setError("Please enter your name");
                 isValid = false;
             } else {
-                viewModel.setName(name);
+                surveyViewModel.setName(name);
             }
 
-            // Validation: Ensure birth date is selected
-            if (viewModel.getBirthDate() == null) {
+            if (surveyViewModel.getBirthDate() == null) {
                 binding.userInputBirthDate.setError("Please select your birth date");
-                return;
+                isValid = false;
             }
 
-            // 3. Validate gender
-            if (viewModel.getGender() == null) {
-                android.widget.Toast.makeText(requireContext(), "Please select a gender", android.widget.Toast.LENGTH_SHORT).show();
+            if (surveyViewModel.getGender() == null) {
+                Toast.makeText(requireContext(), "Please select a gender", Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
 
             if (isValid) {
-                NavHostFragment.findNavController(SurveyPage2Fragment.this)
-                        .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
+                if (isEditMode) {
+                    saveUserDataToDatabase();
+                } else {
+                    // regular flow
+                    NavHostFragment.findNavController(SurveyPage2Fragment.this)
+                            .navigate(R.id.action_SurveyPage2_to_SurveyPage3);
+                }
             }
         });
 
@@ -156,27 +189,52 @@ public class SurveyPage2Fragment extends Fragment {
         );
     }
 
+    private void restoreGenderUI(String gender) {
+        switch (gender) {
+            case "Male": handleGenderSelection(binding.buttonMale, "Male"); break;
+            case "Female": handleGenderSelection(binding.buttonFemale, "Female"); break;
+            case "Prefer not to say": handleGenderSelection(binding.buttonNoAnswer, "Prefer not to say"); break;
+        }
+    }
+
+    private void saveUserDataToDatabase() {
+        if (currentUser != null) {
+            currentUser.setName(surveyViewModel.getName());
+            currentUser.setBirthDate(surveyViewModel.getBirthDate());
+            currentUser.setGender(surveyViewModel.getGender());
+
+            userViewModel.updateUser(currentUser);
+            
+            // clear the shared ViewModel state after saving
+            surveyViewModel.setName(null);
+            surveyViewModel.setBirthDate(null);
+            surveyViewModel.setGender(null);
+
+            Toast.makeText(getContext(), "Data updated!", Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(this).navigateUp();
+        } else {
+            Toast.makeText(getContext(), "Error: User session lost", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     // Helper Method
     private void handleGenderSelection(MaterialButton selectedButton, String genderValue) {
-        // 1. Save to ViewModel
-        viewModel.setGender(genderValue);
+        // save to ViewModel
+        surveyViewModel.setGender(genderValue);
 
-        // 2. Define colors
         int orangeStroke = ContextCompat.getColor(requireContext(), R.color.chip_selected_orange);
         int grayStroke = ContextCompat.getColor(requireContext(), R.color.button_stroke_colour);
 
         MaterialButton[] buttons = {binding.buttonMale, binding.buttonFemale, binding.buttonNoAnswer};
 
         for (MaterialButton btn : buttons) {
-            // Force background to stay white
+            // force background to stay white
             btn.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
 
             if (btn.getId() == selectedButton.getId()) {
-                // Highlighted: Orange Stroke
                 btn.setStrokeColor(android.content.res.ColorStateList.valueOf(orangeStroke));
-                btn.setStrokeWidth(6); // Bold orange stroke
+                btn.setStrokeWidth(6);
             } else {
-                // Default: Gray Stroke
                 btn.setStrokeColor(android.content.res.ColorStateList.valueOf(grayStroke));
                 btn.setStrokeWidth(2);
             }
