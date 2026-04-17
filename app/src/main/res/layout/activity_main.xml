@@ -36,9 +36,9 @@
         android:background="@drawable/bg_bottom_nav_with_border"
 
         app:backgroundTint="@null"
-        app:elevation="16dp"
-        android:outlineAmbientShadowColor="@color/text_black_colour"
-        android:outlineSpotShadowColor="@color/text_black_colour"
+        app:elevation="6dp"
+        android:outlineAmbientShadowColor="@color/nav_bar_shadow"
+        android:outlineSpotShadowColor="@color/nav_bar_shadow"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
