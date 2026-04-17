@@ -31,8 +31,8 @@ public class Goal {
     @ColumnInfo(name = "goal_title")
     public String goalTitle;
 
-    @ColumnInfo(name = "goal_description")
-    public String goalDescription;
+    @ColumnInfo(name = "goal_subtitle")
+    public String goalSubtitle;
 
     @ColumnInfo(name = "is_custom")
     public boolean isCustom;

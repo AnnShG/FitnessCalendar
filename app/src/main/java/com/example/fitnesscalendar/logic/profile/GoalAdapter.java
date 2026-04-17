@@ -5,33 +5,25 @@ import android.view.ViewGroup;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ItemGoalBinding;
 import com.example.fitnesscalendar.entities.Goal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// Adapter is a part of a Recycler system - dynamically creates that frames that may fit the screen
+/**
+ * Adapter is a part of a Recycler system - dynamically creates that frames that may fit the screen
+ */
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder> {
-    private OnGoalEditListener listener;
-
     private List<Goal> goals = new ArrayList<>();
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
         notifyDataSetChanged();
-    }
-
-    @FunctionalInterface
-    public interface OnGoalEditListener {
-        void onEditClick(Goal goal);
-    }
-
-    //  constructor to receive the listener
-    public GoalAdapter(OnGoalEditListener listener) {
-        this.listener = listener;
     }
 
     @NonNull
@@ -47,22 +39,25 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
     // Fills the frames (rows) with the goal
     public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
         Goal currentGoal = goals.get(position);
+        
         holder.binding.goalText.setText(currentGoal.getGoalTitle());
-
-        // Visibility logic
-        holder.binding.editGoalButton.setVisibility(currentGoal.isCustom() ? View.VISIBLE : View.GONE);
-
-        // Set the click listener on the pencil icon
-        holder.binding.editGoalButton.setOnClickListener(v -> {
-            listener.onEditClick(currentGoal);
-        });
-
-        // Logic to show edit button only for custom goals
-        if (currentGoal.isCustom()) {
-            holder.binding.editGoalButton.setVisibility(View.VISIBLE);
-        } else {
-            holder.binding.editGoalButton.setVisibility(View.GONE);
+        
+        if (currentGoal.getGoalSubtitle() != null) {
+            holder.binding.goalSubtitle.setVisibility(View.VISIBLE);
+            holder.binding.goalSubtitle.setText(currentGoal.getGoalSubtitle());
         }
+
+        // extra top margin to custom goals to separate from predefined ones
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.itemView.getLayoutParams();
+        if (currentGoal.isCustom()) {
+            params.topMargin = (int) (20 * holder.itemView.getContext().getResources().getDisplayMetrics().density);
+        } else {
+            params.topMargin = 0;
+        }
+        holder.itemView.setLayoutParams(params);
+
+        int black = ContextCompat.getColor(holder.itemView.getContext(), R.color.text_black_colour);
+        holder.binding.goalText.setTextColor(black);
     }
 
     @Override

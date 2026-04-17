@@ -11,7 +11,9 @@ import com.example.fitnesscalendar.entities.Goal;
 import com.example.fitnesscalendar.entities.User;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,25 @@ import java.util.concurrent.Executors;
 public class UserRepository {
     private final UserDao userDao;
     private final GoalDao goalDao;
+
+    // Mapping goal titles + subtitles
+    public static final String GOAL_LOSE_WEIGHT = "Lose Weight";
+    public static final String GOAL_BUILD_MUSCLE = "Build Muscle";
+    public static final String GOAL_GET_STRONGER = "Get Stronger";
+    public static final String GOAL_STAY_FIT = "Stay Fit";
+    public static final String GOAL_RECOVER_INJURY = "Recover after injury";
+    public static final String GOAL_STAY_ACTIVE = "Stay active";
+
+    private static final Map<String, String> GOAL_SUBTITLES = new HashMap<>();
+
+    static {
+        GOAL_SUBTITLES.put(GOAL_LOSE_WEIGHT, "And see what the discipline can create");
+        GOAL_SUBTITLES.put(GOAL_BUILD_MUSCLE, "Increase strength and body mass");
+        GOAL_SUBTITLES.put(GOAL_GET_STRONGER, "Focus on power and endurance");
+        GOAL_SUBTITLES.put(GOAL_STAY_FIT, "Maintain a healthy lifestyle");
+        GOAL_SUBTITLES.put(GOAL_RECOVER_INJURY, "Gentle progression to full health");
+        GOAL_SUBTITLES.put(GOAL_STAY_ACTIVE, "Daily movement for better mood");
+    }
 
     // runs DB on background thread, because Android doesn't allow it to run on main thread
     // a single executor for the whole app
@@ -33,12 +54,13 @@ public class UserRepository {
 
     public void insertUserWithGoals(User user, List<Goal> goals) {
         databaseExecutor.execute(() -> {
-            // 1. Insert User and capture the generated ID
             long newUserId = userDao.insert(user);
 
-            // 2. Link each Goal to that User ID and insert
             for (Goal goal : goals) {
                 goal.setUserId(newUserId);
+                if (!goal.isCustom() && GOAL_SUBTITLES.containsKey(goal.getGoalTitle())) {
+                    goal.setGoalSubtitle(GOAL_SUBTITLES.get(goal.getGoalTitle()));
+                }
                 goalDao.insert(goal);
             }
         });
@@ -51,6 +73,12 @@ public class UserRepository {
     public void updateGoal(Goal goal) {
         databaseExecutor.execute(() -> {
             goalDao.update(goal);
+        });
+    }
+
+    public void updateUser(User user) {
+        databaseExecutor.execute(() -> {
+            userDao.update(user);
         });
     }
 
@@ -74,6 +102,9 @@ public class UserRepository {
                 goal.setUserId(userId);
                 goal.setGoalTitle(title);
                 goal.setCustom(false);
+                if (GOAL_SUBTITLES.containsKey(title)) {
+                    goal.setGoalSubtitle(GOAL_SUBTITLES.get(title));
+                }
                 goalDao.insert(goal);
             }
 
@@ -83,6 +114,7 @@ public class UserRepository {
                 custom.setUserId(userId);
                 custom.setGoalTitle(customGoalText);
                 custom.setCustom(true);
+                custom.setGoalSubtitle("My personal goal");
                 goalDao.insert(custom);
             }
         });
