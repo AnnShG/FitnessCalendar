@@ -231,4 +231,19 @@ public class WorkoutViewModel extends AndroidViewModel {
     public LiveData<List<Category>> getAllCategories() {
         return workoutRepository.getAllCategories();
     }
+
+    public LiveData<Pair<Integer, Integer>> getMonthlyStats(long start, long end) {
+        MediatorLiveData<Pair<Integer, Integer>> result = new MediatorLiveData<>();
+
+        LiveData<Integer> totalSource = workoutRepository.getTotalWorkoutsInMonth(start, end);
+        LiveData<Integer> completedSource = workoutRepository.getCompletedWorkoutsInMonth(start, end);
+
+        result.addSource(totalSource, total ->
+                result.setValue(new Pair<>(total, completedSource.getValue() != null ? completedSource.getValue() : 0)));
+
+        result.addSource(completedSource, completed ->
+                result.setValue(new Pair<>(totalSource.getValue() != null ? totalSource.getValue() : 0, completed)));
+
+        return result;
+    }
 }
