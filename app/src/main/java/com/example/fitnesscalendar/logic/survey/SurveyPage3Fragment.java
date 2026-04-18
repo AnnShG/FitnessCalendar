@@ -103,8 +103,8 @@ public class SurveyPage3Fragment extends Fragment {
                 surveyViewModel.setCustomGoal(userTypedGoal);
 
                 // 3. Validation: Check if they picked a card OR typed something
-                if (surveyViewModel.getSelectedGoals().isEmpty() && userTypedGoal.isEmpty()) {
-                    Toast.makeText(requireContext(), "Please select a goal or write your own", Toast.LENGTH_SHORT).show();
+                if (surveyViewModel.getSelectedGoals().isEmpty()) {
+                    Toast.makeText(requireContext(), "Please select an option goal", Toast.LENGTH_SHORT).show();
                 } else {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_SurveyPage3_to_SurveyPage4);

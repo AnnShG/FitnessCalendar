@@ -1,10 +1,12 @@
 package com.example.fitnesscalendar.logic.exercise;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.telecom.VideoProfile.isVideo;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,7 +33,6 @@ import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
-import com.example.fitnesscalendar.logic.workout.AddWorkoutFragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -262,6 +263,14 @@ public class AddExerciseFragment extends Fragment {
     private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
+                    if (isVideo(uri)) {
+                        long duration = getVideoDuration(uri);
+                        if (duration > 30000) { // milliseconds
+                            Toast.makeText(requireContext(), "Video must be 25 seconds or less", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
                     // Persist permissions so the image shows up even after restart
                     requireContext().getContentResolver().takePersistableUriPermission(uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -269,6 +278,22 @@ public class AddExerciseFragment extends Fragment {
                     binding.exerciseMediaView.setImageURI(uri);
                 }
             });
+
+    private boolean isVideo(Uri uri) {
+        String type = requireContext().getContentResolver().getType(uri);
+        return type != null && type.startsWith("video/");
+    }
+
+    private long getVideoDuration(Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(requireContext(), uri);
+            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            return Long.parseLong(time);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 
     private void openGallery() {
         pickMedia.launch(new PickVisualMediaRequest.Builder()
