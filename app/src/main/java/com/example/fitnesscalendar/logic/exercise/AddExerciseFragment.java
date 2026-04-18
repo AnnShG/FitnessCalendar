@@ -1,7 +1,6 @@
 package com.example.fitnesscalendar.logic.exercise;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static android.telecom.VideoProfile.isVideo;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -301,7 +300,6 @@ public class AddExerciseFragment extends Fragment {
                 .build());
     }
 
-    // turns DV objects (categories) into clickable UI elements
     private void onSaveButtonClicked() {
         // gather info from screen
         String title = binding.exerciseNameInput.getText().toString();
@@ -339,16 +337,21 @@ public class AddExerciseFragment extends Fragment {
             steps.add(step);
         }
 
+        binding.exerciseBasicMuscleCategoryLabel.setTextColor(Color.BLACK);
+        binding.exerciseNameInput.setTextColor(Color.BLACK);
+
         List<Long> selectedCategoryIds = getSelectedCategoryIds();
-        if (selectedCategoryIds.isEmpty()) {
-            Toast.makeText(getContext(), "Please select at least one type or muscle group", Toast.LENGTH_SHORT).show();
-            binding.exerciseTypeLabel.setTextColor(Color.RED);
+        if (!isAnyMuscleSelected()) {
+            Toast.makeText(getContext(), "Please select at least one muscle group", Toast.LENGTH_SHORT).show();
             binding.exerciseBasicMuscleCategoryLabel.setTextColor(Color.RED);
+            binding.exerciseAdvMuscleCategoryLabel.setTextColor(Color.RED);
+            binding.advExerciseMuscleChipGroup.setVisibility(View.VISIBLE);
+            binding.proArrow.setImageResource(R.drawable.ic_arrow_up);
             return;
         }
 
         if (editingId != -1) {
-            exercise.setExerciseId(editingId); // Important: attach the ID so Room knows to update
+            exercise.setExerciseId(editingId);
             exerciseViewModel.updateExercise(exercise, steps, selectedCategoryIds);
         } else {
             exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
@@ -356,6 +359,22 @@ public class AddExerciseFragment extends Fragment {
 
         Toast.makeText(getContext(), "Exercise Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
+    }
+
+    private boolean isAnyMuscleSelected() {
+        ChipGroup[] muscleGroups = {
+                binding.basicExerciseCategoryChipGroup,
+                binding.advExerciseMuscleChipGroup
+        };
+
+        for (ChipGroup group : muscleGroups) {
+            for (int i = 0; i < group.getChildCount(); i++) {
+                if (((Chip) group.getChildAt(i)).isChecked()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void prefillForm(FullExerciseRecord record) {

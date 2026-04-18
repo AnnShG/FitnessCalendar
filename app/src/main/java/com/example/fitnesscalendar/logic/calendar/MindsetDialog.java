@@ -3,7 +3,6 @@ package com.example.fitnesscalendar.logic.calendar;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,13 +55,13 @@ public class MindsetDialog extends DialogFragment {
 
                 binding.quoteTextView.setText("\"" + randomQuote.text + "\"");
                 binding.authorTextView.setText("- " + randomQuote.author);
-            };
+            }
         } catch (Exception e) {
             e.printStackTrace();
             binding.quoteTextView.setText("\"Keep going!\"");
             binding.authorTextView.setText("- App");
-        };
-    };
+        }
+    }
 
     @Override
     public void onDestroyView() {
