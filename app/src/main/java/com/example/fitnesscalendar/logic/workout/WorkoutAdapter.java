@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.WorkoutsListItemGridBinding;
 import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,6 +71,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
         return null;
     }
 
+    /**
+     * Returns a list containing the selected workout ID.
+     */
+    public List<Long> getSelectedIds() {
+        if (selectedWorkoutId == null) return Collections.emptyList();
+        return Collections.singletonList(selectedWorkoutId);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,7 +91,6 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FullWorkoutRecord record = displayedWorkouts.get(position);
-//        FullWorkoutRecord record = allWorkouts.get(position);
         long id = record.workout.getWorkoutId();
 
         // extract the Workout entity from the record
