@@ -48,8 +48,13 @@
         <item name="cornerSize">16dp</item>
     </style>
 
-    <style name="CustomDropDownMenu" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:itemBackground">@color/menu_bg_colour</item>
+<!--    <style name="CustomDropDownMenu" parent="Widget.AppCompat.PopupMenu">-->
+<!--        <item name="android:itemBackground">@color/menu_bg_colour</item>-->
+<!--        <item name="android:textColor">@color/menu_text_colour</item>-->
+<!--    </style>-->
+
+    <style name="Widget.App.PopupMenu.FixedLight" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:background">@color/menu_bg_colour</item>
         <item name="android:textColor">@color/menu_text_colour</item>
     </style>
 
