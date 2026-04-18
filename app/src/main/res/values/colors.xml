@@ -42,6 +42,8 @@
     <color name="plus_button_colour">#FFFAFA</color>
     <color name="plus_button_background_colour">#F05A09</color>
 
+    <color name="today_day_text_colour">#F05A09</color>
+
     <!--    Mindset window-->
     <color name="quote_author_text_colour">#F05A09</color>
     <color name="quote_window_bg_colour">#FFFFFF</color>
