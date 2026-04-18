@@ -84,6 +84,10 @@
         <action
             android:id="@+id/action_CalendarHomePage_to_WorkoutDetail"
             app:destination="@+id/WorkoutDetail" />
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_NavigationGraphs"
+            app:destination="@+id/NavigationGraphs" />
     </fragment>
 
     <fragment

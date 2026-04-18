@@ -226,6 +226,11 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             dialog.show(getParentFragmentManager(), "MindsetDialog");
         });
 
+        binding.trainingDaysCount.setOnClickListener(v -> {
+            NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                    .navigate(R.id.action_CalendarHomePage_to_NavigationGraphs);
+        });
+
         updateUI();
     }
 
