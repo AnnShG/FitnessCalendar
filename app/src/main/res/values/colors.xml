@@ -142,6 +142,7 @@
     <color name="goal_addition_text_colour">#DA9215</color>
     <color name="dumbbell_colour">#DA9215</color>
     <color name="assignment_colour">#DA9215</color>
+    <color name="chat_colour">#439724</color>
 
 <!--    Graphs screen-->
     <color name="graph_progress_bar">#F05A09</color>
