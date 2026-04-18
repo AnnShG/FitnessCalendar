@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.relations.DateColourResult;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,11 +63,38 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     }
 
     // Updates the highlighted state (grey circles) and stores the manager reference
-    public void setHighlightedDates(Set<Long> dates, CalendarManager manager) {
-        this.highlightedDates = dates;
+    public void setHighlightedDates(Set<Long> newDates, CalendarManager manager) {
+//        this.highlightedDates = newDates;
         this.calendarManager = manager;
-        notifyDataSetChanged();
+
+        Set<Long> changedDates = new HashSet<>(this.highlightedDates);
+        changedDates.addAll(newDates);
+
+        Set<Long> oldDates = new HashSet<>(this.highlightedDates);// temp set of old dates to find what was removed/edit
+
+        // Identify unchanged dates and remove them from 'changedDates'
+        Set<Long> unchanged = new HashSet<>(oldDates);
+        unchanged.retainAll(newDates);
+        changedDates.removeAll(unchanged);
+
+        // update the state
+        this.highlightedDates = new HashSet<>(newDates);
+
+        // loop through the visible grid ONCE
+        if (calendarManager != null) {
+            for (int i = 0; i < daysOfMonth.size(); i++) {
+                String dayText = daysOfMonth.get(i);
+                if (!dayText.isEmpty()) {
+                    Long epochDay = calendarManager.getEpochDayForDay(dayText);
+                    // only notify if this specific cell is one of the ones that changed
+                    if (epochDay != null && changedDates.contains(epochDay)) {
+                        notifyItemChanged(i);
+                    }
+                }
+            }
+        }
     }
+
 
     public void setDays(List<String> days) { // Updates the grid days (e.g., when moving from March to April)
         this.daysOfMonth.clear();
@@ -130,8 +158,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         holder.dayOfMonth.setText(dayText);
 
         // Initial Reset - empty calendar at the beginning
+        holder.dayOfMonth.setTypeface(null, android.graphics.Typeface.NORMAL);
         holder.dayOfMonth.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         holder.dayOfMonth.setBackground(null);
+//        holder.dayOfMonth.setTextColor(ContextCompat.getColor(
+//                holder.itemView.getContext(),
+//                R.color.text_black_colour
+//        ));
 
         // handle empty cells
         if (dayText.isEmpty()) {
@@ -150,6 +183,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         Long epochDay = (calendarManager != null) ? calendarManager.getEpochDayForDay(dayText) : null;
 
         if (epochDay != null) {
+            // today highlighting
+            long todayEpoch = LocalDate.now().toEpochDay();
+            if (epochDay == todayEpoch) {
+                holder.dayOfMonth.setTypeface(null, android.graphics.Typeface.BOLD);
+                holder.dayOfMonth.setTextColor(androidx.core.content.ContextCompat.getColor(
+                        holder.itemView.getContext(),
+                        R.color.text_black_colour
+                ));
+            }
+
             // multiple dots - max 3
             List<Integer> colours = dayWorkoutsMap.get(epochDay);
             if (colours != null && !colours.isEmpty()) {
@@ -159,6 +202,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                 holder.dayOfMonth.setCompoundDrawablePadding(6);
             }
 
+            // Selection and Completion backgrounds
             List<Integer> doneColours = completedWorkoutsMap.get(epochDay);
             boolean isSelected = highlightedDates != null && highlightedDates.contains(epochDay);
 
@@ -317,7 +361,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         public CalendarViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            this.dayOfMonth = (TextView) itemView;
+            dayOfMonth = (TextView) itemView;
         }
     }
 }
