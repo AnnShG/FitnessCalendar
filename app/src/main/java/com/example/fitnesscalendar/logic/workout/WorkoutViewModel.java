@@ -163,10 +163,10 @@ public class WorkoutViewModel extends AndroidViewModel {
     public void refreshAiInsight(UserWithGoals userWithGoals, List<DateColourResult> history) {
         // new user?
         long registrationDate = userWithGoals.user.createdAt.getTime();
-        long fourteenDaysInMillis = 14L * 24 * 60 * 60 * 1000;
+        long fourteenDaysInMillis = 7L * 24 * 60 * 60 * 1000;
 
         if ((System.currentTimeMillis() - registrationDate) < fourteenDaysInMillis) {
-            aiAdvice.postValue("Learning your fitness habits. Personalized insights will appear here after 14 days of activity logging.");
+            aiAdvice.postValue("Learning your fitness habits. Personalized insights will appear here after 7 days of activity logging.");
             return;
         }
         // after 14 days - request the advice

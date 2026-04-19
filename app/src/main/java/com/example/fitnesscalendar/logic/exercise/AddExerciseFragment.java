@@ -5,6 +5,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,7 +32,6 @@ import com.example.fitnesscalendar.databinding.AddExerciseScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
-import com.example.fitnesscalendar.logic.workout.AddWorkoutFragment;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -262,6 +262,14 @@ public class AddExerciseFragment extends Fragment {
     private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 if (uri != null) {
+                    if (isVideo(uri)) {
+                        long duration = getVideoDuration(uri);
+                        if (duration > 30000) { // milliseconds
+                            Toast.makeText(requireContext(), "Video must be 25 seconds or less", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+
                     // Persist permissions so the image shows up even after restart
                     requireContext().getContentResolver().takePersistableUriPermission(uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -270,13 +278,28 @@ public class AddExerciseFragment extends Fragment {
                 }
             });
 
+    private boolean isVideo(Uri uri) {
+        String type = requireContext().getContentResolver().getType(uri);
+        return type != null && type.startsWith("video/");
+    }
+
+    private long getVideoDuration(Uri uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(requireContext(), uri);
+            String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            return Long.parseLong(time);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     private void openGallery() {
         pickMedia.launch(new PickVisualMediaRequest.Builder()
                 .setMediaType(ActivityResultContracts.PickVisualMedia.ImageAndVideo.INSTANCE)
                 .build());
     }
 
-    // turns DV objects (categories) into clickable UI elements
     private void onSaveButtonClicked() {
         // gather info from screen
         String title = binding.exerciseNameInput.getText().toString();
@@ -314,16 +337,21 @@ public class AddExerciseFragment extends Fragment {
             steps.add(step);
         }
 
+        binding.exerciseBasicMuscleCategoryLabel.setTextColor(Color.BLACK);
+        binding.exerciseNameInput.setTextColor(Color.BLACK);
+
         List<Long> selectedCategoryIds = getSelectedCategoryIds();
-        if (selectedCategoryIds.isEmpty()) {
-            Toast.makeText(getContext(), "Please select at least one type or muscle group", Toast.LENGTH_SHORT).show();
-            binding.exerciseTypeLabel.setTextColor(Color.RED);
+        if (!isAnyMuscleSelected()) {
+            Toast.makeText(getContext(), "Please select at least one muscle group", Toast.LENGTH_SHORT).show();
             binding.exerciseBasicMuscleCategoryLabel.setTextColor(Color.RED);
+            binding.exerciseAdvMuscleCategoryLabel.setTextColor(Color.RED);
+            binding.advExerciseMuscleChipGroup.setVisibility(View.VISIBLE);
+            binding.proArrow.setImageResource(R.drawable.ic_arrow_up);
             return;
         }
 
         if (editingId != -1) {
-            exercise.setExerciseId(editingId); // Important: attach the ID so Room knows to update
+            exercise.setExerciseId(editingId);
             exerciseViewModel.updateExercise(exercise, steps, selectedCategoryIds);
         } else {
             exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
@@ -331,6 +359,22 @@ public class AddExerciseFragment extends Fragment {
 
         Toast.makeText(getContext(), "Exercise Saved!", Toast.LENGTH_SHORT).show();
         NavHostFragment.findNavController(this).navigateUp();
+    }
+
+    private boolean isAnyMuscleSelected() {
+        ChipGroup[] muscleGroups = {
+                binding.basicExerciseCategoryChipGroup,
+                binding.advExerciseMuscleChipGroup
+        };
+
+        for (ChipGroup group : muscleGroups) {
+            for (int i = 0; i < group.getChildCount(); i++) {
+                if (((Chip) group.getChildAt(i)).isChecked()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void prefillForm(FullExerciseRecord record) {

@@ -204,7 +204,7 @@ public class SurveyPage2Fragment extends Fragment {
             currentUser.setGender(surveyViewModel.getGender());
 
             userViewModel.updateUser(currentUser);
-            
+
             // clear the shared ViewModel state after saving
             surveyViewModel.setName(null);
             surveyViewModel.setBirthDate(null);

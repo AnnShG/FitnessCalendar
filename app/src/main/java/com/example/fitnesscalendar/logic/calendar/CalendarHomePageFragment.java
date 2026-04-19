@@ -1,13 +1,16 @@
 package com.example.fitnesscalendar.logic.calendar;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -18,8 +21,6 @@ import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.DateColourResult;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,46 +69,9 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
 
         /**
          * Plus Button Logic: Opens a dropdown menu.
-         * Includes a "Reflection" hack to force Android to show icons inside the PopupMenu,
-         * as icons are hidden by default in standard PopupMenus.
+         * Uses MenuPopupHelper to force icons to be displayed.
          */
-        binding.plusButton.setOnClickListener(v -> { // 'v' represents the View that was clicked
-            // Create the PopupMenu anchored to the plusButton
-            PopupMenu popup = new PopupMenu(requireContext(), v);
-            popup.getMenuInflater().inflate(R.menu.plus_dropdown_menu, popup.getMenu());
-
-            try {
-                // Access the private field "mPopup" inside the PopupMenu class which holds the actual window logic
-                Field field = popup.getClass().getDeclaredField("mPopup");
-                field.setAccessible(true);
-                Object menuPopupHelper = field.get(popup);
-                // Invoking hidden 'setForceShowIcon' method to enable icons
-                Class<?> cls = Class.forName("com.android.internal.view.menu.MenuPopupHelper");
-                Method method = cls.getDeclaredMethod("setForceShowIcon", boolean.class);
-                method.invoke(menuPopupHelper, true);
-            } catch (Exception e) {
-                android.util.Log.w("CalendarHome", "Could not force icons in PopupMenu", e);
-            }
-
-            popup.setOnMenuItemClickListener(item -> {
-                int id = item.getItemId(); // item (tag) id that is one menu.xml
-                if (id == R.id.action_add_exercise) {
-                    NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
-                    return true;
-                } else if (id == R.id.action_add_workout) {
-                    NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_CalendarHomePage_to_AddWorkoutScreen);
-                    return true;
-                } else if (id == R.id.action_plan_program) {
-                    NavHostFragment.findNavController(this)
-                            .navigate(R.id.action_CalendarHomePage_to_PlanProgramScreen);
-                    return true;
-                }
-                return false;
-            });
-            popup.show();
-        });
+        binding.plusButton.setOnClickListener(v -> showPlusMenu(v)); //'v' represents the View that was clicked
 
         // Initialize the Calendar Adapter and attach it to the RecyclerView
         adapter = new CalendarAdapter(daysList, this);
@@ -262,7 +226,58 @@ public class CalendarHomePageFragment extends Fragment implements CalendarAdapte
             dialog.show(getParentFragmentManager(), "MindsetDialog");
         });
 
+        binding.trainingDaysCount.setOnClickListener(v -> {
+            NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                    .navigate(R.id.action_CalendarHomePage_to_NavigationGraphs);
+        });
+
         updateUI();
+    }
+
+    /**
+     * Called when a specific date is tapped on the grid.
+     * Helper method to show the Plus Button menu with icons using the standard Android MenuPopupHelper.
+     * Annotated with @SuppressLint("RestrictedApi") to suppress lint warnings about using internal APIs.
+     */
+    @SuppressLint("RestrictedApi")
+    private void showPlusMenu(View v) {
+//        MenuBuilder menuBuilder = new MenuBuilder(requireContext());
+//        requireActivity().getMenuInflater().inflate(R.menu.plus_dropdown_menu, menuBuilder);
+//        MenuPopupHelper optionsMenu = new MenuPopupHelper(requireContext(), menuBuilder, v);
+        // Apply the fixed light theme wrapper to ensure the menu looks correct even in dark mode
+
+        ContextThemeWrapper wrapper = new ContextThemeWrapper(requireContext(), R.style.Widget_App_PopupMenu_FixedLight);
+        MenuBuilder menuBuilder = new MenuBuilder(wrapper);
+        requireActivity().getMenuInflater().inflate(R.menu.plus_dropdown_menu, menuBuilder);
+
+        MenuPopupHelper optionsMenu = new MenuPopupHelper(wrapper, menuBuilder, v);
+        optionsMenu.setForceShowIcon(true);
+
+        menuBuilder.setCallback(new MenuBuilder.Callback() {
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuBuilder menu, @NonNull android.view.MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.action_add_exercise) {
+                    NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                            .navigate(R.id.action_CalendarHomePage_to_AddExerciseScreen);
+                    return true;
+                } else if (id == R.id.action_add_workout) {
+                    NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                            .navigate(R.id.action_CalendarHomePage_to_AddWorkoutScreen);
+                    return true;
+                } else if (id == R.id.action_plan_program) {
+                    NavHostFragment.findNavController(CalendarHomePageFragment.this)
+                            .navigate(R.id.action_CalendarHomePage_to_PlanProgramScreen);
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onMenuModeChange(@NonNull MenuBuilder menu) {}
+        });
+
+        optionsMenu.show();
     }
 
     /**

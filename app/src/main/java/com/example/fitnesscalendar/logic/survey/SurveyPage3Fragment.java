@@ -2,6 +2,8 @@ package com.example.fitnesscalendar.logic.survey;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +74,21 @@ public class SurveyPage3Fragment extends Fragment {
             binding.userInputGoal.setText(surveyViewModel.getCustomGoal());
         }
 
+        // Listen for real-time changes to the custom goal to prevent data loss when navigating away
+        binding.userInputGoal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Update the ViewModel immediately as the user types
+                surveyViewModel.setCustomGoal(s.toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         restoreSelectionUI();
 
         // --- NAVIGATION ---
@@ -79,12 +96,15 @@ public class SurveyPage3Fragment extends Fragment {
             if (isEditMode) {
                 saveGoalsToDatabase();
             } else {
+                // 1. Get the text from the EditText
                 String userTypedGoal = binding.userInputGoal.getText().toString().trim();
 
+                // 2. Save it to the ViewModel
                 surveyViewModel.setCustomGoal(userTypedGoal);
 
-                if (surveyViewModel.getSelectedGoals().isEmpty() && userTypedGoal.isEmpty()) {
-                    Toast.makeText(requireContext(), "Please select a goal or write your own", Toast.LENGTH_SHORT).show();
+                // 3. Validation: Check if they picked a card OR typed something
+                if (surveyViewModel.getSelectedGoals().isEmpty()) {
+                    Toast.makeText(requireContext(), "Please select an option goal", Toast.LENGTH_SHORT).show();
                 } else {
                     NavHostFragment.findNavController(this)
                             .navigate(R.id.action_SurveyPage3_to_SurveyPage4);

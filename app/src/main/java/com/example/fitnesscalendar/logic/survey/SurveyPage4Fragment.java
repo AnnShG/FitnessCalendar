@@ -1,5 +1,7 @@
 package com.example.fitnesscalendar.logic.survey;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,17 +34,24 @@ public class SurveyPage4Fragment extends Fragment {
         // Get the SAME ViewModel used in all previous fragments
         viewModel = new ViewModelProvider(requireActivity()).get(SurveyViewModel.class);
 
-        // Inside SurveyPage4Fragment.java
         binding.continueButton.setOnClickListener(v -> {
-            // 1. Save data
             viewModel.saveUserProfileToDatabase();
 
-            // 1.2. Visual feedback
+            SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+            prefs.edit().putBoolean("is_survey_completed", true).apply();
+
             Toast.makeText(requireContext(), "Profile Saved Successfully!", Toast.LENGTH_SHORT).show();
 
-            // 2. Navigate - Double check this ID in your nav_graph.xml!
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
+//            NavHostFragment.findNavController(this)
+//                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
+
+            NavHostFragment.findNavController(this).navigate(
+                    R.id.action_SurveyPage4_to_CalendarHomePage,
+                    null,
+                    new androidx.navigation.NavOptions.Builder()
+                            .setPopUpTo(R.id.SurveyPage1, true)
+                            .build()
+            );
         });
 
     }

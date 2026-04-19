@@ -72,6 +72,12 @@ public class WorkoutSelectFragment extends WorkoutsListFragment {
             });
         }
 
+        // check if workouts are already selected when the view is created/recreated
+        if (workoutAdapter != null) {
+            int currentSelectionCount = workoutAdapter.getSelectedIds().size();
+            updateSelectionButton(currentSelectionCount);
+        }
+
 //        When the "Add Workout" button is clicked, selected workout data is packed
 //        into a result bundle and sent back to the PlanProgramFragment.
         binding.selectWorkoutBtn.setOnClickListener(v -> {

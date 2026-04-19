@@ -1,10 +1,13 @@
 package com.example.fitnesscalendar.logic.profile;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -81,6 +84,18 @@ public class ProfileScreenFragment extends Fragment {
 
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_ProfileFragment_to_SurveyPage2, bundle);
+        });
+
+
+        binding.feedbackRow.setOnClickListener(v -> {
+            String googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc_lZKgH7xRykT1Jq5sijYudYv2TC3iWczmcu81h4aVd5JKEg/viewform?usp=header";
+
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(googleFormUrl));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Unable to open feedback form", Toast.LENGTH_SHORT).show();
+            }
         });
 
     }

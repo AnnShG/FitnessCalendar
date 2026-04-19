@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/SurveyPage1">
 
     <fragment
@@ -84,6 +83,10 @@
         <action
             android:id="@+id/action_CalendarHomePage_to_WorkoutDetail"
             app:destination="@+id/WorkoutDetail" />
+
+        <action
+            android:id="@+id/action_CalendarHomePage_to_NavigationGraphs"
+            app:destination="@+id/NavigationGraphs" />
     </fragment>
 
     <fragment
