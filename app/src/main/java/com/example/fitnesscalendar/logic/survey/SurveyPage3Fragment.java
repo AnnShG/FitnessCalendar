@@ -58,7 +58,7 @@ public class SurveyPage3Fragment extends Fragment {
             binding.survey3Root.setBackgroundResource(R.color.home_page_background_colour);
             binding.continueButton.setText("Save");
             binding.continueButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_colour));
-            binding.backButton.setVisibility(View.GONE);
+            binding.backButton.setVisibility(View.INVISIBLE);
         }
 
         // --- GOAL SELECTION LOGIC ---
