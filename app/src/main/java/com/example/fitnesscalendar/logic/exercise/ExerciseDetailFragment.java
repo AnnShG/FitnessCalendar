@@ -75,9 +75,22 @@ public class ExerciseDetailFragment extends Fragment {
         binding.exerciseNotesText.setText(record.exercise.getNote());
 
         if (record.exercise.getMediaUri() != null && !record.exercise.getMediaUri().isEmpty()) {
-            Glide.with(this)
-                    .load(Uri.parse(record.exercise.getMediaUri()))
-                    .into(binding.mainExerciseImage);
+            Uri uri = Uri.parse(record.exercise.getMediaUri());
+            if (isVideo(uri)) {
+                binding.mainExerciseImage.setVisibility(View.GONE);
+                binding.mainExerciseVideo.setVisibility(View.VISIBLE);
+                binding.mainExerciseVideo.setVideoURI(uri);
+                binding.mainExerciseVideo.setOnPreparedListener(mp -> {
+                    mp.setLooping(true);
+                    binding.mainExerciseVideo.start();
+                });
+            } else {
+                binding.mainExerciseVideo.setVisibility(View.GONE);
+                binding.mainExerciseImage.setVisibility(View.VISIBLE);
+                Glide.with(this)
+                        .load(uri)
+                        .into(binding.mainExerciseImage);
+            }
         }
 
         binding.primaryCategoryChipGroup.removeAllViews();
@@ -151,6 +164,11 @@ public class ExerciseDetailFragment extends Fragment {
             binding.exerciseNotesText.setVisibility(View.VISIBLE);
             binding.exerciseNotesText.setText(notes);
         }
+    }
+
+    private boolean isVideo(Uri uri) {
+        String type = requireContext().getContentResolver().getType(uri);
+        return type != null && type.startsWith("video/");
     }
 
     private Chip createDetailChip(Category category, int bgColour, int strokeColour) {

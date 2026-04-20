@@ -2,12 +2,14 @@ package com.example.fitnesscalendar.logic.workout;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +42,7 @@ public class WorkoutDetailFragment extends Fragment {
 
         galleryAdapter = new WorkoutGalleryAdapter(uri -> {
             if (uri != null && !uri.isEmpty()) {
-                showFullScreenImage(requireContext(), uri);
+                showFullScreenMedia(requireContext(), uri);
             }
         });
 
@@ -48,11 +50,6 @@ public class WorkoutDetailFragment extends Fragment {
 
         binding.rvExerciseGallery.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.rvExerciseGallery.setAdapter(galleryAdapter);
-
-//        galleryAdapter.setOnImageClickListener(uri -> {
-//            if (uri != null && !uri.isEmpty()) {
-//                showFullScreenImage(requireContext(), uri);
-//            }});
 
         galleryAdapter.setOnInfoClickListener(exerciseId -> {
             Bundle bundle = new Bundle();
@@ -75,8 +72,7 @@ public class WorkoutDetailFragment extends Fragment {
         binding.backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
 
         binding.editWorkoutButton.setOnClickListener(v -> {
-            Bundle editBundle = new Bundle(); // key-value pair
-            // Pass the workoutId that is currently viewing
+            Bundle editBundle = new Bundle();
             editBundle.putLong("workoutId", workoutId);
 
             NavHostFragment.findNavController(this)
@@ -119,21 +115,40 @@ public class WorkoutDetailFragment extends Fragment {
         galleryAdapter.setExercises(record.exercises);
     }
 
-    private void showFullScreenImage(Context context, String uriString) {
-        // Create a dialog with a custom style (no title, transparent background)
+    private void showFullScreenMedia(Context context, String uriString) {
+        Uri uri = Uri.parse(uriString);
+        boolean isVideo = isVideoUri(context, uri);
+
         android.app.Dialog dialog = new android.app.Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        dialog.setContentView(R.layout.full_screen_image);
+        dialog.setContentView(R.layout.full_screen_media);
 
         ImageView fullImage = dialog.findViewById(R.id.fullScreenImageView);
+        VideoView fullVideo = dialog.findViewById(R.id.fullScreenVideoView);
         ImageButton closeBtn = dialog.findViewById(R.id.btnCloseFullscreen);
 
-        // Load the image using Glide (which you have in your dependencies)
-        Glide.with(context)
-                .load(android.net.Uri.parse(uriString))
-                .into(fullImage);
+        if (isVideo) {
+            fullImage.setVisibility(View.GONE);
+            fullVideo.setVisibility(View.VISIBLE);
+            fullVideo.setVideoURI(uri);
+            fullVideo.setOnPreparedListener(mp -> {
+                mp.setLooping(true);
+                fullVideo.start();
+            });
+        } else {
+            fullVideo.setVisibility(View.GONE);
+            fullImage.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(uri)
+                    .into(fullImage);
+        }
 
         closeBtn.setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+    }
+
+    private boolean isVideoUri(Context context, Uri uri) {
+        String type = context.getContentResolver().getType(uri);
+        return type != null && type.startsWith("video/");
     }
 
     @Override

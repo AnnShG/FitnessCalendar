@@ -265,16 +265,27 @@ public class AddExerciseFragment extends Fragment {
                     if (isVideo(uri)) {
                         long duration = getVideoDuration(uri);
                         if (duration > 30000) { // milliseconds
-                            Toast.makeText(requireContext(), "Video must be 25 seconds or less", Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(), "Video must be 30 seconds or less", Toast.LENGTH_LONG).show();
                             return;
                         }
+                        
+                        binding.exerciseMediaView.setVisibility(View.GONE);
+                        binding.exerciseVideoView.setVisibility(View.VISIBLE);
+                        binding.exerciseVideoView.setVideoURI(uri);
+                        binding.exerciseVideoView.setOnPreparedListener(mp -> {
+                            mp.setLooping(true);
+                            binding.exerciseVideoView.start();
+                        });
+                    } else {
+                        binding.exerciseVideoView.setVisibility(View.GONE);
+                        binding.exerciseMediaView.setVisibility(View.VISIBLE);
+                        binding.exerciseMediaView.setImageURI(uri);
                     }
 
                     // Persist permissions so the image shows up even after restart
                     requireContext().getContentResolver().takePersistableUriPermission(uri,
                             Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     selectedMediaUri = uri.toString();
-                    binding.exerciseMediaView.setImageURI(uri);
                 }
             });
 
@@ -291,6 +302,10 @@ public class AddExerciseFragment extends Fragment {
             return Long.parseLong(time);
         } catch (Exception e) {
             return 0;
+        } finally {
+            try {
+                retriever.release();
+            } catch (Exception ignored) {}
         }
     }
 
@@ -351,7 +366,7 @@ public class AddExerciseFragment extends Fragment {
         }
 
         if (editingId != -1) {
-            exercise.setExerciseId(editingId);
+            exercise.setExerciseId(editingId); // if editing attach the ID so Room knows to update
             exerciseViewModel.updateExercise(exercise, steps, selectedCategoryIds);
         } else {
             exerciseViewModel.saveExercise(exercise, steps, selectedCategoryIds);
@@ -384,7 +399,21 @@ public class AddExerciseFragment extends Fragment {
 
         if (record.exercise.getMediaUri() != null && !record.exercise.getMediaUri().isEmpty()) {
             this.selectedMediaUri = record.exercise.getMediaUri();
-            binding.exerciseMediaView.setImageURI(Uri.parse(selectedMediaUri));
+            Uri uri = Uri.parse(selectedMediaUri);
+            
+            if (isVideo(uri)) {
+                binding.exerciseMediaView.setVisibility(View.GONE);
+                binding.exerciseVideoView.setVisibility(View.VISIBLE);
+                binding.exerciseVideoView.setVideoURI(uri);
+                binding.exerciseVideoView.setOnPreparedListener(mp -> {
+                    mp.setLooping(true);
+                    binding.exerciseVideoView.start();
+                });
+            } else {
+                binding.exerciseVideoView.setVisibility(View.GONE);
+                binding.exerciseMediaView.setVisibility(View.VISIBLE);
+                binding.exerciseMediaView.setImageURI(uri);
+            }
         }
 
         binding.stepsContainer.removeAllViews();
