@@ -72,20 +72,34 @@
             app:layout_constraintTop_toTopOf="@id/backButton"/>
 
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/mainExerciseImage"
+        <FrameLayout
+            android:id="@+id/mediaContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-
+            android:minHeight="200dp"
             app:layout_constraintEnd_toEndOf="@id/guidelineRight"
             app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/exerciseTitle"
-            app:shapeAppearanceOverlay="@style/RoundedCorners"
-            tools:srcCompat="@drawable/sample_exercise" />
+            app:layout_constraintTop_toBottomOf="@id/exerciseTitle">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/mainExerciseImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:maxHeight="300dp"
+                app:shapeAppearanceOverlay="@style/RoundedCorners"
+                tools:srcCompat="@drawable/sample_exercise" />
+
+            <VideoView
+                android:id="@+id/mainExerciseVideo"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/categoryLabel"
@@ -100,7 +114,7 @@
             android:textStyle="bold"
 
             app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/mainExerciseImage" />
+            app:layout_constraintTop_toBottomOf="@id/mediaContainer" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/primaryCategoryChipGroup"

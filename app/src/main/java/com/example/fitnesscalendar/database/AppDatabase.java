@@ -7,6 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.ArrayList;
@@ -30,11 +31,10 @@ import com.example.fitnesscalendar.relations.*;
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
                 AiMessage.class
 },
-        version = 27,
+        version = 28,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
-
 public abstract class AppDatabase extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 4; // number of bg threads to use for database operations
     public static final ExecutorService databaseWriteExecutor =
@@ -56,16 +56,27 @@ public abstract class AppDatabase extends RoomDatabase {
      * Database Lifecycle Callback.
      * Logic here runs when the database is first created or every time it is opened.
      */
-    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {@Override
-    public void onCreate(@NonNull SupportSQLiteDatabase db) {
-        super.onCreate(db);
-        fillCategories(); // Pre-populate data only once upon first installation
-    }
+    static final Migration MIGRATION_27_28 = new Migration(27, 28) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // database.execSQL("ALTER TABLE exercises ADD COLUMN level TEXT DEFAULT 'Beginner'");
+            
+            // database.execSQL("CREATE TABLE IF NOT EXISTS `new_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT)");
+            
+            // empty if no changes
+        }
+    };
+
+    private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            fillCategories();
+        }
 
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // Every time the app starts, ensure categories present
             fillCategories();
         }
     };
@@ -95,7 +106,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class, "fitness_calendar_db")
                                 .addCallback(roomCallback)
-                                .fallbackToDestructiveMigration()
+                                .addMigrations(MIGRATION_27_28)
                                 .build();
                 }
             }
@@ -108,7 +119,6 @@ public abstract class AppDatabase extends RoomDatabase {
      */
     private static List<Category> getPredefinedCategories() {
         List<Category> categories = new ArrayList<>();
-
         String[] types = {"Strength", "Cardio", "Bodyweight", "Stretching"};
         for (String s : types) categories.add(new Category(null, s, "TYPE"));
 

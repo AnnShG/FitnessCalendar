@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/add_exercise_steps_hint"
+        android:textColorHint="@color/text_black"
         android:fontFamily="@font/lexend_font"
         android:textSize="14sp" />
 

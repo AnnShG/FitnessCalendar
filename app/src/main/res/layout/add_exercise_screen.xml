@@ -78,32 +78,42 @@
             app:layout_constraintBottom_toBottomOf="@id/backButton"
             app:layout_constraintTop_toTopOf="@id/backButton" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/exerciseMediaView"
+        <FrameLayout
+            android:id="@+id/mediaContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-
-            android:adjustViewBounds="true"
-            android:maxHeight="300dp"
             android:minHeight="200dp"
-            android:scaleType="fitCenter"
-            android:elevation="6dp"
-
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
-            android:background="@color/add_exercise_media_container_bg_colour"
-
-            android:contentDescription="@string/add_exercise_media_description"
-            app:strokeColor="@color/text_black_colour"
-            app:strokeWidth="1dp"
-            app:shapeAppearanceOverlay="@style/RoundedCorners"
-
             app:layout_constraintTop_toBottomOf="@id/addExerciseTitle"
             app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
-            android:src="@drawable/ic_add_photo" />
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/exerciseMediaView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="300dp"
+                android:scaleType="fitCenter"
+                android:elevation="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:background="@color/add_exercise_media_container_bg_colour"
+                android:contentDescription="@string/add_exercise_media_description"
+                app:strokeColor="@color/text_black_colour"
+                app:strokeWidth="1dp"
+                app:shapeAppearanceOverlay="@style/RoundedCorners"
+                android:src="@drawable/ic_add_photo" />
+
+            <VideoView
+                android:id="@+id/exerciseVideoView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
 
         <TextView
@@ -118,7 +128,7 @@
             android:textStyle="normal"
             android:textColor="@color/text_black_colour"
 
-            app:layout_constraintTop_toBottomOf="@id/exerciseMediaView"
+            app:layout_constraintTop_toBottomOf="@id/mediaContainer"
             app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -138,6 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/exercise_title_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,6 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/exercise_description_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -253,6 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/exercise_notes_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 

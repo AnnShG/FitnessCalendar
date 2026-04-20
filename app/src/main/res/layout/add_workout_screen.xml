@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/workout_title_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,6 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/workout_description_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -176,6 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/workout_notes_hint"
+                android:textColorHint="@color/text_black"
                 android:fontFamily="@font/lexend_font" />
         </com.google.android.material.textfield.TextInputLayout>
 

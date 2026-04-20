@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/text_black_colour">
+    android:background="@android:color/black">
 
     <ImageView
         android:id="@+id/fullScreenImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:visibility="visible" />
+
+    <VideoView
+        android:id="@+id/fullScreenVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/btnCloseFullscreen"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="20dp"
         android:layout_gravity="top|end"
+        android:layout_margin="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_close"
-        android:contentDescription="Close"
-        app:tint="@color/close_icon_colour" />
+        app:tint="@android:color/white" />
+
 </FrameLayout>
