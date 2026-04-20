@@ -42,9 +42,6 @@ public class SurveyPage4Fragment extends Fragment {
 
             Toast.makeText(requireContext(), "Profile Saved Successfully!", Toast.LENGTH_SHORT).show();
 
-//            NavHostFragment.findNavController(this)
-//                    .navigate(R.id.action_SurveyPage4_to_CalendarHomePage);
-
             NavHostFragment.findNavController(this).navigate(
                     R.id.action_SurveyPage4_to_CalendarHomePage,
                     null,
