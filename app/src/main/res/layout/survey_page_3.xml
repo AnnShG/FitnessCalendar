@@ -112,6 +112,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,6 +128,8 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
+
 
                 app:layout_constraintEnd_toStartOf="@id/circle1"
                 app:layout_constraintStart_toStartOf="@id/cardLoseWeight"
@@ -184,6 +187,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -199,6 +203,7 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle2"
                 app:layout_constraintStart_toStartOf="@id/textTitle2"
@@ -255,6 +260,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle3"
                 app:layout_constraintStart_toStartOf="parent"
@@ -270,6 +276,7 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle3"
                 app:layout_constraintStart_toStartOf="@id/textTitle3"
@@ -326,6 +333,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle4"
                 app:layout_constraintStart_toStartOf="parent"
@@ -341,6 +349,7 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle4"
                 app:layout_constraintStart_toStartOf="@id/textTitle4"
@@ -397,6 +406,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -412,6 +422,7 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle5"
                 app:layout_constraintStart_toStartOf="@id/textTitle5"
@@ -468,6 +479,7 @@
                 android:textStyle="bold"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -483,6 +495,7 @@
                 android:textStyle="normal"
                 android:paddingLeft="35dp"
                 android:paddingRight="35dp"
+                android:textColor="@color/survey_text_black"
 
                 app:layout_constraintEnd_toStartOf="@id/circle6"
                 app:layout_constraintStart_toStartOf="@id/cardStayActive"
@@ -531,8 +544,7 @@
             android:id="@+id/userInputGoal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:textColor="@color/survey_text_black"
+            android:textColor="@color/text_black_colour"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

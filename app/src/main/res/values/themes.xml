@@ -5,7 +5,7 @@
         <item name="android:calendarViewShown">false</item>
     </style>
 
-    <style name="Base.Theme.FitnessCalendar" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.FitnessCalendar" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:fontFamily">@font/lexend_font</item>
     </style>
 
@@ -54,7 +54,6 @@
 <!--    </style>-->
 
     <style name="Widget.App.PopupMenu.FixedLight" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:background">@color/menu_bg_colour</item>
         <item name="android:textColor">@color/menu_text_colour</item>
     </style>
 
