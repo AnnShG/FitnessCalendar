@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.exercise;
+package com.example.fitnesscalendar.viewModel;
 
 import android.app.Application;
 import android.util.Pair;

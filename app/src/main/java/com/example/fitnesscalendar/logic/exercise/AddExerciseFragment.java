@@ -33,6 +33,7 @@ import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Step;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
+import com.example.fitnesscalendar.viewModel.ExerciseViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;

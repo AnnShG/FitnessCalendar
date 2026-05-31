@@ -41,8 +41,6 @@ public class Goal {
     @ColumnInfo(name = "is_custom")
     public boolean isCustom;
 
-
-    // 2. Add this constructor for your tests to use
     public Goal(long userId, String goalTitle, boolean isCustom) {
         this.userId = userId;
         this.goalTitle = goalTitle;

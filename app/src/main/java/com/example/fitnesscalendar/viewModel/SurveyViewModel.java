@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.survey;
+package com.example.fitnesscalendar.viewModel;
 
 import android.app.Application;
 

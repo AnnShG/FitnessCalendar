@@ -10,7 +10,7 @@ import static org.mockito.Mockito.verify;
 
 import android.app.Application;
 
-import com.example.fitnesscalendar.logic.survey.SurveyViewModel;
+import com.example.fitnesscalendar.viewModel.SurveyViewModel;
 import com.example.fitnesscalendar.repository.UserRepository;
 
 import org.junit.Before;

@@ -21,6 +21,7 @@ import com.example.fitnesscalendar.databinding.WorkoutsListScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
 import com.example.fitnesscalendar.logic.filter.FilterViewModel;
 import com.example.fitnesscalendar.logic.utils.CategoryStyleHelper;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;

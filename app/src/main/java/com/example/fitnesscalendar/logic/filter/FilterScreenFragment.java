@@ -17,9 +17,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.FilterScreenBinding;
 import com.example.fitnesscalendar.entities.Category;
-import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
+import com.example.fitnesscalendar.viewModel.ExerciseViewModel;
 import com.example.fitnesscalendar.logic.utils.CategoryStyleHelper;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 

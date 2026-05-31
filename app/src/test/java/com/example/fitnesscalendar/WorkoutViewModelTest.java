@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.fitnesscalendar.entities.User;
 import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.UserWithGoals;
 import com.example.fitnesscalendar.repository.AiRepository;
 import com.example.fitnesscalendar.repository.UserRepository;

@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.databinding.WorkoutDetailScreenBinding;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.R;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 
 public class WorkoutDetailFragment extends Fragment {
 

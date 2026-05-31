@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 import android.app.Application;
 
 import com.example.fitnesscalendar.entities.User;
-import com.example.fitnesscalendar.logic.profile.UserViewModel;
+import com.example.fitnesscalendar.viewModel.UserViewModel;
 import com.example.fitnesscalendar.repository.UserRepository;
 
 import org.junit.Before;

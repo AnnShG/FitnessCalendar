@@ -19,8 +19,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage3Binding;
 import com.example.fitnesscalendar.entities.Goal;
-import com.example.fitnesscalendar.logic.profile.UserViewModel;
+import com.example.fitnesscalendar.viewModel.UserViewModel;
 import com.example.fitnesscalendar.repository.UserRepository;
+import com.example.fitnesscalendar.viewModel.SurveyViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;

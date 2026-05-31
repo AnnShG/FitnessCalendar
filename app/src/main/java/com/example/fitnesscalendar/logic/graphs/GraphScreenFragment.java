@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fitnesscalendar.databinding.GraphsScreenBinding;
 import com.example.fitnesscalendar.logic.calendar.CalendarManager;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 
 import lombok.NonNull;
 

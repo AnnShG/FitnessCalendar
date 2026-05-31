@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.ProfileScreenBinding;
+import com.example.fitnesscalendar.viewModel.UserViewModel;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.Nullable;

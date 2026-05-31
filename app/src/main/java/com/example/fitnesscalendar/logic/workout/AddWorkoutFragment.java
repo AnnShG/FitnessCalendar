@@ -19,9 +19,10 @@ import com.bumptech.glide.Glide;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.AddWorkoutScreenBinding;
 import com.example.fitnesscalendar.entities.Workout;
-import com.example.fitnesscalendar.logic.exercise.ExerciseViewModel;
+import com.example.fitnesscalendar.viewModel.ExerciseViewModel;
 import com.example.fitnesscalendar.relations.FullExerciseRecord;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;

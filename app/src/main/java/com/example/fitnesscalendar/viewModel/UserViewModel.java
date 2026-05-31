@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.profile;
+package com.example.fitnesscalendar.viewModel;
 
 import android.app.Application;
 

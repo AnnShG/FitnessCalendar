@@ -18,7 +18,7 @@ import com.example.fitnesscalendar.databinding.PlanProgramScreenBinding;
 import com.example.fitnesscalendar.logic.calendar.CalendarAdapter;
 import com.example.fitnesscalendar.logic.calendar.CalendarManager;
 import com.example.fitnesscalendar.logic.workout.PlannedWorkoutsAdapter;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.button.MaterialButton;
