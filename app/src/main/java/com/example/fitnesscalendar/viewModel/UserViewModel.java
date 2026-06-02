@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.profile;
+package com.example.fitnesscalendar.viewModel;
 
 import android.app.Application;
 
@@ -19,6 +19,12 @@ public class UserViewModel extends AndroidViewModel {
     public UserViewModel(@NonNull Application application) {
         super(application);
         this.repository = new UserRepository(application);
+    }
+
+    // constructor for testing
+    public UserViewModel(@NonNull Application application, UserRepository repository) {
+        super(application);
+        this.repository = repository;
     }
 
     public LiveData<UserWithGoals> getLoggedInUser() {

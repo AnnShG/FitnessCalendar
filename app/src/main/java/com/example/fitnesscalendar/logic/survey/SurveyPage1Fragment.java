@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage1Binding;
+import com.example.fitnesscalendar.viewModel.SurveyViewModel;
 
 public class SurveyPage1Fragment extends Fragment {
 

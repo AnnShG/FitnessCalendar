@@ -8,11 +8,8 @@ import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity(tableName = "users")
 public class User {
@@ -30,4 +27,19 @@ public class User {
     public String gender;
 
     public Date createdAt = new Date();
+
+
+    public User() {}
+
+    // initialised data
+    public User(String name) {
+        this.name = name;
+        this.createdAt = new Date();
+    }
+
+    public User(String name, String birthDate, String other) {
+        this.name = name;
+        this.birthDate = new Date();
+        this.gender = other;
+    }
 }

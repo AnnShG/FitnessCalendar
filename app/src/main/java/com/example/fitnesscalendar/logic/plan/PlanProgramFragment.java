@@ -18,7 +18,7 @@ import com.example.fitnesscalendar.databinding.PlanProgramScreenBinding;
 import com.example.fitnesscalendar.logic.calendar.CalendarAdapter;
 import com.example.fitnesscalendar.logic.calendar.CalendarManager;
 import com.example.fitnesscalendar.logic.workout.PlannedWorkoutsAdapter;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.DateColourResult;
 import com.example.fitnesscalendar.relations.PlannedWorkoutInfo;
 import com.google.android.material.button.MaterialButton;
@@ -235,7 +235,7 @@ public class PlanProgramFragment extends Fragment {
      */
     private void enterEditMode(PlannedWorkoutInfo info) {
         this.isEditMode = true;
-        this.currentSelectedWorkoutId = info.workout_id;
+        this.currentSelectedWorkoutId = info.workoutId;
         this.isWorkoutSelected = true;
         completedDatesForThisWorkout.clear();
         highlightedDates.clear();
@@ -248,7 +248,7 @@ public class PlanProgramFragment extends Fragment {
         // adapter's current plans is checked to find where the workout is
 
         for (DateColourResult plan : adapter.getPlannedWorkouts()) {
-            if (plan.workoutId != null && plan.workoutId == info.workout_id) {
+            if (plan.workoutId != null && plan.workoutId == info.workoutId) {
                 highlightedDates.add(plan.date);
                 if (plan.isCompleted) {
                     completedDatesForThisWorkout.add(plan.date);

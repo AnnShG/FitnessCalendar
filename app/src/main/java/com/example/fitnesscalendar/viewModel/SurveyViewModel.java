@@ -1,4 +1,4 @@
-package com.example.fitnesscalendar.logic.survey;
+package com.example.fitnesscalendar.viewModel;
 
 import android.app.Application;
 
@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SurveyViewModel extends AndroidViewModel {
-
     @Setter
     @Getter
     private String name;
@@ -41,6 +40,12 @@ public class SurveyViewModel extends AndroidViewModel {
     public SurveyViewModel(@NotNull Application app) {
         super(app);
         repository = new UserRepository(app);
+    }
+
+    // for testing
+    public SurveyViewModel(@NotNull Application app, UserRepository repository) {
+        super(app);
+        this.repository = repository;
     }
 
     public void toggleGoal(String goals) {

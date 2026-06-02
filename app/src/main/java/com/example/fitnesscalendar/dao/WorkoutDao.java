@@ -10,6 +10,7 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.fitnesscalendar.entities.Category;
+import com.example.fitnesscalendar.entities.Exercise;
 import com.example.fitnesscalendar.entities.Workout;
 import com.example.fitnesscalendar.relations.FullWorkoutRecord;
 import com.example.fitnesscalendar.relations.WorkoutExerciseCrossRef;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @Dao
 public interface WorkoutDao {
-
     @Insert
     long insert(Workout workout);
 
@@ -33,12 +33,22 @@ public interface WorkoutDao {
     @Query("SELECT * FROM workouts WHERE workout_id = :workoutId")
     LiveData<FullWorkoutRecord> getFullWorkoutById(long workoutId);
 
+    @Transaction
+    @Query("SELECT exercises.* FROM exercises " +
+            "INNER JOIN workout_exercise_cross_ref ON exercises.exercise_id = workout_exercise_cross_ref.exercise_id " +
+            " WHERE workout_exercise_cross_ref.workout_id = :workoutId ")
+    LiveData<List<Exercise>> getExercisesForWorkout(long workoutId);
+
     @Update
     void update(Workout workout);
 
     @Delete
     void delete(Workout workout);
 
+    @Query("SELECT * FROM workouts")
+    List<Workout> getAllWorkouts();
+
+    // Deletes the links between a workout and an exercise (the row in a join table)
     @Query("DELETE FROM workout_exercise_cross_ref WHERE workout_id = :workoutId")
     void deleteExercisesForWorkout(long workoutId);
 
@@ -55,15 +65,12 @@ public interface WorkoutDao {
             "WHERE w.owner_id = :userId " +
             "AND (:searchQuery IS NULL OR w.title LIKE '%' || :searchQuery || '%') " +
             "AND ec.category_id IN (:categoryIds)")
-    LiveData<List<FullWorkoutRecord>> getWorkoutsFiltered(long userId, List<Long> categoryIds, String searchQuery);
+    LiveData<List<FullWorkoutRecord>> getWorkoutsFilteredAndSearched(long userId, List<Long> categoryIds, String searchQuery);
 
     @Transaction
     @Query("SELECT * FROM workouts WHERE owner_id = :userId " +
             "AND (:searchQuery IS NULL OR title LIKE '%' || :searchQuery || '%')")
     LiveData<List<FullWorkoutRecord>> getWorkoutsBySearchOnly(long userId, String searchQuery);
-
-    @Query("SELECT * FROM categories ORDER BY category_group ASC")
-    LiveData<List<Category>> getAllCategories();
 
     /**
      * Counts all workouts scheduled within a specific date range for a monthly view

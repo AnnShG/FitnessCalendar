@@ -24,10 +24,15 @@ public class AiRepository {
     private final GenerativeModelFutures model;
 
     public AiRepository() {
-        // initialize Gemini 2.5 Flash Lite
+        // initialize Gemini
         GenerativeModel gm = FirebaseVertexAI.getInstance()
                 .generativeModel("gemini-2.5-flash-lite");
         this.model = GenerativeModelFutures.from(gm);
+    }
+
+    // constructor for testing
+    public AiRepository(GenerativeModelFutures model) {
+        this.model = model;
     }
 
     @SuppressLint("DefaultLocale")
@@ -51,7 +56,7 @@ public class AiRepository {
         long total = history.size();
 
         return String.format(
-                "Act as a professional AI Fitness Coach. Analyze user data and provide actionable advice.\n\n" +
+                "Act as a professional AI Fitness Coach. Analyze user data and provide advice.\n\n" +
                         "USER PROFILE:\n" +
                         "- Age/Gender: %d-year-old %s\n" +
                         "- Primary Goal: %s\n" +
@@ -61,13 +66,14 @@ public class AiRepository {
                         "INSTRUCTIONS:\n" +
                         "1. Compare current activity with the previous advice.\n" +
                         "2. If progress is evident, provide positive reinforcement.\n" +
-                        "3. If consistency is low (missed workouts), focus on motivation and small, manageable changes.\n" +
-                        "4. If consistency is high, suggest a safe progression (e.g., adding 5%% intensity or a new exercise).\n" +
-                        "5. Avoid repeating the previous advice.\n\n" +
+                        "3. If consistency is low, focus on motivation and small, manageable changes.\n" +
+                        "4. If consistency is high, suggest a safe progression.\n" +
+                        "5. Avoid forcing the user to do something and don't recommend specific exercises.\n" +
+                        "6. Avoid repeating the previous advice.\n\n" +
                         "RESPONSE REQUIREMENTS:\n" +
                         "- Tone: Professional, motivating, concise.\n" +
                         "- Format: Use bullet points.\n" +
-                        "- No 'fluff' or unnecessary introductions.\n" +
+                        "- No fluff or unnecessary introductions.\n" +
                         "- Max 3-4 short sentences.",
                 age, user.user.gender, goals, total, (int)completed, (lastAdvice.isEmpty() ? "None" : lastAdvice)
         );
@@ -94,6 +100,4 @@ public class AiRepository {
         // send both history and the new prompt
         return model.generateContent(contents);
     }
-
-
 }

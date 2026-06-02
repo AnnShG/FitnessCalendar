@@ -3,6 +3,7 @@ package com.example.fitnesscalendar.database;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -30,7 +31,7 @@ import com.example.fitnesscalendar.relations.*;
                 Category.class, Step.class, Goal.class, AiMessage.class,
                 ExerciseCategoryCrossRef.class, WorkoutExerciseCrossRef.class, CalendarDayWorkoutCrossRef.class,
 },
-        version = 30,
+        version = 31,
         exportSchema = false
 )
 @TypeConverters({Converters.class})
@@ -50,6 +51,15 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract StepDao stepDao();
     public abstract WorkoutDao workoutDao();
     public abstract AiDao aiDao();
+
+    /**
+     * Allows setting a test instance of the database
+     * Used in instrumentation tests to provide an in-memory database
+     */
+    @VisibleForTesting
+    public static void setTestInstance(AppDatabase db) {
+        INSTANCE = db;
+    }
 
     /**
      * Database Lifecycle Callback.
@@ -74,6 +84,33 @@ public abstract class AppDatabase extends RoomDatabase {
                     "FOREIGN KEY(`user_id`) REFERENCES `users`(`user_id`) ON UPDATE NO ACTION ON DELETE CASCADE )");
 
             database.execSQL("CREATE INDEX IF NOT EXISTS `index_ai_messages_user_id` ON `ai_messages` (`user_id`) ");
+        }
+    };
+
+    static final Migration MIGRATION_30_31 = new Migration(30, 31) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Create the new table with the Foreign Key + CASCADE
+            database.execSQL("CREATE TABLE exercise_category_cross_ref_new (" +
+                    "exercise_id INTEGER NOT NULL, " +
+                    "category_id INTEGER NOT NULL, " +
+                    "PRIMARY KEY(exercise_id, category_id), " +
+                    "FOREIGN KEY(exercise_id) REFERENCES exercises(exercise_id) ON DELETE CASCADE, " +
+                    "FOREIGN KEY(category_id) REFERENCES categories(category_id) ON DELETE CASCADE)");
+
+            // Copy the data
+            database.execSQL("INSERT INTO exercise_category_cross_ref_new (exercise_id, category_id) " +
+                    "SELECT exercise_id, category_id FROM exercise_category_cross_ref");
+
+            // remove the old table
+            database.execSQL("DROP TABLE exercise_category_cross_ref");
+
+            // rename the new table
+            database.execSQL("ALTER TABLE exercise_category_cross_ref_new RENAME TO exercise_category_cross_ref");
+
+            // Re-create the index
+            database.execSQL("CREATE INDEX IF NOT EXISTS index_exercise_category_cross_ref_category_id " +
+                    "ON exercise_category_cross_ref(category_id)");
         }
     };
 
@@ -115,7 +152,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class, "fitness_calendar_db")
                                 .addCallback(roomCallback)
-                                .addMigrations(MIGRATION_28_29, MIGRATION_29_30)
+                                .addMigrations(MIGRATION_28_29, MIGRATION_29_30, MIGRATION_30_31)
                                 .build();
                 }
             }

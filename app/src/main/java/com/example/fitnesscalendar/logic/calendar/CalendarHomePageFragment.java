@@ -17,7 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.CalendarHomePageBinding;
-import com.example.fitnesscalendar.logic.workout.WorkoutViewModel;
+import com.example.fitnesscalendar.viewModel.WorkoutViewModel;
 import com.example.fitnesscalendar.relations.DateColourResult;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 

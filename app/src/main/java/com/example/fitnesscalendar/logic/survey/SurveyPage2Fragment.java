@@ -17,7 +17,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.fitnesscalendar.R;
 import com.example.fitnesscalendar.databinding.SurveyPage2Binding;
 import com.example.fitnesscalendar.entities.User;
-import com.example.fitnesscalendar.logic.profile.UserViewModel;
+import com.example.fitnesscalendar.viewModel.UserViewModel;
+import com.example.fitnesscalendar.viewModel.SurveyViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;

@@ -25,11 +25,8 @@ public interface UserDao {
     @Delete
     void delete(User user);
 
-    @Query("SELECT * FROM users")
-    List<User> getAllUsers();
-
-    @Query("SELECT * FROM users WHERE user_id = :userId")
-    User getUserById(int userId);
+    @Query("DELETE FROM users WHERE user_id = :userId")
+    void deleteUserById(long userId);
 
     @Transaction
     @Query("SELECT * FROM users WHERE user_id = :userId")
@@ -39,11 +36,12 @@ public interface UserDao {
     @Query("SELECT * FROM users LIMIT 1") // one user
     LiveData<UserWithGoals> getLatestUser();
 
+    @Query("SELECT * FROM users")
+    LiveData<List<User>> getAllUsers();
+
+    @Query("SELECT * FROM users WHERE user_id = :userId")
+    User getUserById(long userId);
+
     @Query("SELECT COUNT(*) FROM users")
     int getUserCount();
-
-//    @Transaction
-//    @Query("SELECT * FROM users WHERE user_id = :id")
-//    public UsersWithWorkouts getUserWithWorkouts(long id);
-
 }

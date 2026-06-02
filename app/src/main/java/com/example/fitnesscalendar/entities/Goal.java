@@ -6,10 +6,14 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 // 1:M
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(
         tableName = "goals",
         foreignKeys = @ForeignKey(
@@ -36,4 +40,10 @@ public class Goal {
 
     @ColumnInfo(name = "is_custom")
     public boolean isCustom;
+
+    public Goal(long userId, String goalTitle, boolean isCustom) {
+        this.userId = userId;
+        this.goalTitle = goalTitle;
+        this.isCustom = isCustom;
+    }
 }

@@ -21,7 +21,6 @@ import java.util.concurrent.Executors;
 import lombok.Getter;
 
 public class ExerciseRepository {
-
     private final ExerciseDao exerciseDao;
     private final CategoryDao categoryDao;
     private final StepDao stepDao;
@@ -47,12 +46,23 @@ public class ExerciseRepository {
         allExerciseSummaries = exerciseDao.getExerciseSummaries();
     }
 
-    public LiveData<List<ExerciseSummary>> getExerciseSummaries() {
-        return allExerciseSummaries;
+    // for testing
+    public ExerciseRepository(ExerciseDao exerciseDao, StepDao stepDao, CategoryDao categoryDao) {
+        this.exerciseDao = exerciseDao;
+        this.stepDao = stepDao;
+        this.categoryDao = categoryDao;
+
+        this.allFullExerciseRecords = exerciseDao.getFullExerciseRecords();
+        this.allExerciseSummaries = exerciseDao.getExerciseSummaries();
     }
 
     // this method inserts steps and categories inside the exercise (WRITING into DB) in the bg to not freeze the UI
     public void insertFullExercise(Exercise exercise, List<Step> steps, List<Long> categoryIds) {
+        // Validation: Title and at least one category are required for exercise creation
+        if (exercise.title == null || exercise.title.trim().isEmpty() || categoryIds == null || categoryIds.isEmpty()) {
+            return; // Exercise is not saved to database
+        }
+
         // use the fixed thread pool defined at the top
         databaseExecutor.execute(() -> {
 
@@ -83,7 +93,7 @@ public class ExerciseRepository {
                     crossRef.categoryId = catId; // 3 (from the list) is assigned to categoryId, then 4
 
                     // Persist the relationship to the cross-reference table.
-                    exerciseDao.insertCategoryCrossRef(crossRef);
+                    exerciseDao.insertExerciseCategoryCrossRef(crossRef);
                 }
             }
         });
@@ -101,7 +111,7 @@ public class ExerciseRepository {
         databaseExecutor.execute(() -> {
             exerciseDao.update(exercise);
 
-            exerciseDao.deleteStepsByExerciseId(exercise.getExerciseId());
+            stepDao.deleteStepsByExerciseId(exercise.getExerciseId()); // To present duplicating the rows and UI data
             if (steps != null) {
                 for (Step step : steps) {
                     step.setExerciseId(exercise.getExerciseId());
@@ -115,7 +125,7 @@ public class ExerciseRepository {
                     ExerciseCategoryCrossRef ref = new ExerciseCategoryCrossRef();
                     ref.exerciseId = exercise.getExerciseId();
                     ref.categoryId = catId;
-                    exerciseDao.insertCategoryCrossRef(ref);
+                    exerciseDao.insertExerciseCategoryCrossRef(ref);
                 }
             }
         });
@@ -123,8 +133,8 @@ public class ExerciseRepository {
 
     public void deleteFullExercise(long id) {
         databaseExecutor.execute(() -> {
-            exerciseDao.deleteStepsByExerciseId(id);
-            exerciseDao.deleteCategoryCrossRefsByExerciseId(id);
+//            exerciseDao.deleteStepsByExerciseId(id);
+//            exerciseDao.deleteCategoryCrossRefsByExerciseId(id);
 
             Exercise exercise = new Exercise();
             exercise.setExerciseId(id);
