@@ -12,7 +12,8 @@ import java.util.List;
 public interface AiDao {
     @Insert
     void insert(AiMessage message);
+    void delete(AiMessage message);
 
-    @Query("SELECT * FROM ai_messages WHERE user_id = :userId ORDER BY timestamp DESC LIMIT 20")
+    @Query("SELECT * FROM ai_messages WHERE user_id = :userId ORDER BY timestamp ASC LIMIT 20")
     List<AiMessage> getChatHistoryForUser(long userId);
 }
