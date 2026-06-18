@@ -131,8 +131,8 @@
 
     <fragment
         android:id="@+id/PlanProgramScreen"
-        android:name="com.example.fitnesscalendar.logic.plan.PlanProgramFragment"
-        tools:layout="@layout/plan_program_screen">
+        android:name="com.example.fitnesscalendar.logic.plan.PlanningWorkoutFragment"
+        tools:layout="@layout/planning_workout_screen">
 
         <action
             android:id="@+id/action_PlanProgramScreen_to_WorkoutSelectScreen"
